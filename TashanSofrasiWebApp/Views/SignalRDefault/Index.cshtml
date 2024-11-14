@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js"></script>
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+
+<div class="content">
+	<div class="container-fluid">
+		<div class="col-md-12">
+			<div class="card">
+				<script type="text/javascript">
+					$(document).ready(() => {
+						var connection = new signalR.HubConnectionBuilder()
+							.withUrl("https://localhost:7053/SignalRHub")
+							.build();
+
+						// İlk bağlantı durumunu göstermek için
+						$("#connstatus").text(connection.state);
+
+						// Bağlantıyı başlat ve durumu kontrol et
+						connection.start()
+							.then(() => {
+								$("#connstatus").text(connection.state);
+								connection.invoke("SendCategoryCount");
+							}).catch((err) => {
+								console.error("SignalR bağlantısı başarısız oldu:", err);
+								$("#connstatus").text("Bağlantı Hatası");
+							});
+							connection.on("ReceiveCategoryCount",(value)=>
+								{
+									$("#categorycount").text(value);
+								});
+					});
+				</script>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-md-8 offset-2">
+		<div class="alert alert-success">Bağlantının durumu:<b id="connstatus"></b></div>
+		<div class="alert alert-info">Kategori Sayısı:<b id="categorycount"></b></div>
+	</div>
+</div>
+
+

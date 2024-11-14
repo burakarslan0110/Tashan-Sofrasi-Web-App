@@ -1,0 +1,47 @@
+﻿@model TashanSofrasiWebApp.DTOs.SocialMediaDTOs.UpdateSocialMediaDTO
+@{
+    ViewData["Title"] = "UpdateSocialMedia";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">Sosyal Medya İşlemleri</h4>
+		<div class="row">
+			<div class="col-md-12">
+				<form method="post">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Sosyal Medya Güncelleme</div>
+						</div>
+						<input type="hidden" asp-for="SocialMediaID" />
+						<div class="card-body">
+							<div class="card-sub">
+								Sosyal medya seçeneklerini bu sayfadan güncelleyebilirsiniz.
+							</div>
+							<div class="form-group">
+								<label for="socialmediatitle">Sosyal Medya Adı: </label>
+								<input type="text" class="form-control" asp-for="SocialMediaTitle" id="socialmediatitle">
+							</div>
+							<div class="form-group">
+								<label for="socialmediaurl">Sosyal Medya Hesap Bağlantısı: </label>
+								<input type="text" class="form-control" asp-for="SocialMediaURL" id="socialmediaurl">
+							</div>
+							<div class="form-group">
+								<label for="socialmediaicon">Sosyal Medya İkonu: </label>
+								<input type="text" class="form-control" asp-for="SocialMediaIcon" id="socialmediaicon">
+							</div>
+
+						</div>
+						<div class="card-action">
+							<button class="btn btn-primary">Sosyal Medya Güncelle</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
