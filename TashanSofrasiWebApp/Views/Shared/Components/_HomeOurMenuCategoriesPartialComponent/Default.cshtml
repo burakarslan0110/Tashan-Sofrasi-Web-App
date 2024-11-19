@@ -1,0 +1,9 @@
+﻿@model List<TashanSofrasiWebApp.DTOs.CategoryDTOs.ResultCategoryDTO>
+<ul class="filters_menu">
+    <li class="active" data-filter="*">Tüm İçerikler</li>
+    @foreach (var item in Model)
+    {
+        <li data-filter=".@item.CategoryID">@item.CategoryName</li>
+    }
+
+</ul>

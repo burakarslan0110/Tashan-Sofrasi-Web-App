@@ -1,0 +1,53 @@
+﻿@model List<TashanSofrasiWebApp.DTOs.DiscountDTOs.ResultDiscountDTO>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">İndirim İşlemleri</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">İndirim Listesi</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-sub">
+                            İndirimli menülerle ilgili işlemleri aşağıdan gerçekleştirebilirsiniz. Sadece iki adet indirimli menüye sahip olabilirsiniz.
+                        </div>
+                        <table class="table mt-3">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Başlık</th>
+                                    <th scope="col">İndirim Oranı</th>
+                                    <th scope="col">Açıklama</th>
+                                    <th scope="col">Görsel URL</th>
+                                    <th scope="col">Güncelle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.DiscountID</td>
+                                        <td>@item.DiscountTitle</td>
+                                        <td>@item.DiscountAmount</td>
+                                        <td>@item.DiscountDescription</td>
+                                        <td>@item.DiscountImageURL</td>
+                                        <td><a href="/Discount/UpdateDiscount/@item.DiscountID" class="btn btn-outline-success">Güncelle</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

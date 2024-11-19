@@ -1,0 +1,45 @@
+﻿@model TashanSofrasiWebApp.DTOs.SocialMediaDTOs.CreateSocialMediaDTO
+@{
+    ViewData["Title"] = "CreateSocialMedia";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">Sosyal Medya İşlemleri</h4>
+		<div class="row">
+			<div class="col-md-12">
+				<form method="post">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Sosyal Medya Oluşturma</div>
+						</div>
+						<div class="card-body">
+							<div class="card-sub">
+								Sosyal medya kısmına bu sayfadan ekleme işlemi gerçekleştirebilirsiniz.
+							</div>
+							<div class="form-group">
+								<label for="socialmediatitle">Sosyal Medya Adı: </label>
+								<input type="text" class="form-control" asp-for="SocialMediaTitle" id="socialmediatitle">
+							</div>
+							<div class="form-group">
+								<label for="socialmediaurl">Sosyal Medya Hesap Bağlantısı: </label>
+								<input type="text" class="form-control" asp-for="SocialMediaURL" id="socialmediaurl">
+							</div>
+							<div class="form-group">
+								<label for="socialmediaicon">Sosyal Medya İkonu: </label>
+								<input type="text" class="form-control" asp-for="SocialMediaIcon" id="socialmediaicon">
+							</div>
+
+						</div>
+						<div class="card-action">
+							<button class="btn btn-primary">Sosyal Medya Ekle</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+

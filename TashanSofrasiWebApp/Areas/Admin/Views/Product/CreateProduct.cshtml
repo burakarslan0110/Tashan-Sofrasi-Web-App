@@ -1,0 +1,56 @@
+﻿@model TashanSofrasiWebApp.DTOs.ProductDTOs.CreateProductDTO
+@{
+    ViewData["Title"] = "CreateProduct";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">Ürün İşlemleri</h4>
+		<div class="row">
+			<div class="col-md-12">
+				<form method="post">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Yeni Ürün Girişi</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="productname">Ürün Adı: </label>
+								<input type="text" class="form-control" asp-for="ProductName" id="productname">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="productdescription">Ürün Açıklaması: </label>
+								<input type="text" class="form-control" asp-for="ProductDescription" id="productdescription">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="productprice">Ürün Fiyatı: </label>
+								<input type="number" class="form-control" asp-for="ProductPrice" id="productprice">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="productimageurl">Ürün Görsel Bağlantısı: </label>
+								<input type="text" class="form-control" asp-for="ProductImageURL" id="productimageurl">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="categoryname">Ürün Kategorisi: </label>
+								@Html.DropDownListFor(x => x.CategoryID, (List<SelectListItem>)ViewBag.valuespickcategory, new { @class = "form-control" })
+							</div>
+						</div>
+						<div class="card-action">
+							<button class="btn btn-primary">Ürünü Güncelle</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
