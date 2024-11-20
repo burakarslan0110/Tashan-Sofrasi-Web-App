@@ -1,0 +1,9 @@
+﻿@model List<TashanSofrasiWebApp.DTOs.SocialMediaDTOs.GetSocialMediaDTO>
+<div class="footer_social">
+    @foreach (var item in Model)
+    {
+        <a href="@item.SocialMediaURL" target="_blank">
+            <i class="@item.SocialMediaIcon" aria-hidden="true"></i>
+        </a>
+    }
+</div>

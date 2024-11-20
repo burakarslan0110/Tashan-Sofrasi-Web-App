@@ -1,4 +1,7 @@
 ﻿ using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text;
+using TashanSofrasiWebApp.DTOs.BookingDTOs;
 
 namespace TashanSofrasiWebApp.ViewComponents.HomeComponents
 {
@@ -6,7 +9,8 @@ namespace TashanSofrasiWebApp.ViewComponents.HomeComponents
     {
         public IViewComponentResult Invoke()
         {
-            return View();
+            var model = new CreateBookingDTO();
+            return View(model);
         }
     }
 }

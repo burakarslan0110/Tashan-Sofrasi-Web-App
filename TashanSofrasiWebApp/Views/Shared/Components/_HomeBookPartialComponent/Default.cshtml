@@ -1,58 +1,98 @@
-﻿<section class="book_section layout_padding">
+﻿@using System.Web
+@model TashanSofrasiWebApp.DTOs.BookingDTOs.CreateBookingDTO
+
+<section class="book_section layout_padding">
     <div class="container">
         <div class="heading_container">
             <h2>
-                Book A Table
+                Rezervasyon Yap
             </h2>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form_container">
-                    <form action="">
+                    @if (TempData["ApiMessage"] != null)
+                    {
+                        <script>
+                            const messageType = '@TempData["MessageType"]';
+                            const message = '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["ApiMessage"].ToString()))';
+
+                            if (messageType === "success") {
+                                alert(message);
+                            } else if (messageType === "error") {
+                                alert(message);
+                            }
+                        </script>
+                    }
+                    <form method="post" asp-action="CreateBooking">
                         <div>
-                            <input type="text" class="form-control" placeholder="Your Name" />
+                            <input type="text" class="form-control" name="BookingNameSurname" placeholder="Adınız Soyadınız" asp-for="BookingNameSurname" />
                         </div>
                         <div>
-                            <input type="text" class="form-control" placeholder="Phone Number" />
+                            <input type="text"
+                                   id="phone"
+                                   name="BookingPhoneNumber"
+                                   class="form-control"
+                                   placeholder="Telefon Numaranız - 5XX XXX XX XX"
+                                   minlength="13"
+                                   maxlength="13" asp-for="BookingPhoneNumber"
+                                   required> 
                         </div>
                         <div>
-                            <input type="email" class="form-control" placeholder="Your Email" />
+                            <input type="email" class="form-control" name="BookingEmail" placeholder="E-posta Adresiniz" asp-for="BookingEmail" />
                         </div>
                         <div>
-                            <select class="form-control nice-select wide">
-                                <option value="" disabled selected>
-                                    How many persons?
-                                </option>
-                                <option value="">
-                                    2
-                                </option>
-                                <option value="">
-                                    3
-                                </option>
-                                <option value="">
-                                    4
-                                </option>
-                                <option value="">
-                                    5
-                                </option>
-                            </select>
+                            <input type="number" class="form-control" id="personCount" name="BookingPersonCount" placeholder="Kişi Sayısı" asp-for="BookingPersonCount" />
                         </div>
                         <div>
-                            <input type="date" class="form-control">
+                            <div>
+                                <input type="date" class="form-control" name="BookingDate" asp-for="BookingDate"
+                                 value="@DateTime.Now.ToShortDateString()" />
+                            </div>
+
                         </div>
                         <div class="btn_box">
                             <button>
-                                Book Now
+                                Rezervasyon Yap
                             </button>
                         </div>
+                        
+
                     </form>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="map_container ">
-                    <div id="googleMap"></div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+
+    document.getElementById('personCount').value = '';
+
+    const phoneInput = document.getElementById('phone');
+
+    phoneInput.addEventListener('input', function (e) {
+    let value = e.target.value.replace(/\D/g, ''); // Sadece rakamları al
+
+    // Biçimlendirme
+    if (value.length > 3) {
+        value = value.replace(/^(\d{3})(\d+)/, '$1 $2');
+    }
+    if (value.length > 7) {
+        value = value.replace(/^(\d{3}) (\d{3})(\d+)/, '$1 $2 $3');
+    }
+    if (value.length > 10) {
+        value = value.replace(/^(\d{3}) (\d{3}) (\d{2})(\d+)/, '$1 $2 $3 $4');
+    }
+
+    e.target.value = value.substring(0, 13); // Maksimum 13 karakter
+
+    // Gerçek zamanlı olarak minimum karakter kontrolü
+    if (value.length < 13) {
+        e.target.setCustomValidity('Telefon numarası tam değil. Tekrar deneyin.');
+    } else {
+        e.target.setCustomValidity('');
+    }
+});
+
+</script>

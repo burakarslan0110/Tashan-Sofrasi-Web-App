@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using TashanSofrasiWebApp.DTOs.FooterDTOs;
-using TashanSofrasiWebApp.DTOs.TestimonialDTOs;
+using TashanSofrasiWebApp.DTOs.SocialMediaDTOs;
 
 namespace TashanSofrasiWebApp.ViewComponents.UILayoutComponents
 {
-    public class _UILayoutFooterPartialComponent : ViewComponent
+    public class _UILayoutSocialMediaPartialComponent : ViewComponent
     {
         private readonly IHttpClientFactory _clientFactory;
 
-        public _UILayoutFooterPartialComponent(IHttpClientFactory clientFactory)
+        public _UILayoutSocialMediaPartialComponent(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
         }
@@ -17,12 +16,12 @@ namespace TashanSofrasiWebApp.ViewComponents.UILayoutComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync("https://localhost:7053/api/Footer/1");
+            var response = await client.GetAsync("https://localhost:7053/api/SocialMedia/");
             if (response.IsSuccessStatusCode)
             {
                 var jsonData = await response.Content.ReadAsStringAsync();
-                var footerDTO = JsonConvert.DeserializeObject<ResultFooterDTO>(jsonData);
-                return View(footerDTO);
+                var socialMediaDTO = JsonConvert.DeserializeObject<List<GetSocialMediaDTO>>(jsonData);
+                return View(socialMediaDTO);
             }
             return View();
         }
