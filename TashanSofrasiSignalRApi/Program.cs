@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using TashanSofrasi.BusinessLayer.Abstract;
 using TashanSofrasi.BusinessLayer.Concrete;
 using TashanSofrasi.DataAccessLayer.Abstract;
@@ -65,7 +66,14 @@ builder.Services.AddScoped<ICashRegisterDal, EFCashRegisterDal>();
 builder.Services.AddScoped<IMenuTableService, MenuTableManager>();
 builder.Services.AddScoped<IMenuTableDal, EFMenuTableDal>();
 
+builder.Services.AddScoped<IBasketService, BasketManager>();
+builder.Services.AddScoped<IBasketDal, EFBasketDal>();
 
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

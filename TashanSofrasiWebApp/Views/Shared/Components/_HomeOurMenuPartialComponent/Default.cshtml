@@ -30,7 +30,7 @@
                                         <h6>
                                             @item.ProductPrice ₺
                                         </h6>
-                                        <a href="">
+                                        <a href="#" onclick="showproduct(event, @item.ProductID)" id="@item.ProductID">
                                             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                                             <g>
                                             <g>
@@ -92,10 +92,27 @@
                 }
             </div>
         </div>
-        <div class="btn-box">
-            <a href="">
-                View More
-            </a>
-        </div>
     </div>
 </section>
+<script>
+    function showproduct(event, value){
+        event.preventDefault();
+        var id = value;
+        $.ajax({
+            type: 'POST',
+            data: { item: id },
+            url: "/Menu/AddBasket/" + id,
+            contentType: 'json',
+            success: function () {
+                Swal.fire({
+                    title: 'Başarılı!',
+                    text: 'Seçtiğiniz ürün sepete eklendi!',
+                    icon: 'success',
+                    confirmButtonText: 'Tamam'
+                })
+            }
+
+        });
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -4,19 +4,18 @@
 }
 
 <!DOCTYPE html>
+
 <html>
     @await Component.InvokeAsync("_UILayoutHeadPartialComponent")
 
-<body>
+<body class="sub_page">
+    <div class="hero_area">
+        @await Component.InvokeAsync("_UILayoutNavbarPartialComponent")
+    </div>
 
-    @await Component.InvokeAsync("_UILayoutNavbarPartialComponent")
-   
     @RenderBody()
-
+  
     @await Component.InvokeAsync("_UILayoutFooterPartialComponent")
-
     @await Component.InvokeAsync("_UILayoutScriptPartialComponent")
-
 </body>
-
 </html>

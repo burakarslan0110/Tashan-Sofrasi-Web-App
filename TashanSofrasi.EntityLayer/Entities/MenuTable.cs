@@ -12,5 +12,7 @@ namespace TashanSofrasi.EntityLayer.Entities
         public string MenuTableName { get; set; }
         public bool MenuTableStatus { get; set; }
         public List<Order> Orders { get; set; }
+
+        public List<Basket> Baskets { get; set; }
     }
 }

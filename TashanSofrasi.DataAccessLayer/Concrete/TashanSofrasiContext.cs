@@ -29,5 +29,6 @@ namespace TashanSofrasi.DataAccessLayer.Concrete
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<CashRegister> CashRegisters { get; set; }
         public DbSet<MenuTable> MenuTables { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
     }
 }
