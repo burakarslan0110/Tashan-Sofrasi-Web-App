@@ -82,5 +82,10 @@ namespace TashanSofrasi.BusinessLayer.Concrete
         {
            return _productDal.ProductAveragePriceByCategoryNameHamburger();
         }
+
+        public decimal TGetProductPriceByProductID(int id)
+        {
+            return _productDal.GetProductPriceByProductID(id);
+        }
     }
 }

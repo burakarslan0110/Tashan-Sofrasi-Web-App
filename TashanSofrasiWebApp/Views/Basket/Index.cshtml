@@ -3,6 +3,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/PageLayout/Index.cshtml";
     int count = 0;
+    decimal basketTotalPrice = 0;
 }
 <br />
 <div class="container">
@@ -27,20 +28,21 @@
                         <th>Sepetten Sil</th>
                     </tr>
                 </thead>
-                @foreach(var item in Model)
+                @foreach (var item in Model)
                 {
+                    basketTotalPrice = Model.Sum(x => x.TotalPrice);
                     count++;
-                    <tbody class ="align-middle">
+                    <tbody class="align-middle">
                         <tr>
                             <td class="align-middle">@count</td>
                             <td class="align-middle">@item.Product.ProductName</td>
                             <td class="align-middle">@item.Count</td>
                             <td class="align-middle">@item.Price</td>
                             <td class="align-middle">@item.TotalPrice</td>
-                            <td class="align-middle btn-delete"><button data-basketid="@item.BasketID" id="btndeletebasketid" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
+                            <td class="align-middle btn-delete"><a href="/Basket/DeleteBasket/@item.BasketID" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
                         </tr>
                     </tbody>
-                    
+
                 }
             </table>
         </div>
@@ -62,7 +64,7 @@
                 <div id="container" class="pb-2">
                     <div class="d-flex justify-content-between mb-3">
                         <span class="font-weight-bold">Ara Toplam:</span>
-                        <span id="subtotalprice">0.00 ₺</span>
+                        <span id="subtotalprice">@basketTotalPrice ₺</span>
                     </div>
                     <div class="d-flex justify-content-between mb-3">
                         <span class="font-weight-bold">İndirim:</span>
@@ -70,14 +72,15 @@
                     </div>
                     <div class="d-flex justify-content-between border-top pt-3">
                         <h5 class="font-weight-bold">Toplam Tutar:</h5>
-                        <h5 class="font-weight-bold text-success" id="totalprice">0.00 ₺</h5>
+                        <h5 class="font-weight-bold text-success" id="totalprice">@basketTotalPrice ₺</h5>
                     </div>
                 </div>
                 <button class="btn btn-success btn-block mt-4" id="btncheckout">
                     Alışverişi Tamamla
                 </button>
             </div>
-        <br />
+            <br />
+        </div>
     </div>
 </div>
 

@@ -26,5 +26,14 @@ namespace TashanSofrasi.DataAccessLayer.EntityFramework
             }
 
         }
+
+        public Basket GetBasketByProductID(int productID, int menutableid)
+        {
+            using (var context = new TashanSofrasiContext())
+            {
+                var values = context.Baskets.Where(x=>x.ProductID == productID).Where(y => y.MenuTableID == menutableid).Include(z => z.Product).FirstOrDefault();  
+                return values;
+            }
+        }
     }
 }

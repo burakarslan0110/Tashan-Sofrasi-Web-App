@@ -15,8 +15,11 @@ namespace TashanSofrasi.DataAccessLayer.Abstract
         int ProductCountByCategoryNamePide();
         int ProductCountByCategoryNameCorba();
         decimal ProductAveragePrice();
+        decimal GetProductPriceByProductID(int id);
         decimal ProductAveragePriceByCategoryNameHamburger();
         List<string> ProductWithHighestPrice();
         List<string> ProductWithLowestPrice();
+
+
     }
 }

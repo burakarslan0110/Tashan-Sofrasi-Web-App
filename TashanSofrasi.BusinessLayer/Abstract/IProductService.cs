@@ -17,6 +17,8 @@ namespace TashanSofrasi.BusinessLayer.Abstract
         int TProductCountByCategoryNameCorba();
 
         decimal TProductAveragePrice();
+
+        decimal TGetProductPriceByProductID(int id);
         decimal TProductAveragePriceByCategoryNameHamburger();
 
         List<string> TProductWithHighestPrice();

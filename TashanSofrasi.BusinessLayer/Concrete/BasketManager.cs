@@ -25,7 +25,7 @@ namespace TashanSofrasi.BusinessLayer.Concrete
 
         public void TDelete(Basket entity)
         {
-            throw new NotImplementedException();
+            _basketDal.Delete(entity);
         }
 
         public List<Basket> TGetBasketByMenuTableID(int id)
@@ -33,9 +33,14 @@ namespace TashanSofrasi.BusinessLayer.Concrete
             return _basketDal.GetBasketByMenuTableID(id);    
         }
 
+        public Basket TGetBasketByProductID(int productid, int menutableid)
+        {
+            return _basketDal.GetBasketByProductID(productid, menutableid);
+        }
+
         public Basket TGetByID(int id)
         {
-            throw new NotImplementedException();
+            return _basketDal.GetByID(id);
         }
 
         public List<Basket> TGetListAll()
@@ -45,7 +50,7 @@ namespace TashanSofrasi.BusinessLayer.Concrete
 
         public void TUpdate(Basket entity)
         {
-            throw new NotImplementedException();
+            _basketDal.Update(entity);
         }
     }
 }

@@ -10,5 +10,8 @@ namespace TashanSofrasi.DataAccessLayer.Abstract
     public interface IBasketDal : IGenericDal<Basket>
     {
         List<Basket> GetBasketByMenuTableID(int id);
+
+        Basket GetBasketByProductID(int productID, int menutableid);
+
     }
 }

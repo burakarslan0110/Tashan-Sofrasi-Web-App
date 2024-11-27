@@ -25,5 +25,16 @@ namespace TashanSofrasiWebApp.Controllers
             }
             return View();
         }
+
+        public async Task<IActionResult> DeleteBasket(int id)
+        {
+           var client = _clientFactory.CreateClient();
+            var response = await client.DeleteAsync($"https://localhost:7053/api/Basket/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+           return NoContent();
+        }
     }
 }

@@ -102,5 +102,13 @@ namespace TashanSofrasi.DataAccessLayer.EntityFramework
                 return context.Products.Where(x => x.Category.CategoryName == "Hamburger").Average(y => y.ProductPrice);
             }
         }
+
+        public decimal GetProductPriceByProductID(int id)
+        {
+            using (var context = new TashanSofrasiContext())
+            {
+                return context.Products.Where(x=>x.ProductID == id).Select(y => y.ProductPrice).FirstOrDefault();
+            }
+        }
     }
 }

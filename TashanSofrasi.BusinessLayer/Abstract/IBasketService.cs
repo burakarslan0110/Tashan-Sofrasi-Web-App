@@ -10,5 +10,9 @@ namespace TashanSofrasi.BusinessLayer.Abstract
     public interface IBasketService : IGenericService<Basket>
     {
         List<Basket> TGetBasketByMenuTableID(int id);
+
+        Basket TGetBasketByProductID(int productid, int menutableid);
+
+
     }
 }

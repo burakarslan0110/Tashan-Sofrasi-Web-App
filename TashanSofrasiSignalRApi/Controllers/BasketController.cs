@@ -14,11 +14,13 @@ namespace TashanSofrasiSignalRApi.Controllers
     {
         private readonly IBasketService _basketService;
         private readonly IMapper _mapper;
+        private readonly IProductService _productService;
 
-        public BasketController(IBasketService basketService, IMapper mapper)
+        public BasketController(IBasketService basketService, IMapper mapper, IProductService productService)
         {
             _basketService = basketService;
             _mapper = mapper;
+            _productService = productService;
         }
 
         [HttpGet]
@@ -31,16 +33,44 @@ namespace TashanSofrasiSignalRApi.Controllers
         [HttpPost]
         public IActionResult CreateBasket(CreateBasketDTO createBasketDTO)
         {
-            using var context = new TashanSofrasiContext();
-            _basketService.TAdd(new Basket()
+            createBasketDTO.MenuTableID = 4;
+            var basket = _basketService.TGetBasketByProductID(createBasketDTO.ProductID, createBasketDTO.MenuTableID);
+
+            if (basket != null)
             {
-                ProductID = createBasketDTO.ProductID,
-                Count = 1,
-                MenuTableID = 4,
-                Price = context.Products.Where(x => x.ProductID == createBasketDTO.ProductID).Select(y => y.ProductPrice).FirstOrDefault(),
-                TotalPrice = 0
-            });
+                var count = basket.Count;
+                count++;
+                _basketService.TUpdate(new Basket()
+                {
+                    BasketID = basket.BasketID,
+                    MenuTableID = basket.MenuTableID,
+                    ProductID = createBasketDTO.ProductID,
+                    Count = count,
+                    Price = _productService.TGetProductPriceByProductID(createBasketDTO.ProductID),
+                    TotalPrice = count * _productService.TGetProductPriceByProductID(createBasketDTO.ProductID)
+                });
+            }
+
+            else
+            {
+                _basketService.TAdd(new Basket()
+                {
+                    ProductID = createBasketDTO.ProductID,
+                    Count = 1,
+                    MenuTableID = createBasketDTO.MenuTableID,
+                    Price = _productService.TGetProductPriceByProductID(createBasketDTO.ProductID),
+                    TotalPrice = _productService.TGetProductPriceByProductID(createBasketDTO.ProductID)
+                });
+            }
             return Ok("Ürün sepete eklendi!");
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteBasket(int id)
+        {
+            var value = _basketService.TGetByID(id);
+            _basketService.TDelete(value);
+            return Ok("Ürün sepetten silindi!");
         }
     }
 }

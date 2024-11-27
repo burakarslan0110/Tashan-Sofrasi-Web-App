@@ -106,5 +106,11 @@ namespace TashanSofrasiSignalRApi.Controllers
         {
             return Ok(_productService.TProductAveragePriceByCategoryNameHamburger());
         }
+
+        [HttpGet("GetProductPriceByProductID")]
+        public IActionResult GetProductPriceByProductID(int id)
+        {
+            return Ok(_productService.TGetProductPriceByProductID(id));
+        }
     }
 }
