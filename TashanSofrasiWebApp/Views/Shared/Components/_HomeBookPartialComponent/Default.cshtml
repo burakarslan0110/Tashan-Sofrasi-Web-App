@@ -3,7 +3,7 @@
 
 <section class="book_section layout_padding">
     <div class="container">
-        <div class="heading_container">
+        <div class="heading_container heading_center">
             <h2>
                 Rezervasyon Yap
             </h2>
@@ -46,7 +46,7 @@
                         </div>
                         <div>
                             <div>
-                                <input type="date" class="form-control" name="BookingDate" asp-for="BookingDate"
+                                <input type="date" class="form-control" name="BookingDate" asp-for="BookingDate" id="dateInput" min="@DateTime.Now.ToShortDateString()"
                                  value="@DateTime.Now.ToShortDateString()" />
                             </div>
 
@@ -93,6 +93,23 @@
     } else {
         e.target.setCustomValidity('');
     }
-});
+    });
 
+
+</script>
+<script>
+    const dateInput = document.getElementById("dateInput");
+    const today = new Date().toISOString().split("T")[0]; // Bugünün tarihini alın
+
+    // Tarihe Klavye girişini tamamen devre dışı bırak
+    dateInput.addEventListener("keydown", function (e) {
+        e.preventDefault();
+    });
+
+    // Yapıştırma işlemini engelle
+    dateInput.addEventListener("paste", function (e) {
+        e.preventDefault();
+    });
+
+    dateInput.min = today; // Minimum tarihi bugüne ayarla
 </script>
