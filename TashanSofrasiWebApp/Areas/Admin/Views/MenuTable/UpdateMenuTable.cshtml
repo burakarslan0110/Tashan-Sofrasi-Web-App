@@ -1,0 +1,37 @@
+﻿@model TashanSofrasiWebApp.DTOs.MenuTableDTOs.UpdateMenuTableDTO
+@{
+    ViewData["Title"] = "UpdateMenuTable";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">Masa İşlemleri</h4>
+		<div class="row">
+			<div class="col-md-12">
+				<form method="post">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Masa Güncelleme</div>
+						</div>
+						<div class="card-body">
+							<div class="card-sub">
+								Bu sayfadan masanın adını güncelleyebilirsiniz.
+							</div>
+							<div class="form-group">
+								<input type="hidden" asp-for="MenuTableID" class="form-control" />
+								<label for="bookingnamesurname">Masa Adı: </label>
+								<input type="text" class="form-control" asp-for="MenuTableName" id="bookingnamesurname">
+							</div>
+						</div>
+						<div class="card-action">
+							<button class="btn btn-primary">Masa Güncelle</button>
+							<a href="/Admin/MenuTable/DeleteMenuTable/@Model.MenuTableID" class="btn btn-danger">Masayı Sil</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+

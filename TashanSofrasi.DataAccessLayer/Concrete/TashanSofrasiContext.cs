@@ -15,7 +15,12 @@ namespace TashanSofrasi.DataAccessLayer.Concrete
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer($"Server=(localdb)\\MSSQLLocalDB; Database=TashanSofrasiDB; TrustServerCertificate=True");
+            
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Booking>().ToTable(tb => tb.HasTrigger("trg_BookingNotif")); //Bildirim gönderme için triggerın EF ile uyumlu çalışmasını sağlama işlemi (Rezervasyon)
+        } 
         public DbSet<About> Abouts { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -30,5 +35,6 @@ namespace TashanSofrasi.DataAccessLayer.Concrete
         public DbSet<CashRegister> CashRegisters { get; set; }
         public DbSet<MenuTable> MenuTables { get; set; }
         public DbSet<Basket> Baskets { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
     }
 }

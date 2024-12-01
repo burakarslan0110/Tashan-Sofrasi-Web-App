@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TashanSofrasi.DataAccessLayer.Concrete;
 
@@ -11,9 +12,11 @@ using TashanSofrasi.DataAccessLayer.Concrete;
 namespace TashanSofrasi.DataAccessLayer.Migrations
 {
     [DbContext(typeof(TashanSofrasiContext))]
-    partial class TashanSofrasiContextModelSnapshot : ModelSnapshot
+    [Migration("20241130193439_add-Notification")]
+    partial class addNotification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -274,13 +277,9 @@ namespace TashanSofrasi.DataAccessLayer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationID"));
 
                     b.Property<DateTime>("NotificationDate")
-                        .HasColumnType("Date");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("NotificationDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NotificationIcon")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

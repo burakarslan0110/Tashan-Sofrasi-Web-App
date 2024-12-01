@@ -1,0 +1,36 @@
+﻿@model TashanSofrasiWebApp.DTOs.MenuTableDTOs.CreateMenuTableDTO
+@{
+    ViewData["Title"] = "CreateMenuTable";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">Masa İşlemleri</h4>
+		<div class="row">
+			<div class="col-md-12">
+				<form method="post">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Yeni Masa Girişi</div>
+						</div>
+						<div class="card-body">
+							<div class="card-sub">
+								Bu sayfadan yeni masa oluşturabilirsiniz.
+							</div>
+							<div class="form-group">
+								<label for="bookingnamesurname">Masa Adı: </label>
+								<input type="text" class="form-control" asp-for="MenuTableName" id="bookingnamesurname">
+							</div>
+						</div>
+						<div class="card-action">
+							<button class="btn btn-primary">Yeni Masa Oluştur</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+

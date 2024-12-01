@@ -1,0 +1,83 @@
+﻿@model List<TashanSofrasiWebApp.DTOs.MenuTableDTOs.ResultMenuTableDTO>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    string color = "";
+    string status = "";
+    string icon = "";
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js"></script>
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+
+<div class="content">
+    <div class="container-fluid">
+        <script type="text/javascript">
+            $(document).ready(() => {
+                var connection = new signalR.HubConnectionBuilder()
+                    .withUrl("https://localhost:7053/SignalRHub")
+                    .build();
+
+                // İlk bağlantı durumunu göstermek için
+                $("#connstatus").text(connection.state);
+
+                // Bağlantıyı başlat ve durumu kontrol et
+                connection.start()
+                    .then(() => {
+                        $("#connstatus").text(connection.state);
+                        setInterval(() => {
+                            connection.invoke("GetMenuTableStatus");
+                        }, 1000);
+
+                    }).catch((err) => {
+                        console.error("SignalR bağlantısı başarısız oldu:", err);
+                        $("#connstatus").text("Bağlantı Hatası");
+                    });
+
+                connection.on("ReceiveMenuTableStatus", (value1) => {
+                    let tablehtml = `<div class="row">`;
+                    $.each(value1, (index, item) => {
+                        if (item.menuTableStatus == true) {
+                            color = "card card-stats card-success";
+                            status = "Masa Boş";
+                            icon = "la la-plus-circle";
+                        } else {
+                            color = "card card-stats card-danger";
+                            status = "Masa Dolu";
+                            icon = "la la-minus-circle";
+                        }
+                        tablehtml += `<div class="col-md-3">
+                                         <div class="${color}" onclick="window.location.href='/Admin/MenuTable/UpdateMenuTable/${item.menuTableID}'">
+                                            <div class="card-body ">
+                                                <div class="row">
+                                                    <div class="col-5">
+                                                        <div class="icon-big text-center">
+                                                            <i class="${icon}"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-7 d-flex align-items-center">
+                                                        <div class="numbers">
+                                                            <p class="card-category">${status}</p>
+                                                            <h4 class="card-title">${item.menuTableName}</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                     </div>`
+                    });
+                tablehtml += "</div>";
+                $("#tablestatus").html(tablehtml);
+                });
+            });
+        </script>
+
+        <h4 class="page-title">Masa Durumları</h4>
+        <h5>Masaların durumunu gerçek zamanlı olarak görüntüleyebilirsiniz.</h5>
+         <div id="tablestatus"></div>  
+         <a href="/Admin/MenuTable/CreateMenuTable" class="btn btn-primary">Yeni Masa Ekle</a>
+    </div>
+      
+</div>

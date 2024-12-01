@@ -69,6 +69,9 @@ builder.Services.AddScoped<IMenuTableDal, EFMenuTableDal>();
 builder.Services.AddScoped<IBasketService, BasketManager>();
 builder.Services.AddScoped<IBasketDal, EFBasketDal>();
 
+builder.Services.AddScoped<INotificationService, NotificationManager>();
+builder.Services.AddScoped<INotificationDal, EFNotificationDal>();
+
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
     {

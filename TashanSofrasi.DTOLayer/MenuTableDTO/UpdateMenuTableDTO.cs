@@ -9,7 +9,7 @@ namespace TashanSofrasi.DTOLayer.MenuTableDTO
     public class UpdateMenuTableDTO
     {
         public int MenuTableID { get; set; }
-        public int MenuTableName { get; set; }
+        public string MenuTableName { get; set; }
         public bool MenuTableStatus { get; set; }
     }
 }

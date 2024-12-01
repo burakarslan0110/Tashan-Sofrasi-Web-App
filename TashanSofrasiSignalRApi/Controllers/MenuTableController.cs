@@ -35,7 +35,7 @@ namespace TashanSofrasiSignalRApi.Controllers
             return Ok("Masa kaydı başarıyla eklendi!");
         }
 
-        [HttpPost("{id}")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteMenuTable(int id)
         {
             var value = _menuTableService.TGetByID(id);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TashanSofrasi.DTOLayer.MenuTableDTO
+namespace TashanSofrasiWebApp.DTOs.MenuTableDTOs
 {
     public class GetMenuTableDTO
     {
