@@ -40,13 +40,13 @@
                                         <td>@item.Category.CategoryName</td>
                                         <td><img width="50" height="50" src="@item.ProductImageURL"/></td>
                                         <td>@item.ProductStatus</td>
-                                        <td><a href="/Product/DeleteProduct/@item.ProductID" class="btn btn-outline-danger">Sil</a></td>
-                                        <td><a href="/Product/UpdateProduct/@item.ProductID" class="btn btn-outline-success">Güncelle</a></td>
+                                        <td><a href="/Admin/Product/DeleteProduct/@item.ProductID" class="btn btn-outline-danger">Sil</a></td>
+                                        <td><a href="/Admin/Product/UpdateProduct/@item.ProductID" class="btn btn-outline-success">Güncelle</a></td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
-                        <a href="/Product/CreateProduct/" class="btn btn-outline-primary">Yeni Ürün Oluştur</a>
+                        <a href="/Admin/Product/CreateProduct/" class="btn btn-outline-primary">Yeni Ürün Oluştur</a>
                     </div>
                 </div>
             </div>

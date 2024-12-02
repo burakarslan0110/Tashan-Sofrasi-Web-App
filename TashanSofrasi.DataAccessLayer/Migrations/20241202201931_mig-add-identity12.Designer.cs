@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TashanSofrasi.DataAccessLayer.Concrete;
 
@@ -11,9 +12,11 @@ using TashanSofrasi.DataAccessLayer.Concrete;
 namespace TashanSofrasi.DataAccessLayer.Migrations
 {
     [DbContext(typeof(TashanSofrasiContext))]
-    partial class TashanSofrasiContextModelSnapshot : ModelSnapshot
+    [Migration("20241202201931_mig-add-identity12")]
+    partial class migaddidentity12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

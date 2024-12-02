@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,7 @@ using TashanSofrasi.EntityLayer.Entities;
 
 namespace TashanSofrasi.DataAccessLayer.Concrete
 {
-    public class TashanSofrasiContext : DbContext
+    public class TashanSofrasiContext : IdentityDbContext<AppUser, AppRole, int>
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -20,7 +22,11 @@ namespace TashanSofrasi.DataAccessLayer.Concrete
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Booking>().ToTable(tb => tb.HasTrigger("trg_BookingNotif")); //Bildirim gönderme için triggerın EF ile uyumlu çalışmasını sağlama işlemi (Rezervasyon)
-        } 
+            modelBuilder.Entity<IdentityUserLogin<int>>().HasKey(x => new { x.LoginProvider, x.ProviderKey });
+            modelBuilder.Entity<IdentityUserRole<int>>().HasKey(userRole => new { userRole.UserId, userRole.RoleId });
+            modelBuilder.Entity<IdentityUserToken<int>>().HasKey(token => new { token.UserId, token.LoginProvider, token.Name });
+
+        }
         public DbSet<About> Abouts { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -36,5 +42,6 @@ namespace TashanSofrasi.DataAccessLayer.Concrete
         public DbSet<MenuTable> MenuTables { get; set; }
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
     }
 }

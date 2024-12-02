@@ -72,6 +72,9 @@ builder.Services.AddScoped<IBasketDal, EFBasketDal>();
 builder.Services.AddScoped<INotificationService, NotificationManager>();
 builder.Services.AddScoped<INotificationDal, EFNotificationDal>();
 
+builder.Services.AddScoped<IContactService, ContactManager>();
+builder.Services.AddScoped<IContactDal, EFContactDal>();
+
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
     {

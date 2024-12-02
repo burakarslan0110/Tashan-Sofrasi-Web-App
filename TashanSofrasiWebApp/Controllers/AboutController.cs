@@ -2,45 +2,51 @@
 using Newtonsoft.Json;
 using System.Text;
 using TashanSofrasiWebApp.DTOs.AboutDTOs;
+using TashanSofrasiWebApp.DTOs.ContactDTOs;
 
 namespace TashanSofrasiWebApp.Controllers
 {
-	public class AboutController : Controller
-	{
-		private readonly IHttpClientFactory _httpClientFactory;
+    public class AboutController : Controller
+    {
+        private readonly IHttpClientFactory _httpClientFactory;
 
-		public AboutController(IHttpClientFactory httpClientFactory)
-		{
-			_httpClientFactory = httpClientFactory;
-		}
+        public AboutController(IHttpClientFactory httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory;
+        }
 
-        [HttpGet]
-		public async Task<IActionResult> Index()
-		{
+        public async Task<IActionResult> Index()
+        {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:7053/api/About/1");
-            if (responseMessage.IsSuccessStatusCode)
+            var response = await client.GetAsync("https://localhost:7053/api/About");
+            if(response.IsSuccessStatusCode)
             {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<UpdateAboutDTO>(jsonData);
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var values = JsonConvert.DeserializeObject<List<ResultAboutDTO>>(responseContent);
                 return View(values);
             }
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(UpdateAboutDTO updateAboutDTO)
+        public async Task<IActionResult> SendMessage(CreateContactDTO createContactDTO)
         {
-            updateAboutDTO.AboutID = 1;
             var client = _httpClientFactory.CreateClient();
-            var jsonData = JsonConvert.SerializeObject(updateAboutDTO);
-            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync($"https://localhost:7053/api/About/",stringContent);
-            if(responseMessage.IsSuccessStatusCode)
+            var content = new StringContent(JsonConvert.SerializeObject(createContactDTO), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync("https://localhost:7053/api/Contact", content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index");   
+                TempData["ApiMessage1"] = responseContent;
+                TempData["MessageType1"] = "success";
+                return RedirectToAction("Index");
             }
-            return View();
+            else
+            {
+                TempData["ApiMessage1"] = "Mesaj gönderilemedi, lütfen tekrar deneyin!";
+                TempData["MessageType1"] = "error";
+                return RedirectToAction("Index");
+            }
         }
-	}
+    }
 }

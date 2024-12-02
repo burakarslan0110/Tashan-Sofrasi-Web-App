@@ -1,0 +1,110 @@
+﻿@model TashanSofrasiWebApp.DTOs.IdentityDTOs.RegisterDTO
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<!-- Coding by CodingLab | www.codinglabweb.com-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Responsive Login and Signup Form </title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/Forms/css/style.css">
+
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+<body>
+    <section class="container forms">
+        <div class="form login">
+            <div class="form-content">
+                <header>Admin Giriş Sistemi</header>
+                <form method="post">
+                    <div class="field input-field">
+                        <input type="text" placeholder="Kullanıcı Adı" class="input" asp-for="Username">
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="password" placeholder="Parola" class="password" asp-for="Password">
+                        <i class='bx bx-hide eye-icon'></i>
+                    </div>
+
+                    <div class="form-link">
+                        <a href="#" class="forgot-pass">Şifrenizi Mi Unuttunuz?</a>
+                    </div>
+
+                    <div class="field button-field">
+                        <button>Giriş Yap</button>
+                    </div>
+                </form>
+
+                <div class="form-link">
+                    <span>Hesabınız yok mu? <a href="#" class="link signup-link">Hesap oluşturun</a></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signup Form -->
+
+        <div class="form signup">
+            <div class="form-content">
+                <header>Admin Kayıt Sistemi</header>
+                <form method="post">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                {
+                                    <li>@error.ErrorMessage</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+
+                    <div class="field input-field">
+                        <input type="text" placeholder="Ad" class="input" asp-for="Name">
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="text" placeholder="Soyad" class="input" asp-for="Surname">
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="text" placeholder="Kullanıcı Adı" class="input" asp-for="Username">
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="email" placeholder="E-Posta Adresi" class="input" asp-for="Email">
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="password" placeholder="Parola" class="password" asp-for="Password">
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="password" placeholder="Parolayı tekrar girin" class="password" asp-for="PasswordConfirm">
+                        <i class='bx bx-hide eye-icon'></i>
+                    </div>
+
+                    <div class="field button-field">
+                        <button>Kayıt Ol</button>
+                    </div>
+                </form>
+
+                <div class="form-link">
+                    <span>Hesabınız var mı? <a href="#" class="link login-link">Giriş Yapın</a></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript -->
+    <script src="/Forms/js/script.js"></script>
+</body>
+</html>

@@ -1,45 +1,24 @@
-﻿@model TashanSofrasiWebApp.DTOs.AboutDTOs.UpdateAboutDTO
+﻿@model List<TashanSofrasiWebApp.DTOs.AboutDTOs.ResultAboutDTO>
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/AdminLayout/Index.cshtml";
+    Layout = "~/Views/PageLayout/Index.cshtml";
 }
-<div class="content">
-	<div class="container-fluid">
-		<h4 class="page-title">Hakkımda İşlemleri</h4>
-		<div class="row">
-			<div class="col-md-12">
-				<form method="post">
-					<div class="card">
-						<div class="card-header">
-							<div class="card-title">Hakkımda Güncellenme</div>
-						</div>
-						<div class="card-body">
-							<div class="card-sub">
-								Hakkımda kısmını buradan güncelleyebilirsiniz.
-							</div>
-							<input type="hidden" asp-for="AboutID" />
-							<div class="form-group">
-								<label for="aboutimageurl">Hakkımda Görsel Bağlantısı: </label>
-								<input type="text" class="form-control" asp-for="AboutImageURL" id="aboutimageurl">
-							</div>
-							<div class="form-group">
-								<label for="abouttitle">Hakkımda Başlığı: </label>
-								<input type="text" class="form-control" asp-for="AboutTitle" id="abouttitle">
-							</div>
-							<div class="form-group">
-								<label for="aboutdescription">Hakkımda Açıklaması: </label>
-								<textarea type="text" class="form-control" asp-for="AboutDescription" id="aboutdescription"></textarea>
-							</div>
-							
-						</div>
-						<div class="card-action">
-							<button class="btn btn-primary">Hakkımda Güncelle</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+
+<section class="book_section layout_padding">
+    <div class="container">
+        <div class="heading_container heading_center">
+            <h1>
+                HAKKIMIZDA
+            </h1>
+        </div>
+        <p>
+            @foreach(var item in Model)
+            {
+                @item.AboutDescription
+            }
+        </p>
+        @await Component.InvokeAsync("_HomeAboutContactPartialComponent")
+    </div>
+</section>
 
 

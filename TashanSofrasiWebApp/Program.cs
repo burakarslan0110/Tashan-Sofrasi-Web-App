@@ -1,6 +1,12 @@
+using Microsoft.AspNetCore.Identity;
+using TashanSofrasi.DataAccessLayer.Concrete;
+using TashanSofrasi.EntityLayer.Entities;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<TashanSofrasiContext>();
+builder.Services.AddIdentity<AppUser,AppRole>().AddEntityFrameworkStores<TashanSofrasiContext>();
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 

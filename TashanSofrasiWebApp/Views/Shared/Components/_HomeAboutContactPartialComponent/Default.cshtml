@@ -1,0 +1,115 @@
+﻿@using System.Web
+@model TashanSofrasiWebApp.DTOs.ContactDTOs.CreateContactDTO
+<style>
+    .image-container {
+        text-align: center; /* Resmi ortalar */
+        margin-top: 20px; /* Paragraf ile resim arasında boşluk bırakır */
+    }
+
+    .center-image {
+        max-width: 100%; /* Resmin genişliğini konteynıra sığacak şekilde ayarlar */
+        height: auto; /* Resmin yüksekliğini orantılı olarak ayarlar */
+        border-radius: 8px; /* Kenarlara yuvarlaklık ekler */
+    }
+
+    .btn_box
+    {
+        text-align: center;
+    }
+
+    textarea.form-control {
+        width: 100% !important; /* Genişlik %100 yaparak kapsayıcıyı tamamen kaplamasını sağlar */
+        height: 200px !important; /* Yüksekliği istediğiniz şekilde ayarlayın */
+        resize: both; /* Kullanıcıların hem yatay hem dikey yönde boyutlandırmasına izin verir */
+        font-size: 16px; /* Yazı boyutunu büyütür */
+        padding: 10px; /* İçeride biraz boşluk bırakır */
+        box-sizing: border-box; /* İçerideki padding'i genişlik ve yükseklik hesaplamalarına dahil eder */
+    }
+
+
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form_container">
+            @if (TempData["ApiMessage1"] != null)
+            {
+                <script>
+                    const messageType = '@TempData["MessageType1"]';
+                    const message = '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["ApiMessage1"].ToString()))';
+
+                    if (messageType === "success") {
+                        alert(message);
+                    } else if (messageType === "error") {
+                        alert(message);
+                    }
+                </script>
+            }
+            <hr />
+            <div class="heading_container heading_center">
+                <h1>
+                    BİZE ULAŞIN
+                </h1>
+            </div>
+            <form method="post" asp-action="SendMessage">
+                <div>
+                    <input type="text" class="form-control" name="ContactNameSurname" placeholder="Adınız Soyadınız" asp-for="ContactNameSurname"/>
+                </div>
+                <div>
+                    <input type="text"
+                           id="phone"
+                           name="ContactPhoneNumber"
+                           class="form-control"
+                           placeholder="Telefon Numaranız - 5XX XXX XX XX"
+                           minlength="13"
+                           maxlength="13"
+                           asp-for="ContactPhoneNumber"
+                           required>
+                </div>
+                <div>
+                    <input type="email" class="form-control" name="ContactEmail" placeholder="E-posta Adresiniz" asp-for="ContactEMail" />
+                </div>
+                <div>
+                    <div>
+                        <textarea class="form-control" name="ContactMessage" placeholder="Mesajınızı Buraya Yazın" asp-for="ContactMessage"></textarea>
+                    </div>
+
+                </div>
+                <div class="btn_box">
+                    <button>
+                        Rezervasyon Yap
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    const phoneInput = document.getElementById('phone');
+
+    phoneInput.addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, ''); // Sadece rakamları al
+
+        // Biçimlendirme
+        if (value.length > 3) {
+            value = value.replace(/^(\d{3})(\d+)/, '$1 $2');
+        }
+        if (value.length > 7) {
+            value = value.replace(/^(\d{3}) (\d{3})(\d+)/, '$1 $2 $3');
+        }
+        if (value.length > 10) {
+            value = value.replace(/^(\d{3}) (\d{3}) (\d{2})(\d+)/, '$1 $2 $3 $4');
+        }
+
+        e.target.value = value.substring(0, 13); // Maksimum 13 karakter
+
+        // Gerçek zamanlı olarak minimum karakter kontrolü
+        if (value.length < 13) {
+            e.target.setCustomValidity('Telefon numarası tam değil. Tekrar deneyin.');
+        } else {
+            e.target.setCustomValidity('');
+        }
+    });
+
+
+</script>

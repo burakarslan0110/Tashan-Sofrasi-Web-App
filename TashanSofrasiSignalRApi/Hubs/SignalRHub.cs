@@ -26,6 +26,8 @@ namespace TashanSofrasiSignalRApi.Hubs
             _notificationService = notificationService;
         }
 
+        public static int ClientCount { get; set; } = 0;
+
         public async Task SendStatistic()
         {
             var value1 = _categoryService.TCategoryCount();
@@ -97,5 +99,20 @@ namespace TashanSofrasiSignalRApi.Hubs
             var values = _menuTableService.TGetListAll();
             await Clients.All.SendAsync("ReceiveMenuTableStatus", values);
         }
+
+        public override async Task OnConnectedAsync()
+        {
+            ClientCount++;
+            await Clients.All.SendAsync("ReceiveClientCount", ClientCount);
+            await base.OnConnectedAsync();
+        }
+
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            ClientCount--;
+            await Clients.All.SendAsync("ReceiveClientCount", ClientCount);
+            await base.OnDisconnectedAsync(exception);
+        }
+
     }
 }

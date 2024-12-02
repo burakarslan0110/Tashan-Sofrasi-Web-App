@@ -8,7 +8,7 @@ namespace TashanSofrasi.DTOLayer.MenuTableDTO
 {
     public class CreateMenuTableDTO
     {
-        public int MenuTableName { get; set; }
+        public string MenuTableName { get; set; }
         public bool MenuTableStatus { get; set; }
     }
 }
