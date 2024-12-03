@@ -10,6 +10,7 @@ namespace TashanSofrasiWebApp.DTOs.ProductDTOs
 		public decimal ProductPrice { get; set; }
 		public string ProductImageURL { get; set; }
 		public bool ProductStatus { get; set; }
-		public ResultCategoryDTO Category { get; set; }	
+		public ResultCategoryDTO Category { get; set; }
+		public IFormFile ProductImage { get; set; }
 	}
 }

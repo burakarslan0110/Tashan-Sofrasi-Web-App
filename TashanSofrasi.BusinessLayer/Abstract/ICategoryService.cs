@@ -10,11 +10,9 @@ namespace TashanSofrasi.BusinessLayer.Abstract
     public interface ICategoryService : IGenericService<Category>
     {
         int TCategoryCount();
-
         int TActiveCategoryCount();
-
         int TPassiveCategoryCount();
-
-
+        void TCategoryStatusChangeToFalse(int id);
+        void TCategoryStatusChangeToTrue(int id);
     }
 }

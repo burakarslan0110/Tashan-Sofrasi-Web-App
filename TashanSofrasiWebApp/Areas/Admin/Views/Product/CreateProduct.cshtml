@@ -1,7 +1,7 @@
 ﻿@model TashanSofrasiWebApp.DTOs.ProductDTOs.CreateProductDTO
 @{
-    ViewData["Title"] = "CreateProduct";
-    Layout = "~/Views/AdminLayout/Index.cshtml";
+	ViewData["Title"] = "CreateProduct";
+	Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
 <div class="content">
@@ -9,7 +9,7 @@
 		<h4 class="page-title">Ürün İşlemleri</h4>
 		<div class="row">
 			<div class="col-md-12">
-				<form method="post">
+				<form method="post" enctype="multipart/form-data">
 					<div class="card">
 						<div class="card-header">
 							<div class="card-title">Yeni Ürün Girişi</div>
@@ -35,7 +35,7 @@
 						<div class="card-body">
 							<div class="form-group">
 								<label for="productimageurl">Ürün Görsel Bağlantısı: </label>
-								<input type="text" class="form-control" asp-for="ProductImageURL" id="productimageurl">
+								<input type="file" class="form-control" asp-for="ProductImage" id="productimage">
 							</div>
 						</div>
 						<div class="card-body">
@@ -45,7 +45,7 @@
 							</div>
 						</div>
 						<div class="card-action">
-							<button class="btn btn-primary">Ürünü Güncelle</button>
+							<button class="btn btn-primary">Ürünü Oluştur</button>
 						</div>
 					</div>
 				</form>

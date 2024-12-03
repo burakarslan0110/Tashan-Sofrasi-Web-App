@@ -57,5 +57,15 @@ namespace TashanSofrasi.BusinessLayer.Concrete
         {
             return _categoryDal.ActiveCategoryCount();
         }
+
+        public void TCategoryStatusChangeToFalse(int id)
+        {
+            _categoryDal.CategoryStatusChangeToFalse(id);
+        }
+
+        public void TCategoryStatusChangeToTrue(int id)
+        {
+            _categoryDal.CategoryStatusChangeToTrue(id);
+        }
     }
 }

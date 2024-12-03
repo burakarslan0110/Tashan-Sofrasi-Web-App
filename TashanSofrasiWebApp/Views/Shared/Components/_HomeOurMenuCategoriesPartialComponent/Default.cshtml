@@ -3,7 +3,11 @@
     <li class="active" data-filter="*">Tüm İçerikler</li>
     @foreach (var item in Model)
     {
-        <li data-filter=".@item.CategoryID">@item.CategoryName</li>
+        if(item.CategoryStatus == true)
+        {
+            <li data-filter=".@item.CategoryID">@item.CategoryName</li>
+        }
+
     }
 
 </ul>

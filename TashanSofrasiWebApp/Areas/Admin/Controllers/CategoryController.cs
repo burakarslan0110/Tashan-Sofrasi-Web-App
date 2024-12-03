@@ -77,6 +77,7 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateCategory(UpdateCategoryDTO updateCategoryDTO)
         {
+            updateCategoryDTO.CategoryStatus = true;
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(updateCategoryDTO);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -88,6 +89,27 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
             return View();
         }
 
+        public async Task<IActionResult> CategoryStatusChangeToFalse(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.PutAsync($"https://localhost:7053/api/Category/CategoryStatusChangeToFalse/{id}", null);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
 
+        }
+
+        public async Task<IActionResult> CategoryStatusChangeToTrue(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.PutAsync($"https://localhost:7053/api/Category/CategoryStatusChangeToTrue/{id}", null);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
     }
 }

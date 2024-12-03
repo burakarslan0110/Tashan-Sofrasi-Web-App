@@ -20,7 +20,7 @@ namespace TashanSofrasi.DataAccessLayer.EntityFramework
         {
             using (var context = new TashanSofrasiContext())
             {
-                return context.Products.Include(x => x.Category).ToList();
+                return context.Products.Where(x => x.Category.CategoryStatus == true).Include(x => x.Category).ToList();
             }
         }
 
@@ -73,7 +73,7 @@ namespace TashanSofrasi.DataAccessLayer.EntityFramework
 
                 return result;
             }
-        
+
         }
 
         public List<string> ProductWithLowestPrice()
@@ -107,7 +107,27 @@ namespace TashanSofrasi.DataAccessLayer.EntityFramework
         {
             using (var context = new TashanSofrasiContext())
             {
-                return context.Products.Where(x=>x.ProductID == id).Select(y => y.ProductPrice).FirstOrDefault();
+                return context.Products.Where(x => x.ProductID == id).Select(y => y.ProductPrice).FirstOrDefault();
+            }
+        }
+
+        public void ChangeProductStatusToTrue(int id)
+        {
+            using (var context = new TashanSofrasiContext())
+            {
+                var value = context.Products.Find(id);
+                value.ProductStatus = true;
+                context.SaveChanges();
+            }
+        }
+
+        public void ChangeProductStatusToFalse(int id)
+        {
+            using (var context = new TashanSofrasiContext())
+            {
+                var value = context.Products.Find(id);
+                value.ProductStatus = false;
+                context.SaveChanges();
             }
         }
     }

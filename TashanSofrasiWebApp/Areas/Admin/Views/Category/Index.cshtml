@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/AdminLayout/Index.cshtml";
+    int count = 0;
 }
 <div class="content">
     <div class="container-fluid">
@@ -16,29 +17,49 @@
                         <div class="card-sub">
                             Kategoriyle ilgili işlemleri aşağıdan gerçekleştirebilirsiniz.
                         </div>
-                        <table class="table mt-3">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Kategori Adı</th>
-                                    <th scope="col">Durum</th>
-                                    <th scope="col">Sil</th>
-                                    <th scope="col">Güncelle</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach(var item in Model)
-                                {
+                        <div class="table-responsive">
+                            <table class="table mt-3">
+                                <thead>
                                     <tr>
-                                        <td>@item.CategoryID</td>
-                                        <td>@item.CategoryName</td>
-                                        <td>@item.CategoryStatus</td>
-                                        <td><a href ="/Admin/Category/DeleteCategory/@item.CategoryID" class="btn btn-outline-danger">Sil</a></td>
-                                            <td><a href="/Admin/Category/UpdateCategory/@item.CategoryID" class="btn btn-outline-success">Güncelle</a></td>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Kategori Adı</th>
+                                        <th scope="col">Durum</th>
+                                        <th scope="col">Sil</th>
+                                        <th scope="col">Güncelle</th>
+                                        <th scpoe="col">Durum Değiştir</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        count++;
+                                        <tr>
+                                            <td>@count</td>
+                                            <td>@item.CategoryName</td>
+                                            @if(item.CategoryStatus == true)
+                                            {
+                                                <td>Aktif</td>
+                                            }
+                                            else
+                                            {
+                                                <td>Pasif</td>
+                                            }
+                                            <td><a href="/Admin/Category/DeleteCategory/@item.CategoryID" class="btn btn-outline-danger">Sil</a></td>
+                                            <td><a href="/Admin/Category/UpdateCategory/@item.CategoryID" class="btn btn-outline-success">Güncelle</a></td>
+                                            @if (item.CategoryStatus == true)
+                                            {
+                                                <td><a href="/Admin/Category/CategoryStatusChangeToFalse/@item.CategoryID" class="btn btn-danger">Pasifleştir</a></td>
+                                            }
+                                            else
+                                            {
+                                                <td><a href="/Admin/Category/CategoryStatusChangeToTrue/@item.CategoryID" class="btn btn-success">Aktifleştir</a></td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
                         <a href="/Admin/Category/CreateCategory/" class="btn btn-outline-primary">Yeni Kategori Oluştur</a>
                     </div>
                 </div>

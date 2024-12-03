@@ -37,5 +37,25 @@ namespace TashanSofrasi.DataAccessLayer.EntityFramework
                 return context.Categories.Where(x => x.CategoryStatus == false).Count();
             }
         }
+
+        public void CategoryStatusChangeToFalse(int id)
+        {
+            using (var context = new TashanSofrasiContext())
+            {
+                var values = context.Categories.Find(id);
+                values.CategoryStatus = false;
+                context.SaveChanges();
+            }
+        }
+
+        public void CategoryStatusChangeToTrue(int id)
+        {
+            using (var context = new TashanSofrasiContext())
+            {
+                var values = context.Categories.Find(id);
+                values.CategoryStatus = true;
+                context.SaveChanges();  
+            }
+        }
     }
 }

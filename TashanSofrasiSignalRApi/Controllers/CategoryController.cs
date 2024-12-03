@@ -75,5 +75,19 @@ namespace TashanSofrasiSignalRApi.Controllers
         {
             return Ok(_categoryService.TPassiveCategoryCount());
         }
+
+        [HttpPut("CategoryStatusChangeToFalse/{id}")]
+        public IActionResult CategoryStatusChangeToFalse(int id)
+        {
+            _categoryService.TCategoryStatusChangeToFalse(id);
+            return Ok("Kategori başarıyla pasif hale getirildi!");
+        }
+
+        [HttpPut("CategoryStatusChangeToTrue/{id}")]
+        public IActionResult CategoryStatusChangeToTrue(int id)
+        {
+            _categoryService.TCategoryStatusChangeToTrue(id);
+            return Ok("Kategori başarıyla aktif hale getirildi!");
+        }
     }
 }

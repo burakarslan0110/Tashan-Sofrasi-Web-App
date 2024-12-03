@@ -11,18 +11,14 @@ namespace TashanSofrasi.BusinessLayer.Abstract
     {
         List<Product> TGetProductWithCategories();
         int TProductCount();
-
         int TProductCountByCategoryNamePide();
-
         int TProductCountByCategoryNameCorba();
-
         decimal TProductAveragePrice();
-
         decimal TGetProductPriceByProductID(int id);
         decimal TProductAveragePriceByCategoryNameHamburger();
-
         List<string> TProductWithHighestPrice();
-
         List<string> TProductWithLowestPrice();
+        void TChangeProductStatusToTrue(int id);
+        void TChangeProductStatusToFalse(int id);
     }
 }

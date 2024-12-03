@@ -12,5 +12,7 @@ namespace TashanSofrasi.DataAccessLayer.Abstract
        int CategoryCount();
        int ActiveCategoryCount();
        int PassiveCategoryCount();
+       void CategoryStatusChangeToFalse(int id);
+       void CategoryStatusChangeToTrue(int id);
     }
 }

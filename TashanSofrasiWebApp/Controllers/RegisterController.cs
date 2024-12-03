@@ -29,7 +29,6 @@ namespace TashanSofrasiWebApp.Controllers
                 return View(registerDTO);
             }
 
-
             // Şifreler eşleşiyor mu kontrol et
             if (registerDTO.Password != registerDTO.PasswordConfirm)
             {

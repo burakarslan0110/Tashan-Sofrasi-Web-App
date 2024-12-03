@@ -87,5 +87,15 @@ namespace TashanSofrasi.BusinessLayer.Concrete
         {
             return _productDal.GetProductPriceByProductID(id);
         }
+
+        public void TChangeProductStatusToTrue(int id)
+        {
+            _productDal.ChangeProductStatusToTrue(id);
+        }
+
+        public void TChangeProductStatusToFalse(int id)
+        {
+            _productDal.ChangeProductStatusToFalse(id);
+        }
     }
 }

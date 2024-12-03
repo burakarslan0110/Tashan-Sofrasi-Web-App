@@ -112,5 +112,19 @@ namespace TashanSofrasiSignalRApi.Controllers
         {
             return Ok(_productService.TGetProductPriceByProductID(id));
         }
+
+        [HttpPut("ChangeProductStatusToTrue/{id}")]
+        public IActionResult ChangeProductStatusToTrue(int id)
+        {
+            _productService.TChangeProductStatusToTrue(id);
+            return Ok("Ürün durumu aktif hale getirildi!");
+        }
+
+        [HttpPut("ChangeProductStatusToFalse/{id}")]
+        public IActionResult ChangeProductStatusToFalse(int id)
+        {
+            _productService.TChangeProductStatusToFalse(id);
+            return Ok("Ürün durumu pasif hale getirildi!");
+        }
     }
 }

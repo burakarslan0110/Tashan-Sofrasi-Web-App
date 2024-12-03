@@ -50,12 +50,12 @@
                                 <tbody>`
                     $.each(value, (index, item) => {
                         htmltable += `<tr>
-                                    <td>${item.bookingID}</td>
+                                    <td>${index+1}</td>
                                     <td>${item.bookingNameSurname}</td>
                                     <td>${item.bookingPhoneNumber}</td>
                                     <td>${item.bookingEmail}</td>
                                     <td>${item.bookingPersonCount}</td>
-                                    <td>${item.bookingDate}</td>
+                                    <td>${item.bookingDate.replace("T"," ")}</td>
                                     <td><a href="/Admin/Booking/DeleteBooking/${item.bookingID}" class="btn btn-outline-danger">Sil</a></td>
                                     <td><a href="/Admin/Booking/UpdateBooking/${item.bookingID}" class="btn btn-outline-success">Güncelle</a></td>
                                 </tr>`
@@ -78,7 +78,10 @@
                         <div class="card-sub">
                             Rezervasyonla ilgili işlemleri aşağıdan gerçekleştirebilirsiniz.
                         </div>
-                        <div id="table"></div>
+                        <div class="table-responsive">
+                            <div id="table"></div>
+                        </div>
+                       
                         <a href="/Admin/Booking/CreateBooking/" class="btn btn-outline-primary">Yeni Rezervasyon Oluştur</a>
                     </div>
                 </div>

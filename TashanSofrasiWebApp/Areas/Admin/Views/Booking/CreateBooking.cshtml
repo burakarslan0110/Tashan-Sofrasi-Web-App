@@ -17,11 +17,18 @@
 						<div class="card-body">
 							<div class="form-group">
 								<label for="bookingnamesurname">Müşteri Ad Soyad: </label>
-								<input type="text" class="form-control" asp-for="BookingNameSurname" id="bookingnamesurname">
+								<input type="text" class="form-control" asp-for="BookingNameSurname" id="bookingnamesurname" required>
 							</div>
 							<div class="form-group">
 								<label for="bookingphonenumber">Müşteri Telefon No: </label>
-								<input type="text" class="form-control" asp-for="BookingPhoneNumber" id="bookingphonenumber">
+								<input type="text"
+								id="phone"
+								name="BookingPhoneNumber"
+								class="form-control"
+								placeholder="5XX XXX XX XX"
+								minlength="13"
+								maxlength="13" asp-for="BookingPhoneNumber"
+								required>
 							</div>
 							<div class="form-group">
 								<label for="bookingemail">Müşteri E-posta Adresi: </label>
@@ -29,11 +36,12 @@
 							</div>
 							<div class="form-group">
 								<label for="bookingpersoncount">Rezervasyon Kişi Sayısı: </label>
-								<input type="number" class="form-control" asp-for="BookingPersonCount" id="bookingpersoncount">
+								<input type="number" class="form-control" asp-for="BookingPersonCount" id="bookingpersoncount" required>
 							</div>
 							<div class="form-group">
 								<label for="bookingdate">Rezervasyon Tarihi</label>
-								<input type="datetime-local" class="form-control" asp-for="BookingDate" id="bookingdate">
+								<input type="datetime-local" class="form-control" name="BookingDate" asp-for="BookingDate" id="dateInput"
+									   min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required />
 							</div>
 						</div>
 						<div class="card-action">
@@ -45,4 +53,54 @@
 		</div>
 	</div>
 </div>
+<script>
 
+	document.getElementById('bookingpersoncount').value = '';
+
+	const phoneInput = document.getElementById('phone');
+
+	phoneInput.addEventListener('input', function (e) {
+	let value = e.target.value.replace(/\D/g, ''); // Sadece rakamları al
+
+	// Biçimlendirme
+	if (value.length > 3) {
+		value = value.replace(/^(\d{3})(\d+)/, '$1 $2');
+	}
+	if (value.length > 7) {
+		value = value.replace(/^(\d{3}) (\d{3})(\d+)/, '$1 $2 $3');
+	}
+	if (value.length > 10) {
+		value = value.replace(/^(\d{3}) (\d{3}) (\d{2})(\d+)/, '$1 $2 $3 $4');
+	}
+
+	e.target.value = value.substring(0, 13); // Maksimum 13 karakter
+
+	// Gerçek zamanlı olarak minimum karakter kontrolü
+	if (value.length < 13) {
+		e.target.setCustomValidity('Telefon numarası tam değil. Tekrar deneyin.');
+	} else {
+		e.target.setCustomValidity('');
+	}
+	});
+
+
+</script>
+<script>
+	const dateInput = document.getElementById("dateInput");
+
+	// Bugünün tarihini ve saatini al
+	const now = new Date();
+	const offset = now.getTimezoneOffset() * 60000; // Zaman dilimi farkı
+	const localNow = new Date(now.getTime() - offset).toISOString().slice(0, 16); // YYYY-MM-DDTHH:MM formatı
+
+	dateInput.min = localNow; // Minimum tarih ve saat bugünün zamanı
+
+	// Tarih ve saat girişine klavye ve yapıştırma işlemini devre dışı bırak
+	dateInput.addEventListener("keydown", function (e) {
+		e.preventDefault();
+	});
+
+	dateInput.addEventListener("paste", function (e) {
+		e.preventDefault();
+	});
+</script>

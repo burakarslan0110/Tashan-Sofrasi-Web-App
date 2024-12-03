@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/AdminLayout/Index.cshtml";
+    int count = 0;
 }
 
 <div class="content">
@@ -17,35 +18,54 @@
                         <div class="card-sub">
                             Ürünlerle ilgili işlemleri aşağıdan gerçekleştirebilirsiniz.
                         </div>
-                        <table class="table mt-3">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Ürün Adı</th>
-                                    <th scope="col">Ürün Fiyatı</th>
-                                    <th scope="col">Ürün Kategorisi</th>
-                                    <th scope="col">Ürün Görseli</th>
-                                    <th scope="col">Ürün Durumu</th>
-                                    <th scope="col">Sil</th>
-                                    <th scope="col">Güncelle</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
+                        <div class="table-responsive">
+                            <table class="table mt-3">
+                                <thead>
                                     <tr>
-                                        <td>@item.ProductID</td>
-                                        <td>@item.ProductName</td>
-                                        <td>@item.ProductPrice TL</td>
-                                        <td>@item.Category.CategoryName</td>
-                                        <td><img width="50" height="50" src="@item.ProductImageURL"/></td>
-                                        <td>@item.ProductStatus</td>
-                                        <td><a href="/Admin/Product/DeleteProduct/@item.ProductID" class="btn btn-outline-danger">Sil</a></td>
-                                        <td><a href="/Admin/Product/UpdateProduct/@item.ProductID" class="btn btn-outline-success">Güncelle</a></td>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Ürün Adı</th>
+                                        <th scope="col">Ürün Fiyatı</th>
+                                        <th scope="col">Ürün Kategorisi</th>
+                                        <th scope="col">Ürün Görseli</th>
+                                        <th scope="col">Ürün Durumu</th>
+                                        <th scope="col">Sil</th>
+                                        <th scope="col">Güncelle</th>
+                                        <th scope="col">Durum Değiştir</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        count++;
+                                        <tr>
+                                            <td>@count</td>
+                                            <td>@item.ProductName</td>
+                                            <td>@item.ProductPrice TL</td>
+                                            <td>@item.Category.CategoryName</td>
+                                            <td><img width="50" height="50" src="@item.ProductImageURL" /></td>
+                                            @if (item.ProductStatus == true)
+                                            {
+                                                <td>Aktif</td>
+                                            }
+                                            else
+                                            {
+                                                <td>Pasif</td>
+                                            }
+                                            <td><a href="/Admin/Product/DeleteProduct/@item.ProductID" class="btn btn-outline-danger">Sil</a></td>
+                                            <td><a href="/Admin/Product/UpdateProduct/@item.ProductID" class="btn btn-outline-success">Güncelle</a></td>
+                                            @if (item.ProductStatus == true)
+                                            {
+                                                <td><a href="/Admin/Product/ChangeProductStatusToFalse/@item.ProductID" class="btn btn-danger">Pasifleştir</a></td>
+                                            }
+                                            else
+                                            {
+                                                <td><a href="/Admin/Product/ChangeProductStatusToTrue/@item.ProductID" class="btn btn-success">Aktifleştir</a></td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                         <a href="/Admin/Product/CreateProduct/" class="btn btn-outline-primary">Yeni Ürün Oluştur</a>
                     </div>
                 </div>

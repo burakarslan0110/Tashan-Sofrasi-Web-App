@@ -9,7 +9,7 @@
 		<h4 class="page-title">Ürün İşlemleri</h4>
 		<div class="row">
 			<div class="col-md-12">
-				<form method="post">
+				<form method="post" enctype="multipart/form-data">
 					<div class="card">
 						<div class="card-header">
 							<div class="card-title">Ürün Güncelleme</div>
@@ -36,7 +36,7 @@
 						<div class="card-body">
 							<div class="form-group">
 								<label for="productimageurl">Ürün Görsel Bağlantısı: </label>
-								<input type="text" class="form-control" asp-for="ProductImageURL" id="productimageurl">
+								<input type="file" class="form-control" asp-for="ProductImage" id="productimageurl">
 							</div>
 						</div>
 						<div class="card-body">
