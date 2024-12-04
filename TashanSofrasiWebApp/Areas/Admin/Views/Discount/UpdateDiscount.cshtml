@@ -10,7 +10,7 @@
 		<h4 class="page-title">İndirim İşlemleri</h4>
 		<div class="row">
 			<div class="col-md-12">
-				<form method="post">
+				<form method="post" enctype="multipart/form-data">
 					<div class="card">
 						<div class="card-header">
 							<div class="card-title">İndirim Güncellenme</div>
@@ -19,25 +19,25 @@
 							<input type="hidden" asp-for="DiscountID" />
 							<div class="form-group">
 								<label for="discounttitle">Başlık: </label>
-								<input type="text" class="form-control" asp-for="DiscountTitle" id="discounttitle">
+								<input type="text" class="form-control" asp-for="DiscountTitle" id="discounttitle" required>
 							</div>
 						</div>
 						<div class="card-body">
 							<div class="form-group">
 								<label for="discountamount">İndirim Oranı (%): </label>
-								<input type="number" class="form-control" asp-for="DiscountAmount" id="discountamount">
+								<input type="number" class="form-control" asp-for="DiscountAmount" id="discountamount" required>
 							</div>
 						</div>
 						<div class="card-body">
 							<div class="form-group">
-								<label for="discountimageurl">Ürün Görsel URL: </label>
-								<input type="text" class="form-control" asp-for="DiscountImageURL" id="discountimageurl">
+								<label for="discountimageurl">Ürün Görseli: </label>
+								<input type="file" class="form-control" asp-for="DiscountImage" id="discountimage" required>
 							</div>
 						</div>
 						<div class="card-body">
 							<div class="form-group">
 								<label for="discountdescription">Ürün Açıklama: </label>
-								<textarea rows="5" type="text" class="form-control" asp-for="DiscountDescription" id="discountdescription"></textarea>
+								<textarea rows="5" type="text" class="form-control" asp-for="DiscountDescription" id="discountdescription" required></textarea>
 							</div>
 						</div>
 						<div class="card-action">

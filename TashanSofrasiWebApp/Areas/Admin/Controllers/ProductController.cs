@@ -52,8 +52,14 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         {
 			if (createProductDTO.ProductImage != null)
 			{
-				// Dosyayı sunucuda bir dizine kaydet
-				string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+                var validImageTypes = new[] { "image/jpeg", "image/png", "image/webp" };
+                if (!validImageTypes.Contains(createProductDTO.ProductImage.ContentType))
+                {
+                    ModelState.AddModelError("AboutImage", "Sadece JPEG, PNG veya WebP formatında görseller kabul edilmektedir.");
+                    return View(createProductDTO);
+                }
+                // Dosyayı sunucuda bir dizine kaydet
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/products");
 				if (!Directory.Exists(uploadsFolder))
 					Directory.CreateDirectory(uploadsFolder);
 
@@ -66,7 +72,7 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 				}
 
 				// Görsel yolunu DTO'ya ekle
-				createProductDTO.ProductImageURL = $"/images/{uniqueFileName}";
+				createProductDTO.ProductImageURL = $"/images/products/{uniqueFileName}";
 			}
 
 			createProductDTO.ProductStatus = true;
@@ -123,8 +129,14 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         {
 			if (updateProductDTO.ProductImage != null)
 			{
-				// Dosyayı sunucuda bir dizine kaydet
-				string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+                var validImageTypes = new[] { "image/jpeg", "image/png", "image/webp" };
+                if (!validImageTypes.Contains(updateProductDTO.ProductImage.ContentType))
+                {
+                    ModelState.AddModelError("AboutImage", "Sadece JPEG, PNG veya WebP formatında görseller kabul edilmektedir.");
+                    return View(updateProductDTO);
+                }
+                // Dosyayı sunucuda bir dizine kaydet
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/products");
 				if (!Directory.Exists(uploadsFolder))
 					Directory.CreateDirectory(uploadsFolder);
 
@@ -137,7 +149,7 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 				}
 
 				// Görsel yolunu DTO'ya ekle
-				updateProductDTO.ProductImageURL = $"/images/{uniqueFileName}";
+				updateProductDTO.ProductImageURL = $"/images/products/{uniqueFileName}";
 			}
 			updateProductDTO.ProductStatus = true;
             var client = _httpClientFactory.CreateClient();

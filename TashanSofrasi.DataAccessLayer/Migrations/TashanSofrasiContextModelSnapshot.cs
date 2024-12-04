@@ -339,6 +339,10 @@ namespace TashanSofrasi.DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContactID"));
 
+                    b.Property<string>("ContactDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ContactEMail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -357,7 +361,12 @@ namespace TashanSofrasi.DataAccessLayer.Migrations
 
                     b.HasKey("ContactID");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", t =>
+                        {
+                            t.HasTrigger("trg_ContactNotif");
+                        });
+
+                    b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
 
             modelBuilder.Entity("TashanSofrasi.EntityLayer.Entities.Discount", b =>
@@ -396,6 +405,10 @@ namespace TashanSofrasi.DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FeatureID"));
+
+                    b.Property<string>("FeatureBackgroundImageURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FeatureDescription1")
                         .IsRequired()

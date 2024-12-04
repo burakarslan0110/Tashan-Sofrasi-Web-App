@@ -1,0 +1,52 @@
+﻿@model TashanSofrasiWebApp.DTOs.ContactDTOs.GetContactDTO
+@{
+    ViewData["Title"] = "ViewContact";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">Mesaj İşlemleri</h4>
+		<div class="row">
+			<div class="col-md-12">
+				<form method="post">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Mesaj Detayları</div>
+						</div>
+						<div class="card-body">
+							<div class="card-sub">
+								Bu sayfadan gönderilen mesajların detaylarını görüntüleyebilirsiniz.
+							</div>
+							<div class="form-group">
+								<input type="hidden" asp-for="ContactID" class="form-control" readonly/>
+								<label>Ad Soyad: </label>
+								<input type="text" class="form-control" asp-for="ContactNameSurname" id="contactnamesurname" readonly>
+							</div>
+							<div class="form-group">
+								<label>E-posta: </label>
+								<input type="text" class="form-control" asp-for="ContactEMail" id="contactemail" readonly>
+							</div>
+							<div class="form-group">
+								<label>Telefon No: </label>
+								<input type="text" class="form-control" asp-for="ContactPhoneNumber" id="contactphonenumber" readonly>
+							</div>
+							<div class="form-group">
+								<label>Mesaj Tarihi: </label>
+								<input type="text" class="form-control" asp-for="ContactDate" id="contactdate" readonly>
+							</div>
+							<div class="form-group">
+								<label>Mesaj: </label>
+								<textarea cols="25" rows="5" class="form-control" asp-for="ContactMessage" id="contactdate" readonly></textarea>
+							</div>
+						</div>
+						<div class="card-action">
+							<a href="/Admin/Contact/" class="btn btn-primary">Geri Dön</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+

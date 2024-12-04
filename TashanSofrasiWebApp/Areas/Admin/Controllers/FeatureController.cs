@@ -32,7 +32,31 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(UpdateFeatureDTO updateFeatureDTO)
         {
-            updateFeatureDTO.FeatureID = 1;
+			if (updateFeatureDTO.FeatureBackgroundImage != null)
+			{
+				var validImageTypes = new[] { "image/jpeg", "image/png", "image/webp" };
+				if (!validImageTypes.Contains(updateFeatureDTO.FeatureBackgroundImage.ContentType))
+				{
+					ModelState.AddModelError("FeatureBackgroundImage", "Sadece JPEG, PNG veya WebP formatında görseller kabul edilmektedir.");
+					return View(updateFeatureDTO);
+				}
+				// Dosyayı sunucuda bir dizine kaydet
+				string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/background");
+				if (!Directory.Exists(uploadsFolder))
+					Directory.CreateDirectory(uploadsFolder);
+
+				string uniqueFileName = Guid.NewGuid().ToString() + "_" + updateFeatureDTO.FeatureBackgroundImage.FileName;
+				string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+				using (var fileStream = new FileStream(filePath, FileMode.Create))
+				{
+					await updateFeatureDTO.FeatureBackgroundImage.CopyToAsync(fileStream);
+				}
+
+				// Görsel yolunu DTO'ya ekle
+				updateFeatureDTO.FeatureBackgroundImageURL = $"/images/background/{uniqueFileName}";
+			}
+			updateFeatureDTO.FeatureID = 1;
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(updateFeatureDTO);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");

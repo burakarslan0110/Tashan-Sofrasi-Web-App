@@ -28,7 +28,15 @@
 							</div>
 							<div class="form-group">
 								<label for="socialmediaicon">Sosyal Medya İkonu: </label>
-								<input type="text" class="form-control" asp-for="SocialMediaIcon" id="socialmediaicon">
+								<select id="socialmediaicon" class="form-control" asp-for="SocialMediaIcon">
+									<option value="fa fa-facebook">Facebook</option>
+									<option value="fa fa-google">Google</option>
+									<option value="fa fa-twitter">Twitter</option>
+									<option value="fa fa-youtube">YouTube</option>
+									<option value="fa fa-linkedin">LinkedIn</option>
+									<option value="fa fa-instagram">Instagram</option>
+									<option value="fa fa-skype">Skype</option>
+								</select>
 							</div>
 
 						</div>

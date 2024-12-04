@@ -18,9 +18,19 @@ namespace TashanSofrasi.BusinessLayer.Concrete
             _testimonialDal = testimonialDal;
         }
 
+        public void ChangeTestimonialStatusToTrue(int id)
+        {
+            _testimonialDal.ChangeTestimonialStatusToTrue(id);
+        }
+
         public void TAdd(Testimonial entity)
         {
             _testimonialDal.Add(entity);    
+        }
+
+        public void TChangeTestimonialStatusToFalse(int id)
+        {
+            _testimonialDal.ChangeTestimonialStatusToFalse(id);
         }
 
         public void TDelete(Testimonial entity)

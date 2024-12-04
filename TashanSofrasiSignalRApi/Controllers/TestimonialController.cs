@@ -57,5 +57,19 @@ namespace TashanSofrasiSignalRApi.Controllers
             var value = _testimonialService.TGetByID(id);
             return Ok(value);
         }
+
+        [HttpPut("ChangeTestimonialStatusToFalse/{id}")]
+        public IActionResult ChangeTestimonialStatusToFalse(int id)
+        {
+            _testimonialService.TChangeTestimonialStatusToFalse(id);
+            return Ok("Referans kaydı başarıyla pasif hale getirildi!");
+        }
+
+        [HttpPut("ChangeTestimonialStatusToTrue/{id}")]
+        public IActionResult ChangeTestimonialStatusToTrue(int id)
+        {
+            _testimonialService.ChangeTestimonialStatusToTrue(id);
+            return Ok("Referans kaydı başarıyla aktif hale getirildi!");
+        }
     }
 }

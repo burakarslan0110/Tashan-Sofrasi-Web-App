@@ -8,7 +8,7 @@
 		<h4 class="page-title">Hakkımda İşlemleri</h4>
 		<div class="row">
 			<div class="col-md-12">
-				<form method="post">
+				<form method="post" enctype="multipart/form-data">
 					<div class="card">
 						<div class="card-header">
 							<div class="card-title">Hakkımda Güncellenme</div>
@@ -19,18 +19,18 @@
 							</div>
 							<input type="hidden" asp-for="AboutID" />
 							<div class="form-group">
-								<label for="aboutimageurl">Hakkımda Görsel Bağlantısı: </label>
-								<input type="text" class="form-control" asp-for="AboutImageURL" id="aboutimageurl" asp>
-							</div>
-							<div class="form-group">
 								<label for="abouttitle">Hakkımda Başlığı: </label>
-								<input type="text" class="form-control" asp-for="AboutTitle" id="abouttitle">
+								<input type="text" class="form-control" asp-for="AboutTitle" id="abouttitle" required>
 							</div>
 							<div class="form-group">
 								<label for="aboutdescription">Hakkımda Açıklaması: </label>
-								<textarea type="text" class="form-control" asp-for="AboutDescription" id="aboutdescription"></textarea>
+								<textarea type="text" class="form-control" asp-for="AboutDescription" id="aboutdescription" required></textarea>
 							</div>
-							
+							<div class="form-group">
+								<label for="aboutimageurl">Hakkımda Görseli: </label>
+								<input type="file" class="form-control" asp-for="AboutImage" id="aboutimage" required>
+								@Html.ValidationMessageFor(x => x.AboutImage, "", new { @class = "text-danger" })
+							</div>
 						</div>
 						<div class="card-action">
 							<button class="btn btn-primary">Hakkımda Güncelle</button>

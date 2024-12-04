@@ -1,0 +1,55 @@
+﻿@model List<TashanSofrasiWebApp.DTOs.ContactDTOs.ResultContactDTO>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int count = 0;
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Mesaj İşlemleri</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Mesaj Listesi</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-sub">
+                            Hakkımızda sayfasındaki iletişim formundan gelen mesajları buradan görüntüleyebilirsiniz.
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table mt-3">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Ad Soyad</th>
+                                        <th scope="col">Telefon No</th>
+                                        <th scope="col">Tarih</th>
+                                        <th scope="col">Mesajı Görüntüle</th>
+                                        <th scope="col">Mesajı Sil</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        count++;
+                                        <tr>
+                                            <td>@count</td>
+                                            <td>@item.ContactNameSurname</td>
+                                            <td>@item.ContactPhoneNumber</td>
+                                            <td>@item.ContactDate</td>
+                                            <td><a href="/Admin/Contact/ViewContact/@item.ContactID" class="btn btn-dark">Mesajı Görüntüle</a></td>
+                                            <td><a href="/Admin/Contact/DeleteContact/@item.ContactID" class="btn btn-danger">Mesajı Sil</a></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -15,5 +15,25 @@ namespace TashanSofrasi.DataAccessLayer.EntityFramework
         public EFTestimonialDal(TashanSofrasiContext context) : base(context)
         {
         }
+
+        public void ChangeTestimonialStatusToFalse(int id)
+        {
+            using (TashanSofrasiContext context = new TashanSofrasiContext())
+            {
+                var values = context.Testimonials.Find(id);
+                values.TestimonialStatus = false;
+                context.SaveChanges();
+            }
+        }
+
+        public void ChangeTestimonialStatusToTrue(int id)
+        {
+            using (TashanSofrasiContext context = new TashanSofrasiContext())
+            {
+                var values = context.Testimonials.Find(id);
+                values.TestimonialStatus = true;
+                context.SaveChanges();
+            }
+        }
     }
 }

@@ -13,5 +13,7 @@ namespace TashanSofrasiWebApp.DTOs.DiscountDTOs
         public string DiscountAmount { get; set; }
         public string DiscountDescription { get; set; }
         public string DiscountImageURL { get; set; }
+
+        public IFormFile DiscountImage { get; set; }    
     }
 }

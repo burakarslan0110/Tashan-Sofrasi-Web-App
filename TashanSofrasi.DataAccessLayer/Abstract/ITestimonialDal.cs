@@ -9,5 +9,7 @@ namespace TashanSofrasi.DataAccessLayer.Abstract
 {
     public interface ITestimonialDal : IGenericDal<Testimonial>
     {
+        void ChangeTestimonialStatusToTrue(int id);
+        void ChangeTestimonialStatusToFalse(int id);
     }
 }

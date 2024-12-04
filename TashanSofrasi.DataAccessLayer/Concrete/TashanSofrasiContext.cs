@@ -22,7 +22,8 @@ namespace TashanSofrasi.DataAccessLayer.Concrete
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Booking>().ToTable(tb => tb.HasTrigger("trg_BookingNotif")); //Bildirim gönderme için triggerın EF ile uyumlu çalışmasını sağlama işlemi (Rezervasyon)
-            modelBuilder.Entity<IdentityUserLogin<int>>().HasKey(x => new { x.LoginProvider, x.ProviderKey });
+			modelBuilder.Entity<Contact>().ToTable(tb => tb.HasTrigger("trg_ContactNotif"));
+			modelBuilder.Entity<IdentityUserLogin<int>>().HasKey(x => new { x.LoginProvider, x.ProviderKey });
             modelBuilder.Entity<IdentityUserRole<int>>().HasKey(userRole => new { userRole.UserId, userRole.RoleId });
             modelBuilder.Entity<IdentityUserToken<int>>().HasKey(token => new { token.UserId, token.LoginProvider, token.Name });
 

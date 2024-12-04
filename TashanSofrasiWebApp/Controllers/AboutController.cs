@@ -31,6 +31,7 @@ namespace TashanSofrasiWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> SendMessage(CreateContactDTO createContactDTO)
         {
+            createContactDTO.ContactDate = DateTime.Now.ToShortDateString();
             var client = _httpClientFactory.CreateClient();
             var content = new StringContent(JsonConvert.SerializeObject(createContactDTO), Encoding.UTF8, "application/json");
             var response = await client.PostAsync("https://localhost:7053/api/Contact", content);

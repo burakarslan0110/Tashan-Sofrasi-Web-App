@@ -13,5 +13,6 @@ namespace TashanSofrasiWebApp.DTOs.ContactDTOs
         public string ContactEMail { get; set; }
         public string ContactPhoneNumber { get; set; }
         public string ContactMessage { get; set; }
+        public string ContactDate { get; set; }
     }
 }

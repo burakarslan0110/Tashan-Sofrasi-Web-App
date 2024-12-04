@@ -13,5 +13,6 @@ namespace TashanSofrasiWebApp.DTOs.TestimonialDTOs
         public string TestimonialComment { get; set; }
         public string TestimonialImageURL { get; set; }
         public bool TestimonialStatus { get; set; }
-    }
+        public IFormFile TestimonialImage { get; set; }
+}
 }

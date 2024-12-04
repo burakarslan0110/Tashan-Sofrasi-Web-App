@@ -9,5 +9,7 @@ namespace TashanSofrasi.BusinessLayer.Abstract
 {
     public interface ITestimonialService : IGenericService<Testimonial>
     {
+        void TChangeTestimonialStatusToFalse(int id);
+        void ChangeTestimonialStatusToTrue(int id);
     }
 }

@@ -45,6 +45,24 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdateDiscount(UpdateDiscountDTO updateDiscountDTO)
         {
+            if (updateDiscountDTO.DiscountImage != null)
+            {
+                // Dosyayı sunucuda bir dizine kaydet
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/discounts");
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + updateDiscountDTO.DiscountImage.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await updateDiscountDTO.DiscountImage.CopyToAsync(fileStream);
+                }
+
+                // Görsel yolunu DTO'ya ekle
+                updateDiscountDTO.DiscountImageURL = $"/images/discounts/{uniqueFileName}";
+            }
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(updateDiscountDTO);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");

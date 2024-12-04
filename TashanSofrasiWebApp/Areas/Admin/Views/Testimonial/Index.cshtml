@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/AdminLayout/Index.cshtml";
+    int count = 0;
 }
 <div class="content">
     <div class="container-fluid">
@@ -16,6 +17,7 @@
                         <div class="card-sub">
                             Referanslarla ilgili işlemleri aşağıdan gerçekleştirebilirsiniz.
                         </div>
+                        <div class="table-responsive">
                         <table class="table mt-3">
                             <thead>
                                 <tr>
@@ -26,24 +28,42 @@
                                     <th scope="col">Referans Durum</th>
                                     <th scope="col">Sil</th>
                                     <th scope="col">Güncelle</th>
+                                    <th scope="col">Durum Güncelle</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model)
                                 {
+                                    count++;
                                     <tr>
-                                        <td>@item.TestimonialID</td>
+                                        <td>@count</td>
                                         <td>@item.TestimonialNameSurname</td>
                                         <td>@item.TestimonialTitle</td>
                                         <td><img width="50" height="50" src="@item.TestimonialImageURL" /></td>
-                                        <td>@item.TestimonialStatus</td>
-                                        <td><a href="/Testimonial/DeleteTestimonial/@item.TestimonialID" class="btn btn-outline-danger">Sil</a></td>
-                                        <td><a href="/Testimonial/UpdateTestimonial/@item.TestimonialID" class="btn btn-outline-success">Güncelle</a></td>
-                                    </tr>
+                                        @if(item.TestimonialStatus == true)
+                                        {
+                                            <td>Aktif</td>
+                                        }
+                                        else
+                                        {
+                                            <td>Pasif</td>
+                                        }
+                                            <td><a href="/Admin/Testimonial/DeleteTestimonial/@item.TestimonialID" class="btn btn-outline-danger">Sil</a></td>
+                                            <td><a href="/Admin/Testimonial/UpdateTestimonial/@item.TestimonialID" class="btn btn-outline-success">Güncelle</a></td>
+                                        @if(item.TestimonialStatus == true)
+                                        {
+                                           <td><a href="/Admin/Testimonial/ChangeTestimonialStatusToFalse/@item.TestimonialID" class="btn btn-danger">Pasifleştir</a></td>
+                                        }
+                                        else
+                                        {
+                                           <td><a href="/Admin/Testimonial/ChangeTestimonialStatusToTrue/@item.TestimonialID" class="btn btn-success">Aktifleştir</a></td>
+                                        }
+                                        </tr>
                                 }
                             </tbody>
                         </table>
-                        <a href="/Testimonial/CreateTestimonial/" class="btn btn-outline-primary">Yeni Referans Oluştur</a>
+                        </div>
+                        <a href="/Admin/Testimonial/CreateTestimonial/" class="btn btn-outline-primary">Yeni Referans Oluştur</a>
                     </div>
                 </div>
             </div>

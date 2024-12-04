@@ -32,6 +32,30 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(UpdateAboutDTO updateAboutDTO)
         {
+            if (updateAboutDTO.AboutImage != null)
+            {
+				var validImageTypes = new[] { "image/jpeg", "image/png", "image/webp" };
+				if (!validImageTypes.Contains(updateAboutDTO.AboutImage.ContentType))
+				{
+					ModelState.AddModelError("AboutImage", "Sadece JPEG, PNG veya WebP formatında görseller kabul edilmektedir.");
+					return View(updateAboutDTO);
+				}
+				// Dosyayı sunucuda bir dizine kaydet
+				string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/about");
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + updateAboutDTO.AboutImage.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await updateAboutDTO.AboutImage.CopyToAsync(fileStream);
+                }
+
+                // Görsel yolunu DTO'ya ekle
+                updateAboutDTO.AboutImageURL = $"/images/about/{uniqueFileName}";
+            }
             updateAboutDTO.AboutID = 1;
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(updateAboutDTO);
