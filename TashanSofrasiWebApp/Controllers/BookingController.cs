@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
 using TashanSofrasiWebApp.DTOs.BookingDTOs;
 
 namespace TashanSofrasiWebApp.Controllers
 {
-    public class BookingController : Controller
+	[AllowAnonymous]
+	public class BookingController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
 

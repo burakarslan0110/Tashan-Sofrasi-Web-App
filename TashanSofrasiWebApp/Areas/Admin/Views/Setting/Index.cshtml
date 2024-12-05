@@ -1,0 +1,66 @@
+﻿@using TashanSofrasiWebApp.DTOs.IdentityDTOs
+@model UserEditDTO
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Admin Profil Ayarları</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Admin Bilgileri Güncelleme İşlemleri</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-sub">
+                                Bu sayfadan profil bilgilerinizi güncelleyebilirsiniz.
+                            </div>
+                            @if (!ViewData.ModelState.IsValid)
+                            {
+                                    <ul>
+                                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                        {
+                                            <li style="color:red">@error.ErrorMessage</li>
+                                        }
+                                    </ul>
+                            }
+                            <div class="form-group">
+                                <label>Ad: </label>
+                                <input type="text" class="form-control" asp-for="Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Soyad: </label>
+                                <input type="text" class="form-control" asp-for="Surname" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Kullanıcı Adı: </label>
+                                <input type="text" class="form-control" asp-for="Username" required>
+                            </div>
+                            <div class="form-group">
+                                <label>E-posta Adresi: </label>
+                                <input type="email" class="form-control" asp-for="Email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Parola: </label>
+                                <input type="password" class="form-control" asp-for="Password" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Parola Tekrarı: </label>
+                                <input type="password" class="form-control" asp-for="ConfirmPassword" required>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <button class="btn btn-primary">Profil Bilgilerini Güncelle</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+>
+

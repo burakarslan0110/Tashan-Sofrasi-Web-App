@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TashanSofrasi.BusinessLayer.Abstract;
@@ -14,13 +15,13 @@ namespace TashanSofrasiSignalRApi.Controllers
         private readonly IBookingService _bookingService;
         private readonly IMapper _mapper;
 
-        public BookingController(IBookingService bookingService, IMapper mapper)
-        {
-            _bookingService = bookingService;
-            _mapper = mapper;
-        }
+		public BookingController(IBookingService bookingService, IMapper mapper)
+		{
+			_bookingService = bookingService;
+			_mapper = mapper;
+		}
 
-        [HttpGet]
+		[HttpGet]
         public IActionResult ListBooking()
         {
             var values = _mapper.Map<List<ResultBookingDTO>>(_bookingService.TGetListAll());
@@ -30,7 +31,7 @@ namespace TashanSofrasiSignalRApi.Controllers
         [HttpPost]
         public IActionResult CreateBooking(CreateBookingDTO createBookingDTO)
         {
-            var newValue = _mapper.Map<Booking>(createBookingDTO);
+			var newValue = _mapper.Map<Booking>(createBookingDTO);
             _bookingService.TAdd(newValue);
             return Ok("Rezervasyon başarıyla yapıldı!");
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR.Protocol;
 using Newtonsoft.Json;
 using System.Text;
@@ -6,6 +7,7 @@ using TashanSofrasiWebApp.DTOs.BookingDTOs;
 
 namespace TashanSofrasiWebApp.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;

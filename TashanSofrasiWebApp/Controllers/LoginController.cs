@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TashanSofrasi.EntityLayer.Entities;
 using TashanSofrasiWebApp.DTOs.IdentityDTOs;
 
 namespace TashanSofrasiWebApp.Controllers
 {
+    [AllowAnonymous]
     public class LoginController : Controller
     {
         private readonly SignInManager<AppUser> _signInManager;
@@ -33,6 +35,11 @@ namespace TashanSofrasiWebApp.Controllers
                 ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalı");
                 return View(loginDTO);
             }
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index","Login");
         }
     }
 }

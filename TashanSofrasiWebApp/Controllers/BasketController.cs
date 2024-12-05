@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using TashanSofrasiWebApp.DTOs.BasketDTOs;
 
 namespace TashanSofrasiWebApp.Controllers
 {
-    public class BasketController : Controller
+	[AllowAnonymous]
+	public class BasketController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
 

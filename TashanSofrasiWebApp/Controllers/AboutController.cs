@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
 using TashanSofrasiWebApp.DTOs.AboutDTOs;
@@ -6,7 +7,8 @@ using TashanSofrasiWebApp.DTOs.ContactDTOs;
 
 namespace TashanSofrasiWebApp.Controllers
 {
-    public class AboutController : Controller
+	[AllowAnonymous]
+	public class AboutController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
 

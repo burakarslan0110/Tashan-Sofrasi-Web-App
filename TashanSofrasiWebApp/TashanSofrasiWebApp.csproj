@@ -40,4 +40,10 @@
     <ProjectReference Include="..\TashanSofrasi.EntityLayer\TashanSofrasi.EntityLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="QRCoder">
+      <HintPath>wwwroot\QRCoder.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

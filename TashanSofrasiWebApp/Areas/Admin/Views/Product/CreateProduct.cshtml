@@ -13,29 +13,43 @@
 					<div class="card">
 						<div class="card-header">
 							<div class="card-title">Yeni Ürün Girişi</div>
+							@if (!ViewData.ModelState.IsValid)
+							{
+								<div class="alert alert-danger">
+									<ul>
+										@foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+										{
+											<li style="color:red">@error.ErrorMessage</li>
+										}
+									</ul>
+								</div>
+							}
+							<div class="card-sub">
+								Bu sayfadan yeni ürün oluşturabilirsiniz.
+							</div>
 						</div>
 						<div class="card-body">
 							<div class="form-group">
 								<label for="productname">Ürün Adı: </label>
-								<input type="text" class="form-control" asp-for="ProductName" id="productname">
+								<input type="text" class="form-control" asp-for="ProductName" id="productname" required>
 							</div>
 						</div>
 						<div class="card-body">
 							<div class="form-group">
 								<label for="productdescription">Ürün Açıklaması: </label>
-								<input type="text" class="form-control" asp-for="ProductDescription" id="productdescription">
+								<input type="text" class="form-control" asp-for="ProductDescription" id="productdescription" required>
 							</div>
 						</div>
 						<div class="card-body">
 							<div class="form-group">
 								<label for="productprice">Ürün Fiyatı: </label>
-								<input type="number" class="form-control" asp-for="ProductPrice" id="productprice">
+								<input type="number" class="form-control" asp-for="ProductPrice" id="productprice" required>
 							</div>
 						</div>
 						<div class="card-body">
 							<div class="form-group">
 								<label for="productimageurl">Ürün Görsel Bağlantısı: </label>
-								<input type="file" class="form-control" asp-for="ProductImage" id="productimage">
+								<input type="file" class="form-control" asp-for="ProductImage" id="productimage" required>
 							</div>
 						</div>
 						<div class="card-body">
@@ -45,7 +59,7 @@
 							</div>
 						</div>
 						<div class="card-action">
-							<button class="btn btn-primary">Ürünü Oluştur</button>
+							<button class="btn btn-primary">Yeni Ürün Oluştur</button>
 						</div>
 					</div>
 				</form>

@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TashanSofrasi.EntityLayer.Entities;
 using TashanSofrasiWebApp.DTOs.IdentityDTOs;
 
 namespace TashanSofrasiWebApp.Controllers
 {
-    public class RegisterController : Controller
+	[AllowAnonymous]
+	public class RegisterController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
 

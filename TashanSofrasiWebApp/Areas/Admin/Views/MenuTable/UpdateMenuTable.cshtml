@@ -16,16 +16,16 @@
 						</div>
 						<div class="card-body">
 							<div class="card-sub">
-								Bu sayfadan masanın adını güncelleyebilirsiniz.
+								Bu sayfadan masanın adını güncelleyebilir veya masayı silebilirsiniz.
 							</div>
 							<div class="form-group">
 								<input type="hidden" asp-for="MenuTableID" class="form-control" />
 								<label for="bookingnamesurname">Masa Adı: </label>
-								<input type="text" class="form-control" asp-for="MenuTableName" id="bookingnamesurname">
+								<input type="text" class="form-control" asp-for="MenuTableName" id="bookingnamesurname" required>
 							</div>
 						</div>
 						<div class="card-action">
-							<button class="btn btn-primary">Masa Güncelle</button>
+							<button class="btn btn-primary">Masayı Güncelle</button>
 							<a href="/Admin/MenuTable/DeleteMenuTable/@Model.MenuTableID" class="btn btn-danger">Masayı Sil</a>
 						</div>
 					</div>

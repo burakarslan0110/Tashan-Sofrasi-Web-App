@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using TashanSofrasi.BusinessLayer.Abstract;
@@ -5,6 +7,7 @@ using TashanSofrasi.BusinessLayer.Concrete;
 using TashanSofrasi.DataAccessLayer.Abstract;
 using TashanSofrasi.DataAccessLayer.Concrete;
 using TashanSofrasi.DataAccessLayer.EntityFramework;
+using TashanSofrasi.DTOLayer.BookingDTO;
 using TashanSofrasi.EntityLayer.Entities;
 using TashanSofrasiSignalRApi.Hubs;
 
@@ -74,6 +77,7 @@ builder.Services.AddScoped<INotificationDal, EFNotificationDal>();
 
 builder.Services.AddScoped<IContactService, ContactManager>();
 builder.Services.AddScoped<IContactDal, EFContactDal>();
+
 
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
