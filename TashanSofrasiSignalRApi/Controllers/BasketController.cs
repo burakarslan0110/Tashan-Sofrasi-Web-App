@@ -38,13 +38,12 @@ namespace TashanSofrasiSignalRApi.Controllers
 
             if (basket != null)
             {
-                var count = basket.Count;
-                count++;
+                 int count = basket.Count + createBasketDTO.Count;
                 _basketService.TUpdate(new Basket()
                 {
                     BasketID = basket.BasketID,
                     MenuTableID = basket.MenuTableID,
-                    ProductID = createBasketDTO.ProductID,
+                    ProductID = basket.ProductID,
                     Count = count,
                     Price = _productService.TGetProductPriceByProductID(createBasketDTO.ProductID),
                     TotalPrice = count * _productService.TGetProductPriceByProductID(createBasketDTO.ProductID)
@@ -56,10 +55,10 @@ namespace TashanSofrasiSignalRApi.Controllers
                 _basketService.TAdd(new Basket()
                 {
                     ProductID = createBasketDTO.ProductID,
-                    Count = 1,
+                    Count = createBasketDTO.Count,
                     MenuTableID = createBasketDTO.MenuTableID,
                     Price = _productService.TGetProductPriceByProductID(createBasketDTO.ProductID),
-                    TotalPrice = _productService.TGetProductPriceByProductID(createBasketDTO.ProductID)
+                    TotalPrice = createBasketDTO.Count * _productService.TGetProductPriceByProductID(createBasketDTO.ProductID)
                 });
             }
             return Ok("Ürün sepete eklendi!");

@@ -28,10 +28,15 @@
                                         <p>
                                             @item.ProductDescription
                                         </p>
+                                       
                                         <div class="options">
-                                            <h6>
+                                            <h4>
                                                 @item.ProductPrice ₺
-                                            </h6>
+                                            </h4>
+                                             <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                            <span style="color: white; margin-right: 10px;">Adet:</span>
+                                            <input type="number" id="quantity_@item.ProductID" value="1" min="1" style="width: 60px; margin-right: 10px;">
+                                            </div>
                                             <a href="#" onclick="showproduct(event, @item.ProductID)" id="@item.ProductID">
                                                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                                                 <g>
@@ -103,24 +108,49 @@
     </div>
 </section>
 <script>
-    function showproduct(event, value){
-        event.preventDefault();
-        var id = value;
-        $.ajax({
-            type: 'POST',
-            data: { item: id },
-            url: "/Menu/AddBasket/" + id,
-            contentType: 'json',
-            success: function () {
-                Swal.fire({
-                    title: 'Başarılı!',
-                    text: 'Seçtiğiniz ürün sepete eklendi!',
-                    icon: 'success',
-                    confirmButtonText: 'Tamam'
-                })
-            }
+    function showproduct(event, value) {
+    event.preventDefault();
+    var id = value;
 
+    // Adet input'unu al
+    var quantityInput = document.getElementById('quantity_' + id);
+    var quantity = quantityInput ? parseInt(quantityInput.value) : 1; // Varsayılan olarak 1
+
+    // Eğer adet bilgisi geçersizse kullanıcıya uyarı ver
+    if (isNaN(quantity) || quantity < 1) {
+        Swal.fire({
+            title: 'Hata!',
+            text: 'Lütfen geçerli bir adet giriniz!',
+            icon: 'error',
+            confirmButtonText: 'Tamam'
         });
+        return;
     }
+
+    // AJAX isteği
+    $.ajax({
+        type: 'POST',
+        url: "/Menu/AddBasket?id=" + id + "&count=" + quantity, // Doğru URL formatı
+        contentType: 'application/json', // JSON formatında içerik gönderiyoruz
+        success: function () {
+            Swal.fire({
+                title: 'Başarılı!',
+                text: 'Seçtiğiniz ürün sepete eklendi!',
+                icon: 'success',
+                confirmButtonText: 'Tamam'
+            });
+        },
+        error: function () {
+            Swal.fire({
+                title: 'Hata!',
+                text: 'Ürün sepete eklenirken bir hata oluştu!',
+                icon: 'error',
+                confirmButtonText: 'Tamam'
+            });
+        }
+    });
+}
+
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

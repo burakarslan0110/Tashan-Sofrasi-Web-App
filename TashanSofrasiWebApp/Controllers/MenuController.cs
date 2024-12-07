@@ -22,10 +22,13 @@ namespace TashanSofrasiWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddBasket(int id)
+        public async Task<IActionResult> AddBasket(int id, int count)
         {
-            CreateBasketDTO createBasketDTO = new CreateBasketDTO();
-            createBasketDTO.ProductID = id;
+            CreateBasketDTO createBasketDTO = new CreateBasketDTO
+            {
+                ProductID = id,
+                Count = count,
+            };
             var client = _clientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(createBasketDTO);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
