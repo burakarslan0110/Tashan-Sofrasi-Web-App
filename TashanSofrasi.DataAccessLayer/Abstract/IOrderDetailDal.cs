@@ -9,5 +9,6 @@ namespace TashanSofrasi.DataAccessLayer.Abstract
 {
     public interface IOrderDetailDal : IGenericDal<OrderDetail>
     {
+        void AddOrderDetailAsync();
     }
 }

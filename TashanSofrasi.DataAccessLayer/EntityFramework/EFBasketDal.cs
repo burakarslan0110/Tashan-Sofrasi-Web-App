@@ -17,6 +17,15 @@ namespace TashanSofrasi.DataAccessLayer.EntityFramework
         {
         }
 
+        public async void ClearBasket(List<Basket> basket)
+        {
+            using (var context = new TashanSofrasiContext())
+            {
+                context.Baskets.RemoveRange(basket);
+                await context.SaveChangesAsync();
+            }
+        }
+
         public List<Basket> GetBasketByMenuTableID(int id)
         {
             using (var context = new TashanSofrasiContext())

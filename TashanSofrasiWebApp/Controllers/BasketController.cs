@@ -18,7 +18,7 @@ namespace TashanSofrasiWebApp.Controllers
         public async Task<IActionResult> Index()
         {
             var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync("https://localhost:7053/api/Basket?id=4");
+            var response = await client.GetAsync("https://localhost:7053/api/Basket?id=1");
             if (response.IsSuccessStatusCode)
             {
                 var jsonData = await response.Content.ReadAsStringAsync();
@@ -38,5 +38,27 @@ namespace TashanSofrasiWebApp.Controllers
             }
            return NoContent();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CompleteOrder([FromForm] int menuTableId)
+        {
+            if (menuTableId <= 0)
+            {
+                return BadRequest("Geçerli bir menuTableId gönderilmedi.");
+            }
+
+            var client = _clientFactory.CreateClient();
+            var response = await client.PostAsync($"https://localhost:7053/api/Basket/CompleteOrder/{menuTableId}", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Ok("Sipariş başarıyla tamamlandı!");
+            }
+
+            return StatusCode(500, "Sipariş tamamlanamadı.");
+        }
+
+
+
     }
 }

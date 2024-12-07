@@ -28,6 +28,11 @@ namespace TashanSofrasi.BusinessLayer.Concrete
             _orderDal.Add(entity);
         }
 
+        public void TAddOrderAsync()
+        {
+             _orderDal.AddOrderAsync();
+        }
+
         public void TDelete(Order entity)
         {
             _orderDal.Delete(entity);

@@ -18,6 +18,11 @@ namespace TashanSofrasi.BusinessLayer.Concrete
             _basketDal = basketDal;
         }
 
+        public void TClearBasket(List<Basket> baskets)
+        {
+            _basketDal.ClearBasket(baskets);
+        }
+
         public void TAdd(Basket entity)
         {
             _basketDal.Add(entity);

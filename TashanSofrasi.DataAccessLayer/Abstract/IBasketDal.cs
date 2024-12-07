@@ -13,5 +13,7 @@ namespace TashanSofrasi.DataAccessLayer.Abstract
 
         Basket GetBasketByProductID(int productID, int menutableid);
 
+        void ClearBasket(List<Basket> basket);
+
     }
 }

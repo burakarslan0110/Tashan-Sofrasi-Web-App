@@ -13,6 +13,6 @@ namespace TashanSofrasi.BusinessLayer.Abstract
 
         Basket TGetBasketByProductID(int productid, int menutableid);
 
-
+        void TClearBasket(List<Basket> baskets);
     }
 }

@@ -44,5 +44,10 @@ namespace TashanSofrasi.DataAccessLayer.Repositories
             _context.Update(entity);
             _context.SaveChanges();
         }
+
+        public void SaveChangesAsync()
+        {
+            _context.SaveChangesAsync();
+        }
     }
 }

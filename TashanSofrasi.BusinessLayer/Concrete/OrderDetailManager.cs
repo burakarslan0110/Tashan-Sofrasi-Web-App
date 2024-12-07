@@ -23,6 +23,11 @@ namespace TashanSofrasi.BusinessLayer.Concrete
             _orderDetailDal.Add(entity);
         }
 
+        public void TAddOrderDetailAsync()
+        {
+            _orderDetailDal.AddOrderDetailAsync();
+        }
+
         public void TDelete(OrderDetail entity)
         {
             _orderDetailDal.Delete(entity);

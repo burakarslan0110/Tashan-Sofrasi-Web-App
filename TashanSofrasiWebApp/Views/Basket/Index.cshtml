@@ -4,6 +4,13 @@
     Layout = "~/Views/PageLayout/Index.cshtml";
     int count = 0;
     decimal basketTotalPrice = 0;
+    int count2 = 0;
+    var menutableidvan = 0;
+    foreach(var item in Model)
+    {
+        menutableidvan = item.MenuTableID;
+        count2++;
+    }
 }
 <br />
 <div class="container">
@@ -17,34 +24,42 @@
 <div class="container-fluid">
     <div class="row px-xl-5">
         <div class="col-lg-8 table-responsive mb-5">
-            <table class="table table-light table-borderless table-hover text-center mb-0">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>#</th>
-                        <th>Ürün Adı</th>
-                        <th>Adet</th>
-                        <th>Fiyat</th>
-                        <th>Toplam</th>
-                        <th>Sepetten Sil</th>
-                    </tr>
-                </thead>
-                @foreach (var item in Model)
-                {
-                    basketTotalPrice = Model.Sum(x => x.TotalPrice);
-                    count++;
-                    <tbody class="align-middle">
+            @if(count2 == 0)
+            {
+                <center><h3>Sepet Boş</h3></center>
+            }
+            else
+            {
+                <table class="table table-light table-borderless table-hover text-center mb-0">
+                    <thead class="thead-dark">
                         <tr>
-                            <td class="align-middle">@count</td>
-                            <td class="align-middle">@item.Product.ProductName</td>
-                            <td class="align-middle">@item.Count</td>
-                            <td class="align-middle">@item.Price</td>
-                            <td class="align-middle">@item.TotalPrice</td>
-                            <td class="align-middle btn-delete"><a href="/Basket/DeleteBasket/@item.BasketID" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
+                            <th>#</th>
+                            <th>Ürün Adı</th>
+                            <th>Adet</th>
+                            <th>Fiyat</th>
+                            <th>Toplam</th>
+                            <th>Sepetten Sil</th>
                         </tr>
-                    </tbody>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        count++;
+                        basketTotalPrice = Model.Sum(x => x.TotalPrice);
+                        <tbody class="align-middle">
+                            <tr>
+                                <td class="align-middle">@count</td>
+                                <td class="align-middle">@item.Product.ProductName</td>
+                                <td class="align-middle">@item.Count</td>
+                                <td class="align-middle">@item.Price</td>
+                                <td class="align-middle">@item.TotalPrice</td>
+                                <td class="align-middle btn-delete"><a href="/Basket/DeleteBasket/@item.BasketID" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
+                            </tr>
+                        </tbody>
 
-                }
-            </table>
+                    }
+                </table>
+            }
+            
         </div>
         <div class="col-log-4">
             <form>
@@ -75,7 +90,7 @@
                         <h5 class="font-weight-bold text-success" id="totalprice">@basketTotalPrice ₺</h5>
                     </div>
                 </div>
-                <button class="btn btn-success btn-block mt-4" id="btncheckout">
+                <button class="btn btn-success btn-block mt-4" id="btncheckout" onclick="completeOrder(@menutableidvan)">
                     Alışverişi Tamamla
                 </button>
             </div>
@@ -83,4 +98,54 @@
         </div>
     </div>
 </div>
+
+<script>
+    function completeOrder(menutableidvan) {
+        Swal.fire({
+            title: 'Emin misiniz?',
+            text: "Sepetinizi onaylıyor musunuz?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Evet',
+            cancelButtonText: 'Hayır'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/Basket/CompleteOrder',
+                    type: 'POST',
+                    data: { menuTableId: menutableidvan },
+                    success: function (response) {
+                        Swal.fire({
+                            title: 'Başarılı!',
+                            text: "Sipariş başarıyla tamamlandı.",
+                            icon: 'success',
+                            confirmButtonText: 'Tamam'
+                        }).then(() => {
+                            location.reload(); // Sayfayı yenile
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire({
+                            title: 'Hata!',
+                            text: "Sipariş tamamlanırken bir hata oluştu: " + xhr.responseText,
+                            icon: 'error',
+                            confirmButtonText: 'Tamam'
+                        });
+                        console.error("Hata Detayı:", xhr.responseText);
+                    }
+                });
+            }
+        });
+    }
+</script>
+<!-- SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
 

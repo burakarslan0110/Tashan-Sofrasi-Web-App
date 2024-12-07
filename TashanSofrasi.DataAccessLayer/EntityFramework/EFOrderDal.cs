@@ -25,6 +25,14 @@ namespace TashanSofrasi.DataAccessLayer.EntityFramework
             }
         }
 
+        public async void AddOrderAsync()
+        {
+            using (var context = new TashanSofrasiContext())
+            {
+                await context.SaveChangesAsync();
+            }
+        }
+
         public decimal LastOrderPrice()
         {
             using (var context = new TashanSofrasiContext())

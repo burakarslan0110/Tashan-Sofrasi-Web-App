@@ -15,5 +15,13 @@ namespace TashanSofrasi.DataAccessLayer.EntityFramework
         public EFOrderDetailDal(TashanSofrasiContext context) : base(context)
         {
         }
+
+        public async void AddOrderDetailAsync()
+        {
+            using (var context = new TashanSofrasiContext())
+            {
+                await context.SaveChangesAsync(); 
+            }
+        }
     }
 }
