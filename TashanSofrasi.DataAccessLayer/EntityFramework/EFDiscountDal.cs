@@ -15,5 +15,25 @@ namespace TashanSofrasi.DataAccessLayer.EntityFramework
         public EFDiscountDal(TashanSofrasiContext context) : base(context)
         {
         }
-    }
+
+		public void ChangeDiscountStatusToFalse(int id)
+		{
+			using (var context = new TashanSofrasiContext())
+			{
+				var discount = context.Discounts.Find(id);
+				discount.DiscountStatus = false;
+				context.SaveChanges();
+			}
+		}
+
+		public void ChangeDiscountStatusToTrue(int id)
+		{
+			using (var context = new TashanSofrasiContext())
+			{
+				var discount = context.Discounts.Find(id);
+				discount.DiscountStatus = true;
+				context.SaveChanges();
+			}
+		}
+	}
 }

@@ -377,9 +377,8 @@ namespace TashanSofrasi.DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiscountID"));
 
-                    b.Property<string>("DiscountAmount")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DiscountAmount")
+                        .HasColumnType("int");
 
                     b.Property<string>("DiscountDescription")
                         .IsRequired()
@@ -388,6 +387,9 @@ namespace TashanSofrasi.DataAccessLayer.Migrations
                     b.Property<string>("DiscountImageURL")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("DiscountStatus")
+                        .HasColumnType("bit");
 
                     b.Property<string>("DiscountTitle")
                         .IsRequired()

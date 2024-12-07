@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TashanSofrasi.BusinessLayer.Abstract;
@@ -13,12 +14,16 @@ namespace TashanSofrasiSignalRApi.Controllers
     {
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
+        private readonly IValidator<CreateCategoryDTO> _createCategoryvalidator;
+        private readonly IValidator<UpdateCategoryDTO> _updateCategoryvalidator;
 
-        public CategoryController(ICategoryService categoryService, IMapper mapper)
+		public CategoryController(ICategoryService categoryService, IMapper mapper, IValidator<CreateCategoryDTO> createCategoryvalidator, IValidator<UpdateCategoryDTO> updateCategoryvalidator)
         {
             _categoryService = categoryService;
             _mapper = mapper;
-        }
+			_createCategoryvalidator = createCategoryvalidator;
+			_updateCategoryvalidator = updateCategoryvalidator;
+		}
 
         [HttpGet]
         public IActionResult ListCategory()
@@ -30,7 +35,12 @@ namespace TashanSofrasiSignalRApi.Controllers
         [HttpPost]
         public IActionResult CreateCategory(CreateCategoryDTO createCategoryDTO)
         {
-            var newValue = _mapper.Map<Category>(createCategoryDTO);
+			var validatorResult = _createCategoryvalidator.Validate(createCategoryDTO);
+			if (!validatorResult.IsValid)
+			{
+				return BadRequest(validatorResult.Errors);
+			}
+			var newValue = _mapper.Map<Category>(createCategoryDTO);
             _categoryService.TAdd(newValue);
             return Ok("Kategori başarıyla eklendi!");
         }
@@ -46,7 +56,12 @@ namespace TashanSofrasiSignalRApi.Controllers
         [HttpPut]
         public IActionResult UpdateCategory(UpdateCategoryDTO updateCategoryDTO)
         {
-            var newValue = _mapper.Map<Category>(updateCategoryDTO);
+			var validatorResult = _updateCategoryvalidator.Validate(updateCategoryDTO);
+			if (!validatorResult.IsValid)
+			{
+				return BadRequest(validatorResult.Errors);
+			}
+			var newValue = _mapper.Map<Category>(updateCategoryDTO);
             _categoryService.TUpdate(newValue);
             return Ok("Kategori başarıyla güncellendi!");
         }

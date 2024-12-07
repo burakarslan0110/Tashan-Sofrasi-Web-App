@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Models\" />
     <Folder Include="wwwroot\lib\microsoft\" />
   </ItemGroup>
@@ -38,6 +37,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TashanSofrasi.DataAccessLayer\TashanSofrasi.DataAccessLayer.csproj" />
     <ProjectReference Include="..\TashanSofrasi.EntityLayer\TashanSofrasi.EntityLayer.csproj" />
+    <ProjectReference Include="..\TashanSofrasiSignalRApi\TashanSofrasiSignalRApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>

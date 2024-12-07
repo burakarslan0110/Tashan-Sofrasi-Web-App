@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TashanSofrasi.BusinessLayer.Abstract;
@@ -13,12 +14,14 @@ namespace TashanSofrasiSignalRApi.Controllers
     {
         private readonly IFooterService _footerService;
         private readonly IMapper _mapper;
+        private readonly IValidator<UpdateFooterDTO> _footerValidator;
 
-        public FooterController(IFooterService footerService, IMapper mapper)
+		public FooterController(IFooterService footerService, IMapper mapper, IValidator<UpdateFooterDTO> footerValidator)
         {
             _footerService = footerService;
             _mapper = mapper;
-        }
+			_footerValidator = footerValidator;
+		}
 
         [HttpGet]
         public IActionResult ListFooter()
@@ -46,7 +49,12 @@ namespace TashanSofrasiSignalRApi.Controllers
         [HttpPut]
         public IActionResult UpdateFooter(UpdateFooterDTO updateFooterDTO)
         {
-            var newValue = _mapper.Map<Footer>(updateFooterDTO);
+            var validatorResponse = _footerValidator.Validate(updateFooterDTO);
+			if (!validatorResponse.IsValid)
+			{
+				return BadRequest(validatorResponse.Errors);
+			}
+			var newValue = _mapper.Map<Footer>(updateFooterDTO);
             _footerService.TUpdate(newValue);
             return Ok("Footer kaydı başarıyla güncellendi!");
         }

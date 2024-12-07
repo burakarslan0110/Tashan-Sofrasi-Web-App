@@ -15,8 +15,4 @@
     <ProjectReference Include="..\TashanSofrasi.DTOLayer\TashanSofrasi.DTOLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ValidationRules\" />
-  </ItemGroup>
-
 </Project>

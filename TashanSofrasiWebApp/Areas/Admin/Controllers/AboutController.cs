@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
+using TashanSofrasiWebApp.Areas.Admin.Models;
 using TashanSofrasiWebApp.DTOs.AboutDTOs;
 
 namespace TashanSofrasiWebApp.Areas.Admin.Controllers
@@ -34,10 +36,9 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         {
             if (updateAboutDTO.AboutImage != null)
             {
-				var validImageTypes = new[] { "image/jpeg", "image/png", "image/webp" };
-				if (!validImageTypes.Contains(updateAboutDTO.AboutImage.ContentType))
+				if (updateAboutDTO.AboutImage.ContentType != "image/jpeg" && updateAboutDTO.AboutImage.ContentType != "image/png" && updateAboutDTO.AboutImage.ContentType != "image/webp")
 				{
-					ModelState.AddModelError("AboutImage", "Sadece JPEG, PNG veya WebP formatında görseller kabul edilmektedir.");
+					ModelState.AddModelError("AboutImage", "Hakkımda görseli sadece JPEG, PNG veya WebP formatında olabilir.");
 					return View(updateAboutDTO);
 				}
 				// Dosyayı sunucuda bir dizine kaydet
@@ -64,8 +65,23 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
-            }
-            return View();
+			}
+			else
+			{
+                var errorResponse = await responseMessage.Content.ReadFromJsonAsync<ApiValidationErrorResponse>();
+                if (errorResponse?.Errors != null)
+                {
+					foreach (var error in errorResponse.Errors)
+					{
+						foreach (var errorMessage in error.Value)
+						{
+							ModelState.AddModelError(error.Key, errorMessage);
+						}
+					}
+				}
+				return View(updateAboutDTO);
+			}
+   
         }
     }
 }

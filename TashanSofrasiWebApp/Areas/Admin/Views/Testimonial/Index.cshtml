@@ -42,11 +42,11 @@
                                         <td><img width="50" height="50" src="@item.TestimonialImageURL" /></td>
                                         @if(item.TestimonialStatus == true)
                                         {
-                                            <td>Aktif</td>
+                                                <td><span class="badge badge-success">Aktif</span></td>
                                         }
                                         else
                                         {
-                                            <td>Pasif</td>
+                                                <td><span class="badge badge-danger">Pasif</span></td>
                                         }
                                             <td><a href="/Admin/Testimonial/DeleteTestimonial/@item.TestimonialID" class="btn btn-outline-danger">Sil</a></td>
                                             <td><a href="/Admin/Testimonial/UpdateTestimonial/@item.TestimonialID" class="btn btn-outline-success">Güncelle</a></td>

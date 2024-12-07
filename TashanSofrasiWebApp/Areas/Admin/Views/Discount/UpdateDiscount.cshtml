@@ -23,24 +23,28 @@
 							<div class="form-group">
 								<label for="discounttitle">Başlık: </label>
 								<input type="text" class="form-control" asp-for="DiscountTitle" id="discounttitle" required>
+								<span class="text-danger" asp-validation-for="DiscountTitle"></span>
 							</div>
 						</div>
 						<div class="card-body">
 							<div class="form-group">
 								<label for="discountamount">İndirim Oranı (%): </label>
 								<input type="number" class="form-control" asp-for="DiscountAmount" id="discountamount" required>
+								<span class="text-danger" asp-validation-for="DiscountAmount"></span>
 							</div>
 						</div>
 						<div class="card-body">
 							<div class="form-group">
 								<label for="discountimageurl">Ürün Görseli: </label>
 								<input type="file" class="form-control" asp-for="DiscountImage" id="discountimage" required>
+								<span class="text-danger" asp-validation-for="DiscountImage"></span>
 							</div>
 						</div>
 						<div class="card-body">
 							<div class="form-group">
 								<label for="discountdescription">Ürün Açıklama: </label>
 								<textarea rows="5" type="text" class="form-control" asp-for="DiscountDescription" id="discountdescription" required></textarea>
+								<span class="text-danger" asp-validation-for="DiscountDescription"></span>
 							</div>
 						</div>
 						<div class="card-action">

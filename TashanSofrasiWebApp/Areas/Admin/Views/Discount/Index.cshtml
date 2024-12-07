@@ -26,8 +26,10 @@
                                         <th scope="col">Başlık</th>
                                         <th scope="col">İndirim Oranı</th>
                                         <th scope="col">Açıklama</th>
+                                        <th scope="col">Durum</th>
                                         <th scope="col">Ürün Görseli</th>
                                         <th scope="col">Güncelle</th>
+                                        <th scope="col">Durum Güncelle</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -39,8 +41,26 @@
                                             <td>@item.DiscountTitle</td>
                                             <td>%@item.DiscountAmount</td>
                                             <td>@item.DiscountDescription</td>
+                                            <td>
+                                                @if (item.DiscountStatus == true)
+                                                {
+                                                    <span class="badge badge-success">Aktif</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-danger">Pasif</span>
+                                                }
                                             <td><img width="50" height="50" src="@item.DiscountImageURL"/></td>
                                             <td><a href="/Admin/Discount/UpdateDiscount/@item.DiscountID" class="btn btn-outline-success">Güncelle</a></td>
+                                                <td>@if(item.DiscountStatus == true)
+                                                    {
+                                                        <a href="/Admin/Discount/ChangeDiscountStatusToFalse/@item.DiscountID" class="btn btn-danger">Pasifleştir</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="/Admin/Discount/ChangeDiscountStatusToTrue/@item.DiscountID" class="btn btn-success">Aktifleştir</a>
+                                                    }
+                                                </td>
                                         </tr>
                                     }
                                 </tbody>

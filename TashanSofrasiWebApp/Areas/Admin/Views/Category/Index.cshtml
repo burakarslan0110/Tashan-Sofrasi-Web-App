@@ -38,11 +38,11 @@
                                             <td>@item.CategoryName</td>
                                             @if(item.CategoryStatus == true)
                                             {
-                                                <td>Aktif</td>
+                                                <td><span class="badge badge-success">Aktif</span></td>
                                             }
                                             else
                                             {
-                                                <td>Pasif</td>
+                                                <td><span class="badge badge-danger">Pasif</span></td>
                                             }
                                             <td><a href="/Admin/Category/DeleteCategory/@item.CategoryID" class="btn btn-outline-danger">Sil</a></td>
                                             <td><a href="/Admin/Category/UpdateCategory/@item.CategoryID" class="btn btn-outline-success">Güncelle</a></td>

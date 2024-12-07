@@ -4,9 +4,15 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using TashanSofrasi.BusinessLayer.Abstract;
 using TashanSofrasi.BusinessLayer.Concrete;
+using TashanSofrasi.BusinessLayer.ValidationRules.AboutValidations;
+using TashanSofrasi.BusinessLayer.ValidationRules.CategoryValidations;
+using TashanSofrasi.BusinessLayer.ValidationRules.DiscountValidations;
+using TashanSofrasi.BusinessLayer.ValidationRules.FeaturesValidations;
+using TashanSofrasi.BusinessLayer.ValidationRules.FooterValidations;
 using TashanSofrasi.DataAccessLayer.Abstract;
 using TashanSofrasi.DataAccessLayer.Concrete;
 using TashanSofrasi.DataAccessLayer.EntityFramework;
+using TashanSofrasi.DTOLayer.AboutDTO;
 using TashanSofrasi.DTOLayer.BookingDTO;
 using TashanSofrasi.EntityLayer.Entities;
 using TashanSofrasiSignalRApi.Hubs;
@@ -77,6 +83,18 @@ builder.Services.AddScoped<INotificationDal, EFNotificationDal>();
 
 builder.Services.AddScoped<IContactService, ContactManager>();
 builder.Services.AddScoped<IContactDal, EFContactDal>();
+
+builder.Services.AddFluentValidationAutoValidation(config =>
+{
+    config.DisableDataAnnotationsValidation = true;
+});
+
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateAboutValidationRules>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryValidationRules>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateCategoryValidationRules>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateDiscountValidationRules>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateFeaturesValidationRules>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateFooterValidationRules>();
 
 
 builder.Services.AddControllersWithViews()

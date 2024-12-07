@@ -21,22 +21,27 @@
 							<div class="form-group">
 								<label for="footerlocation">Adres (Lokasyon) Bilgisi: </label>
 								<input type="text" class="form-control" asp-for="FooterLocation" id="footerlocation" required>
+								<span asp-validation-for="FooterLocation" class="text-danger"></span>
 							</div>
 							<div class="form-group">
 								<label for="footerphonenumber">Telefon No: </label>
 								<input type="text" class="form-control" asp-for="FooterPhoneNumber" id="footerphonenumber" required>
+								<span asp-validation-for="FooterPhoneNumber" class="text-danger"></span>
 							</div>
 							<div class="form-group">
 								<label for="footeremail">E-posta: </label>
 								<input type="email" class="form-control" asp-for="FooterEmail" id="footeremail" required>
+								<span asp-validation-for="FooterEmail" class="text-danger"></span>
 							</div>
 							<div class="form-group">
-								<label for="footeropeninghours">Açılış - Kapanış Saatleri</label>
+								<label for="footeropeninghours">Açılış - Kapanış Saatleri: </label>
 								<input type="text" class="form-control" asp-for="FooterOpeningHours" id="footeropeninghours" required>
+								<span asp-validation-for="FooterOpeningHours" class="text-danger"></span>
 							</div>
 							<div class="form-group">
 								<label for="footerdescription">Footer Açıklaması: </label>
 								<textarea type="text" class="form-control" asp-for="FooterDescription" id="footerdescription" required></textarea>
+								<span asp-validation-for="FooterDescription" class="text-danger"></span>
 							</div>
 						</div>
 						<div class="card-action">
@@ -50,3 +55,30 @@
 </div>
 
 
+<script>
+	const phoneInput = document.getElementById('footerphonenumber');
+
+	phoneInput.addEventListener('input', function (e) {
+	let value = e.target.value.replace(/\D/g, ''); // Sadece rakamları al
+
+	// Biçimlendirme
+	if (value.length > 3) {
+		value = value.replace(/^(\d{3})(\d+)/, '$1 $2');
+	}
+	if (value.length > 7) {
+		value = value.replace(/^(\d{3}) (\d{3})(\d+)/, '$1 $2 $3');
+	}
+	if (value.length > 10) {
+		value = value.replace(/^(\d{3}) (\d{3}) (\d{2})(\d+)/, '$1 $2 $3 $4');
+	}
+
+	e.target.value = value.substring(0, 13); // Maksimum 13 karakter
+
+	// Gerçek zamanlı olarak minimum karakter kontrolü
+	if (value.length < 13) {
+		e.target.setCustomValidity('Telefon numarası tam değil. Tekrar deneyin.');
+	} else {
+		e.target.setCustomValidity('');
+	}
+	});
+</script>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
+using TashanSofrasiWebApp.Areas.Admin.Models;
 using TashanSofrasiWebApp.DTOs.FeatureDTOs;
 
 namespace TashanSofrasiWebApp.Areas.Admin.Controllers
@@ -65,7 +66,21 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index");
             }
-            return View();
+            else
+            {
+                var errorResponse = await responseMessage.Content.ReadFromJsonAsync<ApiValidationErrorResponse>();
+				if (errorResponse?.Errors != null)
+				{
+					foreach (var error in errorResponse.Errors)
+					{
+						foreach (var errorMessage in error.Value)
+						{
+							ModelState.AddModelError(error.Key, errorMessage);
+						}
+					}
+				}
+			}
+            return View(updateFeatureDTO);
         }
     }
 }

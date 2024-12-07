@@ -22,31 +22,37 @@
 							<div class="form-group">
 								<label for="featuretitle1">Site Arka Plan Görseli: </label>
 								<input type="file" class="form-control" asp-for="FeatureBackgroundImage" required>
-								@Html.ValidationMessageFor(model => model.FeatureBackgroundImage, "", new { @class = "text-danger" })
+								<span asp-validation-for="FeatureBackgroundImage" class="text-danger"></span>
 							</div>
 							<div class="form-group">
 								<label for="featuretitle1">Öne Çıkan 1 Başlık: </label>
 								<input type="text" class="form-control" asp-for="FeatureTitle1" id="featuretitle1" required>
+								<span asp-validation-for="FeatureTitle1" class="text-danger"></span>
 							</div>
 							<div class="form-group">
 								<label for="featuredescription1">Öne Çıkan 1 Açıklama: </label>
 								<textarea rows="5" type="text" class="form-control" asp-for="FeatureDescription1" id="featuredescription1" required></textarea>
+								<span asp-validation-for="FeatureDescription1" class="text-danger"></span>
 							</div>
 							<div class="form-group">
 								<label for="featuretitle2">Öne Çıkan 2 Başlık: </label>
 								<input type="text" class="form-control" asp-for="FeatureTitle2" id="featuretitle2">
+								<span asp-validation-for="FeatureTitle2" class="text-danger"></span>
 							</div>
 							<div class="form-group">
 								<label for="featuredescription2">Öne Çıkan 2 Açıklama: </label>
 								<textarea rows="5" type="text" class="form-control" asp-for="FeatureDescription2" id="featuredescription2" required></textarea>
+								<span asp-validation-for="FeatureDescription2" class="text-danger"></span>
 							</div>
 							<div class="form-group">
 								<label for="featuretitle3">Öne Çıkan 3 Başlık: </label>
 								<input type="text" class="form-control" asp-for="FeatureTitle3" id="featuretitle3" required>
+								<span asp-validation-for="FeatureTitle3" class="text-danger"></span>
 							</div>
 							<div class="form-group">
 								<label for="featuredescription3">Öne Çıkan 3 Açıklama: </label>
 								<textarea rows="5" type="text" class="form-control" asp-for="FeatureDescription3" id="featuredescription3" required></textarea>
+								<span asp-validation-for="FeatureDescription3" class="text-danger"></span>
 							</div>
 						</div>
 						<div class="card-action">

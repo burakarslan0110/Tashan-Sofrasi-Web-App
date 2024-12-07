@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TashanSofrasi.BusinessLayer.Abstract;
@@ -13,12 +14,14 @@ namespace TashanSofrasiSignalRApi.Controllers
     {
         private readonly IFeatureService _featureService;
         private readonly IMapper _mapper;
+        private readonly IValidator<UpdateFeatureDTO> _updateFeatureValidator;
 
-        public FeatureController(IFeatureService featureService, IMapper mapper)
+		public FeatureController(IFeatureService featureService, IMapper mapper, IValidator<UpdateFeatureDTO> updateFeaturevalidator)
         {
             _featureService = featureService;
             _mapper = mapper;
-        }
+			_updateFeatureValidator = updateFeaturevalidator;
+		}
 
         [HttpGet]
         public IActionResult ListFeature()
@@ -46,7 +49,12 @@ namespace TashanSofrasiSignalRApi.Controllers
         [HttpPut]
         public IActionResult UpdateFeature(UpdateFeatureDTO updateFeatureDTO)
         {
-            var newValue = _mapper.Map<Feature>(updateFeatureDTO);
+            var validatorResult = _updateFeatureValidator.Validate(updateFeatureDTO);
+			if (!validatorResult.IsValid)
+			{
+				return BadRequest(validatorResult.Errors);
+			}
+			var newValue = _mapper.Map<Feature>(updateFeatureDTO);
             _featureService.TUpdate(newValue);
             return Ok("Öne çıkan kaydı başarıyla güncellendi");
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
+using TashanSofrasiWebApp.Areas.Admin.Models;
 using TashanSofrasiWebApp.DTOs.DiscountDTOs;
 
 namespace TashanSofrasiWebApp.Areas.Admin.Controllers
@@ -47,8 +48,14 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         {
             if (updateDiscountDTO.DiscountImage != null)
             {
-                // Dosyayı sunucuda bir dizine kaydet
-                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/discounts");
+				var validImageTypes = new[] { "image/jpeg", "image/png", "image/webp" };
+				if (!validImageTypes.Contains(updateDiscountDTO.DiscountImage.ContentType))
+				{
+					ModelState.AddModelError("DiscountImage", "Sadece JPEG, PNG veya WebP formatında görseller kabul edilmektedir.");
+					return View(updateDiscountDTO);
+				}
+				// Dosyayı sunucuda bir dizine kaydet
+				string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/discounts");
                 if (!Directory.Exists(uploadsFolder))
                     Directory.CreateDirectory(uploadsFolder);
 
@@ -71,7 +78,45 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index");
             }
+            else
+            {
+                var errorResponse = await responseMessage.Content.ReadFromJsonAsync<ApiValidationErrorResponse>();
+                if (errorResponse?.Errors != null)
+                {
+                    foreach (var error in errorResponse.Errors)
+                    {
+                        foreach (var errorMessage in error.Value)
+                        {
+                            ModelState.AddModelError(error.Key, errorMessage);
+                        }
+                    }
+                }
+                return View(updateDiscountDTO);
+            }
             return View();
         }
-    }
+
+        public async Task<IActionResult> ChangeDiscountStatusToTrue(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.PutAsync($"https://localhost:7053/api/Discount/ChangeDiscountStatusToTrue/{id}", null);
+			if (responseMessage.IsSuccessStatusCode)
+			{
+				return RedirectToAction("Index");
+			}
+			return View();
+        }
+
+		public async Task<IActionResult> ChangeDiscountStatusToFalse(int id)
+		{
+			var client = _httpClientFactory.CreateClient();
+			var responseMessage = await client.PutAsync($"https://localhost:7053/api/Discount/ChangeDiscountStatusToFalse/{id}", null);
+			if (responseMessage.IsSuccessStatusCode)
+			{
+				return RedirectToAction("Index");
+			}
+			return View();
+		}
+
+	}
 }

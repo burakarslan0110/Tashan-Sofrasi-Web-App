@@ -21,15 +21,17 @@
 							<div class="form-group">
 								<label for="abouttitle">Hakkımda Başlığı: </label>
 								<input type="text" class="form-control" asp-for="AboutTitle" id="abouttitle" required>
+								<span class="text-danger" asp-validation-for="AboutTitle"></span>
 							</div>
 							<div class="form-group">
 								<label for="aboutdescription">Hakkımda Açıklaması: </label>
 								<textarea type="text" class="form-control" asp-for="AboutDescription" id="aboutdescription" required></textarea>
+								<span class="text-danger" asp-validation-for="AboutDescription"></span>
 							</div>
 							<div class="form-group">
 								<label for="aboutimageurl">Hakkımda Görseli: </label>
 								<input type="file" class="form-control" asp-for="AboutImage" id="aboutimage" required>
-								@Html.ValidationMessageFor(x => x.AboutImage, "", new { @class = "text-danger" })
+								<span class="text-danger" asp-validation-for="AboutImage"></span>
 							</div>
 						</div>
 						<div class="card-action">

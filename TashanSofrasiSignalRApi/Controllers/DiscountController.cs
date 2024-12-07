@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TashanSofrasi.BusinessLayer.Abstract;
@@ -13,11 +14,13 @@ namespace TashanSofrasiSignalRApi.Controllers
     {
         private readonly IDiscountService _discountService;
         private readonly IMapper _mapper;
+        private readonly IValidator<UpdateDiscountDTO> _validator;
 
-        public DiscountController(IDiscountService discountService, IMapper mapper)
+        public DiscountController(IDiscountService discountService, IMapper mapper, IValidator<UpdateDiscountDTO> validator)
         {
             _discountService = discountService;
             _mapper = mapper;
+            _validator = validator;
         }
 
         [HttpGet]
@@ -46,6 +49,11 @@ namespace TashanSofrasiSignalRApi.Controllers
         [HttpPut]
         public IActionResult UpdateDiscount(UpdateDiscountDTO updateDiscountDTO)
         {
+            var validatorResult = _validator.Validate(updateDiscountDTO);
+            if (!validatorResult.IsValid)
+            {
+                return BadRequest(validatorResult.Errors);
+            }
             var newValue = _mapper.Map<Discount>(updateDiscountDTO);
             _discountService.TUpdate(newValue);
             return Ok("İndirim kaydı başarıyla güncellendi");
@@ -57,5 +65,19 @@ namespace TashanSofrasiSignalRApi.Controllers
             var value = _discountService.TGetByID(id);
             return Ok(value);
         }
-    }
+
+		[HttpPut("ChangeDiscountStatusToFalse/{id}")]
+		public IActionResult ChangeDiscountStatusToFalse(int id)
+		{
+			_discountService.TChangeDiscountStatusToFalse(id);
+			return Ok("İndirim başarıyla pasif hale getirildi!");
+		}
+
+		[HttpPut("ChangeDiscountStatusToTrue/{id}")]
+		public IActionResult ChangeDiscountStatusToTrue(int id)
+		{
+			_discountService.TChangeDiscountStatusToTrue(id);
+			return Ok("İndirim başarıyla aktif hale getirildi!");
+		}
+	}
 }

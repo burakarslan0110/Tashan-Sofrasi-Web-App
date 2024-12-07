@@ -23,7 +23,17 @@ namespace TashanSofrasi.BusinessLayer.Concrete
             _discountDal.Add(entity);
         }
 
-        public void TDelete(Discount entity)
+		public void TChangeDiscountStatusToFalse(int id)
+		{
+            _discountDal.ChangeDiscountStatusToFalse(id);
+		}
+
+		public void TChangeDiscountStatusToTrue(int id)
+		{
+			_discountDal.ChangeDiscountStatusToTrue(id);
+		}
+
+		public void TDelete(Discount entity)
         {
             _discountDal.Delete(entity);
         }

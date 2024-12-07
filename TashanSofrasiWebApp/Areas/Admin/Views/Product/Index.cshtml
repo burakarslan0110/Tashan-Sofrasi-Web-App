@@ -45,11 +45,11 @@
                                             <td><img width="50" height="50" src="@item.ProductImageURL" /></td>
                                             @if (item.ProductStatus == true)
                                             {
-                                                <td>Aktif</td>
+                                                <td><span class="badge badge-success">Aktif</span></td>
                                             }
                                             else
                                             {
-                                                <td>Pasif</td>
+                                                <td><span class="badge badge-danger">Pasif</span></td>
                                             }
                                             <td><a href="/Admin/Product/DeleteProduct/@item.ProductID" class="btn btn-outline-danger">Sil</a></td>
                                             <td><a href="/Admin/Product/UpdateProduct/@item.ProductID" class="btn btn-outline-success">Güncelle</a></td>

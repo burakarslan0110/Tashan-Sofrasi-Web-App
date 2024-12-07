@@ -9,5 +9,7 @@ namespace TashanSofrasi.BusinessLayer.Abstract
 {
     public interface IDiscountService : IGenericService<Discount>
     {
-    }
+		void TChangeDiscountStatusToFalse(int id);
+		void TChangeDiscountStatusToTrue(int id);
+	}
 }

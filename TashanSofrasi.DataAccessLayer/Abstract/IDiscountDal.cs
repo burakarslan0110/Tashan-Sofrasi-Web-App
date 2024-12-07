@@ -9,5 +9,7 @@ namespace TashanSofrasi.DataAccessLayer.Abstract
 {
     public interface IDiscountDal : IGenericDal<Discount>
     {
-    }
+        void ChangeDiscountStatusToTrue(int id);
+		void ChangeDiscountStatusToFalse(int id);
+	}
 }
