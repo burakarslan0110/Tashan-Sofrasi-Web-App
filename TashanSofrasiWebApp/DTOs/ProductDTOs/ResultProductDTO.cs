@@ -12,5 +12,6 @@ namespace TashanSofrasiWebApp.DTOs.ProductDTOs
 		public bool ProductStatus { get; set; }
 		public ResultCategoryDTO Category { get; set; }
 		public IFormFile ProductImage { get; set; }
+
 	}
 }

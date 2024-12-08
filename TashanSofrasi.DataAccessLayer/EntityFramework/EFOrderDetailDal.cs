@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,32 @@ namespace TashanSofrasi.DataAccessLayer.EntityFramework
         {
             using (var context = new TashanSofrasiContext())
             {
-                await context.SaveChangesAsync(); 
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public List<OrderDetail> GetAllOrderDetailsByMenuTableID(int menuTableID)
+        {
+            using (var context = new TashanSofrasiContext())
+            {
+                var result = context.OrderDetails
+                .Include(od => od.Order)
+                .Include(od => od.Product)
+                .Where(od => od.Order.MenuTableID == menuTableID)
+                .Where(od => od.Order.OrderStatus == false)
+                .Select(od => new OrderDetail
+                {
+                    OrderDetailID = od.OrderDetailID,
+                    OrderID = od.OrderID,
+                    ProductID = od.ProductID,
+                    Count = od.Count,
+                    UnitPrice = od.UnitPrice,
+                    TotalPrice = od.TotalPrice,
+                    Product = od.Product
+                })
+                .ToList();
+                return result;
+
             }
         }
     }

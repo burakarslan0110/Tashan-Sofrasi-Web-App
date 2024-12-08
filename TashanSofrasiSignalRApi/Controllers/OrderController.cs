@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TashanSofrasi.BusinessLayer.Abstract;
+using TashanSofrasi.DTOLayer.FeatureDTO;
 
 namespace TashanSofrasiSignalRApi.Controllers
 {
@@ -9,10 +11,12 @@ namespace TashanSofrasiSignalRApi.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
+        private readonly IMapper _mapper;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, IMapper mapper)
         {
             _orderService = orderService;
+            _mapper = mapper;
         }
 
         [HttpGet("TotalOrderCount")]
@@ -37,6 +41,13 @@ namespace TashanSofrasiSignalRApi.Controllers
         public IActionResult TodayAmount()
         {
             return Ok(_orderService.TTodayAmount());
+        }
+
+        [HttpPut("CompleteOrder/{orderID}")]
+        public IActionResult CompleteOrder(int orderID)
+        {
+            _orderService.TCompleteOrder(orderID);
+            return Ok("Sipariş başarıyla tamamlandı!");
         }
     }
 }

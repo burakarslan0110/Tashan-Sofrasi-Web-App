@@ -28,6 +28,7 @@ namespace TashanSofrasiWebApp.Controllers
             {
                 ProductID = id,
                 Count = count,
+                MenuTableID = Convert.ToInt32(HttpContext.Session.GetString("MenuTableID"))
             };
             var client = _clientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(createBasketDTO);

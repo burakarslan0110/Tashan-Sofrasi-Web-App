@@ -10,5 +10,7 @@ namespace TashanSofrasi.DataAccessLayer.Abstract
     public interface IOrderDetailDal : IGenericDal<OrderDetail>
     {
         void AddOrderDetailAsync();
+
+        List<OrderDetail> GetAllOrderDetailsByMenuTableID(int menuTableID);
     }
 }

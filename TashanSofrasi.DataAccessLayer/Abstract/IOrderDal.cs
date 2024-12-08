@@ -14,5 +14,6 @@ namespace TashanSofrasi.DataAccessLayer.Abstract
         decimal LastOrderPrice();
         decimal TodayAmount();
         void AddOrderAsync();
+        void CompleteOrder(int orderID);
     }
 }

@@ -1,0 +1,105 @@
+﻿@model TashanSofrasiWebApp.DTOs.MenuTableDTOs.MenuTableStatsDTO
+@{
+    ViewData["Title"] = "MenuTableStats";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int count = 0;
+    int orderID1 = 0;
+}
+<!-- Sağ Taraf: Sipariş Tablosu -->
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Masa İşlemleri</h4>
+        <div class="row">
+
+            @if(Model.updateMenuTableDTO.MenuTableStatus==false)
+            {
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Sipariş Durumu</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-sub">
+                                Bu tablo, masaya yapılan siparişlerin durumunu ve toplam fiyatını gösterir.
+                            </div>
+                            <div class="table-responsive">
+                            <table class="table mt-3">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Ürün Adı</th>
+                                        <th>Adet</th>
+                                        <th>Birim Fiyat</th>
+                                        <th>Toplam</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.orderDetailDTO)
+                                    {
+                                        orderID1 = item.OrderID;
+                                        count++;
+                                        <tr>
+                                            <td>@count</td>
+                                            <td>@item.Product.ProductName</td>
+                                            <td>@item.Count</td>
+                                            <td>@item.UnitPrice ₺</td>
+                                            <td>@item.TotalPrice ₺</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                        <!-- Toplam Fiyat Alanı -->
+                        <!-- Toplam Fiyat Alanı -->
+                        <div class="card-footer d-flex justify-content-between align-items-center">
+                            <!-- Sol Tarafta Butonlar -->
+                            <div class="d-flex justify-content-start">
+                                <form action="/Admin/Order/CompleteOrder/@orderID1" method="post">
+                                    <button type="submit" class="btn btn-success">Onayla</button>
+                                </form>
+                            </div>
+  
+                            <h6 class="mb-0">
+                                Toplam:
+                                <span class="badge badge-success" id="total-price" style="font-size: 1em;">
+                                    <span style="font-size: 1em;">@Model.orderDetailDTO.Sum(x => x.TotalPrice) ₺</span>
+                                </span>
+                            </h6>
+                        </div>
+
+
+                    </div>
+                </div>
+            }
+
+            @if (Model.updateMenuTableDTO.MenuTableStatus == true)
+            {
+                <div class="col-md-12">
+                    <form method="post" asp-action="MenuTableStats">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Masa Güncelleme</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-sub">
+                                    Bu sayfadan masanın adını güncelleyebilir veya masayı silebilirsiniz.
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" asp-for="@Model.updateMenuTableDTO.MenuTableID" class="form-control" />
+                                    <label for="bookingnamesurname">Masa Adı: </label>
+                                    <input type="text" class="form-control" asp-for="@Model.updateMenuTableDTO.MenuTableName" required>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                <button class="btn btn-primary">Masayı Güncelle</button>
+                                <a href="/Admin/MenuTable/DeleteMenuTable/@Model.updateMenuTableDTO.MenuTableID" class="btn btn-danger">Masayı Sil</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            }
+               
+        </div>
+    </div>
+</div>

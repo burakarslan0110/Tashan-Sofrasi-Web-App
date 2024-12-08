@@ -33,6 +33,11 @@ namespace TashanSofrasi.BusinessLayer.Concrete
              _orderDal.AddOrderAsync();
         }
 
+        public void TCompleteOrder(int orderID)
+        {
+            _orderDal.CompleteOrder(orderID);
+        }
+
         public void TDelete(Order entity)
         {
             _orderDal.Delete(entity);

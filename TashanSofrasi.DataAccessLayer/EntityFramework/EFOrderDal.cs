@@ -33,6 +33,16 @@ namespace TashanSofrasi.DataAccessLayer.EntityFramework
             }
         }
 
+        public void CompleteOrder(int orderID)
+        {
+            using (var context = new TashanSofrasiContext())
+            {
+                var order = context.Orders.Find(orderID);
+                order.OrderStatus = true;
+                context.SaveChanges();
+            }
+        }
+
         public decimal LastOrderPrice()
         {
             using (var context = new TashanSofrasiContext())

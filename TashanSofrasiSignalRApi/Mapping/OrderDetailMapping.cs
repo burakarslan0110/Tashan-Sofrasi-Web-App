@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using TashanSofrasi.DTOLayer.OrderDetailDTO;
+using TashanSofrasi.DTOLayer.OrderDetailDTOs;
 using TashanSofrasi.EntityLayer.Entities;
 
 namespace TashanSofrasiSignalRApi.Mapping
@@ -9,6 +9,7 @@ namespace TashanSofrasiSignalRApi.Mapping
         public OrderDetailMapping()
         {
             CreateMap<OrderDetail, CreateOrderDetailDTO>().ReverseMap();
+            CreateMap<OrderDetail, OrderDetailDTO>().ReverseMap();
 
         }
     }

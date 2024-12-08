@@ -1,39 +1,50 @@
-﻿@{
-    ViewData["Title"] = "Index";
+﻿@model List<TashanSofrasiWebApp.DTOs.MenuTableDTOs.ResultMenuTableDTO>
+
+@{
+    ViewData["Title"] = "QR Kod İşlemleri";
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
 <div class="content">
     <div class="container-fluid">
-        <h4 class="page-title">Qr Kod İşlemleri</h4>
+        <h2 class="page-title">Masa QR Oluşturma</h2>
+        <hr />
         <div class="row">
-            <div class="col-md-12">
-                <form method="post" asp-action="Index" asp-controller="QRCode">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">QR kod Oluşturma</div>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-sub">
-                                Bu sayfadan qr kod oluşturabilirsiiz.
+            <!-- Sol Taraf: Masalar -->
+            <div class="col-md-6">
+                <h4 class="page-title">Masalar</h4>
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-12">
+                            <div class="card card-stats mb-3">
+                                <div class="card-body d-flex justify-content-between align-items-center">
+                                    <h5 class="card-title">@item.MenuTableName</h5>
+                                    <form method="post" asp-action="Index" asp-controller="QRCode" class="m-0">
+                                        <input type="hidden" name="menuTableID" value="@item.MenuTableID" />
+                                        <button type="submit" class="btn btn-primary">QR Kod Oluştur</button>
+                                    </form>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="qrCode">QR Code Oluşturulacak URL</label>
-                                <input type="text" class="form-control" id="qrCode" name="value" placeholder="QR Code Oluşturulacak URL">
-                                <input type="submit" class="btn btn-primary" value="QR Code Oluştur">"
-                            </div>
                         </div>
-                    </div>
-                </form>
-                @if (ViewBag.QRCodeImage != null)
-                {
-                    <img src="@ViewBag.QRCodeImage" alt="" style="width:400px; height:400px;" />
-                }
+                    }
+                </div>
+            </div>
+
+            <!-- Sağ Taraf: QR Kod -->
+            <div class="col-md-6">
+                <h4 class="page-title">QR Kod</h4>
+                <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+                    @if (ViewBag.QRCodeImage != null)
+                    {
+                        <img src="@ViewBag.QRCodeImage" alt="QR Code" style="max-width: 400px; max-height: 400px;" />
+                    }
+                    else
+                    {
+                        <h4>Henüz bir QR kod oluşturulmadı. Lütfen bir masa seçin.</h4>
+                    }
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
-

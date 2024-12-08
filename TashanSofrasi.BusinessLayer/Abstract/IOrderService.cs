@@ -14,5 +14,6 @@ namespace TashanSofrasi.BusinessLayer.Abstract
         decimal TLastOrderPrice();
         decimal TTodayAmount();
         void TAddOrderAsync();
+        void TCompleteOrder(int orderID);
     }
 }

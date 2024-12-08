@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
+using TashanSofrasiWebApp.DTOs.OrderDetailDTOs;
 using TashanSofrasiWebApp.DTOs.MenuTableDTOs;
 
 namespace TashanSofrasiWebApp.Areas.Admin.Controllers
@@ -61,34 +62,56 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> UpdateMenuTable(int id)
+        public async Task<IActionResult> MenuTableStats(int id)
         {
             var client = _clientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:7053/api/MenuTable/{id}");
-            if (responseMessage.IsSuccessStatusCode)
+            var responseMenuTable = await client.GetAsync($"https://localhost:7053/api/MenuTable/{id}");
+            UpdateMenuTableDTO updateMenuTableDTO = null;
+            if (responseMenuTable.IsSuccessStatusCode)
             {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var value = JsonConvert.DeserializeObject<UpdateMenuTableDTO>(jsonData);
-                return View(value);
+                var jsonData = await responseMenuTable.Content.ReadAsStringAsync();
+                updateMenuTableDTO = JsonConvert.DeserializeObject<UpdateMenuTableDTO>(jsonData);
             }
-            return View();
+
+
+            var responseOrderDetail = await client.GetAsync($"https://localhost:7053/api/OrderDetail/{id}");
+            List<OrderDetailDTO> orderDetailDTOs = null;
+            if (responseOrderDetail.IsSuccessStatusCode)
+            {
+                var jsonData = await responseOrderDetail.Content.ReadAsStringAsync();
+                orderDetailDTOs = JsonConvert.DeserializeObject<List<OrderDetailDTO>>(jsonData);
+            }
+
+            var menuTableStats = new MenuTableStatsDTO
+            {
+                orderDetailDTO = orderDetailDTOs,
+                updateMenuTableDTO = updateMenuTableDTO
+            };
+            return View(menuTableStats);
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateMenuTable(UpdateMenuTableDTO updateMenuTableDTO)
+        public async Task<IActionResult> MenuTableStats(MenuTableStatsDTO menuTableStatsDTO)
         {
-            updateMenuTableDTO.MenuTableStatus = true;
+            if (!ModelState.IsValid)
+            {
+                return View(menuTableStatsDTO);
+            }
+
             var client = _clientFactory.CreateClient();
-            var jsonData = JsonConvert.SerializeObject(updateMenuTableDTO);
-            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:7053/api/MenuTable", stringContent);
-            if (responseMessage.IsSuccessStatusCode)
+
+            menuTableStatsDTO.updateMenuTableDTO.MenuTableStatus = true;
+            var menuTableJson = JsonConvert.SerializeObject(menuTableStatsDTO.updateMenuTableDTO);
+            StringContent menuTableContent = new StringContent(menuTableJson, Encoding.UTF8, "application/json");
+            var menuTableResponse = await client.PutAsync("https://localhost:7053/api/MenuTable", menuTableContent);
+
+            if (menuTableResponse.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(menuTableStatsDTO);
         }
 
-
+        
     }
 }

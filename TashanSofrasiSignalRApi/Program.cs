@@ -1,5 +1,5 @@
-using FluentValidation;
 using FluentValidation.AspNetCore;
+using FluentValidation;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using TashanSofrasi.BusinessLayer.Abstract;
@@ -12,14 +12,11 @@ using TashanSofrasi.BusinessLayer.ValidationRules.FooterValidations;
 using TashanSofrasi.DataAccessLayer.Abstract;
 using TashanSofrasi.DataAccessLayer.Concrete;
 using TashanSofrasi.DataAccessLayer.EntityFramework;
-using TashanSofrasi.DTOLayer.AboutDTO;
-using TashanSofrasi.DTOLayer.BookingDTO;
-using TashanSofrasi.EntityLayer.Entities;
 using TashanSofrasiSignalRApi.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(opt=>
+builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("CorsPolicy", builder =>
     {
@@ -30,14 +27,22 @@ builder.Services.AddCors(opt=>
     });
 });
 
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromMinutes(60);
+    options.Cookie.SameSite = SameSiteMode.None;
+});
+
 builder.Services.AddSignalR();
 
 // Add services to the container.
 builder.Services.AddDbContext<TashanSofrasiContext>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-builder.Services.AddScoped<IAboutService,AboutManager>();   
-builder.Services.AddScoped<IAboutDal, EFAboutDal>();   
+builder.Services.AddScoped<IAboutService, AboutManager>();
+builder.Services.AddScoped<IAboutDal, EFAboutDal>();
 
 builder.Services.AddScoped<IBookingService, BookingManager>();
 builder.Services.AddScoped<IBookingDal, EFBookingDal>();
@@ -103,6 +108,8 @@ builder.Services.AddControllersWithViews()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -120,7 +127,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
-
+app.UseSession();
 app.UseAuthorization();
 
 app.MapControllers();

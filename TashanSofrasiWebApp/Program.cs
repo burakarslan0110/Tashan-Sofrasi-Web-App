@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Extensions.Options;
 using TashanSofrasi.DataAccessLayer.Concrete;
 using TashanSofrasi.EntityLayer.Entities;
 
@@ -9,26 +10,38 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<TashanSofrasiContext>();
-builder.Services.AddIdentity<AppUser,AppRole>().AddEntityFrameworkStores<TashanSofrasiContext>();
+builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<TashanSofrasiContext>();
 builder.Services.AddHttpClient();
 var requireAuthorizationPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-builder.Services.AddControllersWithViews(opt=>opt.Filters.Add(new AuthorizeFilter(requireAuthorizationPolicy)));
+builder.Services.AddControllersWithViews(opt => opt.Filters.Add(new AuthorizeFilter(requireAuthorizationPolicy)));
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.IdleTimeout = TimeSpan.FromMinutes(60); // Oturum süresi
+});
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.ConfigureApplicationCookie(opts =>
 {
     opts.LoginPath = "/Login/";
+    opts.LogoutPath = "/Login/Logout";
 });
 
 var app = builder.Build();
 
 app.UseStatusCodePages(async x =>
 {
-    if(x.HttpContext.Response.StatusCode == 404)
+    if (x.HttpContext.Response.StatusCode == 404)
     {
         x.HttpContext.Response.Redirect("/Error/NotFound404");
     }
-    
+
 });
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -40,9 +53,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseStatusCodePagesWithReExecute("/Error/Error404", "?code={0}");
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
 app.UseAuthentication();
 app.UseEndpoints(endpoints =>
@@ -60,5 +73,3 @@ app.UseEndpoints(endpoints =>
 
 
 app.Run();
-
-

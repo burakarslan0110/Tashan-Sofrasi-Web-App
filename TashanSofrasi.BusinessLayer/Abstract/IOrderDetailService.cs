@@ -10,5 +10,6 @@ namespace TashanSofrasi.BusinessLayer.Abstract
     public interface IOrderDetailService : IGenericService<OrderDetail> 
     {
        void TAddOrderDetailAsync();
+       List<OrderDetail> TGetAllOrderDetailsByMenuTableID(int menuTableID);
     }
 }

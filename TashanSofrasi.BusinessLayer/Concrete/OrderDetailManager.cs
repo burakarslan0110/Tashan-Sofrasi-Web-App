@@ -33,6 +33,11 @@ namespace TashanSofrasi.BusinessLayer.Concrete
             _orderDetailDal.Delete(entity);
         }
 
+        public List<OrderDetail> TGetAllOrderDetailsByMenuTableID(int menuTableID)
+        {
+            return _orderDetailDal.GetAllOrderDetailsByMenuTableID(menuTableID);
+        }
+
         public OrderDetail TGetByID(int id)
         {
             return _orderDetailDal.GetByID(id);

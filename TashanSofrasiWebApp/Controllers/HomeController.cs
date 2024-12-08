@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.SignalR.Protocol;
 using Newtonsoft.Json;
 using System.Text;
 using TashanSofrasiWebApp.DTOs.BookingDTOs;
+using TashanSofrasiWebApp.Models;
 
 namespace TashanSofrasiWebApp.Controllers
 {
@@ -18,6 +19,7 @@ namespace TashanSofrasiWebApp.Controllers
         }
         public IActionResult Index()
         {
+           
             return View();
         }
 

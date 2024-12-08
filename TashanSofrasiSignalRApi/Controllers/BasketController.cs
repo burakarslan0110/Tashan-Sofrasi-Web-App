@@ -6,7 +6,7 @@ using TashanSofrasi.BusinessLayer.Abstract;
 using TashanSofrasi.DataAccessLayer.Concrete;
 using TashanSofrasi.DTOLayer.BasketDTO;
 using TashanSofrasi.DTOLayer.BookingDTO;
-using TashanSofrasi.DTOLayer.OrderDetailDTO;
+using TashanSofrasi.DTOLayer.OrderDetailDTOs;
 using TashanSofrasi.DTOLayer.OrderDTO;
 using TashanSofrasi.EntityLayer.Entities;
 
