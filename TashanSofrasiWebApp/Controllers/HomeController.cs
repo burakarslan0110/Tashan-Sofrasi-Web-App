@@ -17,9 +17,29 @@ namespace TashanSofrasiWebApp.Controllers
         {
             _clientFactory = clientFactory;
         }
-        public IActionResult Index()
+        public IActionResult Index(string id)
         {
-           
+            if (!string.IsNullOrEmpty(id))
+            {
+                // Cookie'yi oluşturup istemciye gönderiyoruz
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,                // Tarayıcıdan erişim kısıtlanır
+                    SameSite = SameSiteMode.None,   // Cross-Origin desteği için gerekli
+                    Secure = true,                  // HTTPS kullanılıyorsa
+                    Expires = DateTime.UtcNow.AddHours(1) // Cookie'nin geçerlilik süresi
+                };
+
+                Response.Cookies.Append("MenuTableID", id, cookieOptions);
+
+                // URL'deki parametreyi temizlemek için Redirect yapıyoruz
+                return RedirectToAction("Index");
+            }
+            // Cookie'deki MenuTableID'yi alıyoruz
+            var menuTableId = Request.Cookies["MenuTableID"];
+
+            // View'e MenuTableID'yi gönderiyoruz (isteğe bağlı)
+            ViewBag.MenuTableID = Convert.ToInt32(menuTableId);
             return View();
         }
 

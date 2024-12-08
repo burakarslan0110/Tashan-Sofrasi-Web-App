@@ -41,7 +41,6 @@ namespace TashanSofrasiSignalRApi.Controllers
         [HttpPost]
         public IActionResult CreateBasket(CreateBasketDTO createBasketDTO)
         {
-            createBasketDTO.MenuTableID = 1;
             var basket = _basketService.TGetBasketByProductID(createBasketDTO.ProductID, createBasketDTO.MenuTableID);
 
             if (basket != null)

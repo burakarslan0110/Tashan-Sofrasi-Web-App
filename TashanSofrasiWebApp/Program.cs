@@ -15,15 +15,6 @@ builder.Services.AddHttpClient();
 var requireAuthorizationPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
 builder.Services.AddControllersWithViews(opt => opt.Filters.Add(new AuthorizeFilter(requireAuthorizationPolicy)));
 
-builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options =>
-{
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-    options.Cookie.SameSite = SameSiteMode.None;
-    options.IdleTimeout = TimeSpan.FromMinutes(60); // Oturum süresi
-});
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.ConfigureApplicationCookie(opts =>
 {
     opts.LoginPath = "/Login/";
@@ -41,8 +32,6 @@ app.UseStatusCodePages(async x =>
 
 });
 
-
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -55,7 +44,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseStatusCodePagesWithReExecute("/Error/Error404", "?code={0}");
 app.UseRouting();
-app.UseSession();
 app.UseAuthorization();
 app.UseAuthentication();
 app.UseEndpoints(endpoints =>

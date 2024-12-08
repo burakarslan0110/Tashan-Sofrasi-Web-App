@@ -27,14 +27,6 @@ builder.Services.AddCors(opt =>
     });
 });
 
-builder.Services.AddSession(options =>
-{
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-    options.IdleTimeout = TimeSpan.FromMinutes(60);
-    options.Cookie.SameSite = SameSiteMode.None;
-});
-
 builder.Services.AddSignalR();
 
 // Add services to the container.
@@ -127,9 +119,13 @@ if (app.Environment.IsDevelopment())
 app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
-app.UseSession();
 app.UseAuthorization();
-
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.Always,
+    MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None,
+    Secure = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always
+});
 app.MapControllers();
 
 app.MapHub<SignalRHub>("/signalrhub");

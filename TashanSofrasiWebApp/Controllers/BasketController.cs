@@ -17,8 +17,10 @@ namespace TashanSofrasiWebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var cookieValue = Request.Cookies["MenuTableID"];
+            int id = Convert.ToInt32(cookieValue);
             var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync("https://localhost:7053/api/Basket?id=1");
+            var response = await client.GetAsync($"https://localhost:7053/api/Basket?id={id}");
             if (response.IsSuccessStatusCode)
             {
                 var jsonData = await response.Content.ReadAsStringAsync();
