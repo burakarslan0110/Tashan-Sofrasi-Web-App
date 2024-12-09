@@ -19,6 +19,7 @@ builder.Services.ConfigureApplicationCookie(opts =>
 {
     opts.LoginPath = "/Login/";
     opts.LogoutPath = "/Login/Logout";
+    opts.AccessDeniedPath = "/Error/NotFound404";
 });
 
 var app = builder.Build();
@@ -30,6 +31,22 @@ app.UseStatusCodePages(async x =>
         x.HttpContext.Response.Redirect("/Error/NotFound404");
     }
 
+});
+
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path.Equals("/Admin", StringComparison.OrdinalIgnoreCase))
+    {
+        context.Response.Redirect("/Admin/Statistic");
+    }
+    else if (context.Request.Path.Equals("/Admin/", StringComparison.OrdinalIgnoreCase))
+    {
+        context.Response.Redirect("/Admin/Statistic");
+    }
+    else
+    {
+        await next();
+    }
 });
 
 // Configure the HTTP request pipeline.

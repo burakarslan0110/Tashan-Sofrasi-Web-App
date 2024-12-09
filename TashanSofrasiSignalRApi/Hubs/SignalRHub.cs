@@ -100,19 +100,5 @@ namespace TashanSofrasiSignalRApi.Hubs
             await Clients.All.SendAsync("ReceiveMenuTableStatus", values);
         }
 
-        public override async Task OnConnectedAsync()
-        {
-            ClientCount++;
-            await Clients.All.SendAsync("ReceiveClientCount", ClientCount);
-            await base.OnConnectedAsync();
-        }
-
-        public override async Task OnDisconnectedAsync(Exception? exception)
-        {
-            ClientCount--;
-            await Clients.All.SendAsync("ReceiveClientCount", ClientCount);
-            await base.OnDisconnectedAsync(exception);
-        }
-
     }
 }

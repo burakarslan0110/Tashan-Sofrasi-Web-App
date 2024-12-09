@@ -9,10 +9,12 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
     public class SettingController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public SettingController(UserManager<AppUser> userManager)
+        public SettingController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpGet]
@@ -43,9 +45,13 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 				var result = await _userManager.UpdateAsync(user);
 				if (result.Succeeded)
 				{
-                    return RedirectToAction("Index","Category");
-				}
-				else
+                    await _signInManager.SignOutAsync();
+
+                    // Kullanıcıyı giriş sayfasına yönlendir
+                    return RedirectToAction("Index","Login", new { area = "" });
+
+                }
+                else
 				{
 					foreach (var item in result.Errors)
 					{

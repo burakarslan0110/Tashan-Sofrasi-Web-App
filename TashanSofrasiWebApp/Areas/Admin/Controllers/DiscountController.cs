@@ -70,7 +70,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
                 // Görsel yolunu DTO'ya ekle
                 updateDiscountDTO.DiscountImageURL = $"/images/discounts/{uniqueFileName}";
             }
-            var client = _httpClientFactory.CreateClient();
+            updateDiscountDTO.DiscountStatus = true;
+			var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(updateDiscountDTO);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
             var responseMessage = await client.PutAsync("https://localhost:7053/api/Discount/", stringContent);

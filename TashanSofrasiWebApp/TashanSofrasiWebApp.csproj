@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Shared\Components\_LayoutFooterPartialComponent2\**" />
     <Compile Remove="wwwroot\lib\microsoft\**" />
+    <Content Remove="Views\Shared\Components\_LayoutFooterPartialComponent2\**" />
     <Content Remove="wwwroot\lib\microsoft\**" />
+    <EmbeddedResource Remove="Views\Shared\Components\_LayoutFooterPartialComponent2\**" />
     <EmbeddedResource Remove="wwwroot\lib\microsoft\**" />
+    <None Remove="Views\Shared\Components\_LayoutFooterPartialComponent2\**" />
     <None Remove="wwwroot\lib\microsoft\**" />
   </ItemGroup>
 
@@ -30,6 +34,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Models\" />
     <Folder Include="wwwroot\lib\microsoft\" />
   </ItemGroup>
 

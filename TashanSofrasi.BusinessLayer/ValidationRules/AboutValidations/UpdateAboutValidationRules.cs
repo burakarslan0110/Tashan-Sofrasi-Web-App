@@ -20,7 +20,7 @@ namespace TashanSofrasi.BusinessLayer.ValidationRules.AboutValidations
             RuleFor(x => x.AboutDescription).MinimumLength(10).WithMessage("Hakkımda içeriği en az 10 karakter olmalıdır.");
 
             RuleFor(x => x.AboutTitle).MaximumLength(50).WithMessage("Hakkımda başlığı en fazla 50 karakter olmalıdır.");
-            RuleFor(x => x.AboutDescription).MaximumLength(350).WithMessage("Hakkımda içeriği en fazla 350 karakter olmalıdır.");
+            RuleFor(x => x.AboutDescription).MaximumLength(1100).WithMessage("Hakkımda içeriği en fazla 1100 karakter olmalıdır.");
 
 
         }

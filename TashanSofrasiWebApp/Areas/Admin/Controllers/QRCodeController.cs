@@ -35,7 +35,7 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Index(int menuTableID)
         {
-            string baseUrl = "https://localhost:7114/Home/Index"; // Ana sayfanın URL'si
+            string baseUrl = "https://127.0.0.1:7114/Home/Index"; // Ana sayfanın URL'si
             string fullUrl = $"{baseUrl}?id={menuTableID}";
             using (MemoryStream memoryStream = new MemoryStream())
             {

@@ -549,7 +549,20 @@ namespace TashanSofrasi.DataAccessLayer.Migrations
 
                     b.HasIndex("MenuTableID");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", t =>
+                        {
+                            t.HasTrigger("SumCashRegisters");
+
+                            t.HasTrigger("UpdateMenuTableStatusAfterInsert");
+
+                            t.HasTrigger("UpdateMenuTableStatusAfterUpdate");
+
+                            t.HasTrigger("trg_OrderNotif");
+
+                            t.HasTrigger("trg_PreventMultipleOrdersForSameTable");
+                        });
+
+                    b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
 
             modelBuilder.Entity("TashanSofrasi.EntityLayer.Entities.OrderDetail", b =>
@@ -581,7 +594,14 @@ namespace TashanSofrasi.DataAccessLayer.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetails", t =>
+                        {
+                            t.HasTrigger("SetOrderTotalPrice");
+
+                            t.HasTrigger("trg_SetUnitPriceOnInsertOrUpdate");
+                        });
+
+                    b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
 
             modelBuilder.Entity("TashanSofrasi.EntityLayer.Entities.Product", b =>

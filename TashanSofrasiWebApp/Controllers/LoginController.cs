@@ -28,7 +28,7 @@ namespace TashanSofrasiWebApp.Controllers
             var result = await _signInManager.PasswordSignInAsync(loginDTO.Username, loginDTO.Password, false,false);
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Statistic", "Admin");
             }
             else
             {

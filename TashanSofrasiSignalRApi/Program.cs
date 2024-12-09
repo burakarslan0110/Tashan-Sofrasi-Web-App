@@ -20,10 +20,10 @@ builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("CorsPolicy", builder =>
     {
-        builder.AllowAnyHeader().
-        AllowAnyMethod().
-        SetIsOriginAllowed((host) => true).
-        AllowCredentials();
+        builder.WithOrigins("https://localhost:7114") 
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials();
     });
 });
 
