@@ -4,23 +4,49 @@ services:
   tashansofrasi.db:
     container_name: tashansofrasi.db-container
     image: burakarslan0110/tashansofrasidb-image:v1
+    environment:
+    - SA_PASSWORD=Passw@rd1.
+    - ACCEPT_EULA=Y
+    volumes:
+    - tashansofrasi.db-volume:/var/opt/mssql
+    ports:
+    - "1433:1433"
   tashansofrasi.signalrapi:
     container_name: tashansofrasi.signalrapi-container
-    image: tashansofrasisignalrapi-image
-    build:
-      context: .
-      dockerfile: TashanSofrasiSignalRApi/Dockerfile
+    image: burakarslan0110/tashansofrasisignalrapi-image
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Production
+    - ASPNETCORE_HTTP_PORTS=8080
+    - ASPNETCORE_HTTPS_PORTS=8081
+    - DB_HOST=tashansofrasi.db
+    - DB_NAME=TashanSofrasiDB
+    - DB_SA_PASSWORD=Passw@rd1.
+    ports:
+    - "8080:8080"
+    - "8081:8081"
+    volumes:
+    - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+    - ./Https:/Https:ro
     depends_on:
-    - tashansofrasi.db
+     - tashansofrasi.db
   tashansofrasi.webapp:
     container_name: tashansofrasi.webapp-container
-    image: tashansofrasiwebapp-image
-    build:
-      context: .
-      dockerfile: TashanSofrasiWebApp/Dockerfile
+    image: burakarslan0110/tashansofrasiwebapp
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Production
+    - ASPNETCORE_HTTP_PORTS=8082
+    - ASPNETCORE_HTTPS_PORTS=8083
+    - DB_HOST=tashansofrasi.db
+    - DB_NAME=TashanSofrasiDB
+    - DB_SA_PASSWORD=Passw@rd1.
+    ports:
+    - "8082:8082"
+    - "8083:8083"
+    volumes:
+    - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+    - ./Https:/Https:ro
     depends_on:
-      - tashansofrasi.signalrapi
-      - tashansofrasi.db
+    - tashansofrasi.signalrapi
+    - tashansofrasi.db
 volumes:
   tashansofrasi.db-volume:
-   
