@@ -10,16 +10,19 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
     public class DiscountController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
 
-        public DiscountController(IHttpClientFactory httpClientFactory)
+        public DiscountController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
+
         }
 
         public async Task<IActionResult> Index()
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7053/api/Discount");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Discount");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -32,8 +35,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         [HttpGet]
         public async Task<ActionResult> UpdateDiscount(int id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:7053/api/Discount/{id}");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Discount/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -71,10 +74,10 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
                 updateDiscountDTO.DiscountImageURL = $"/images/discounts/{uniqueFileName}";
             }
             updateDiscountDTO.DiscountStatus = true;
-			var client = _httpClientFactory.CreateClient();
+			var client = _httpClientFactory.CreateClient("Default");
             var jsonData = JsonConvert.SerializeObject(updateDiscountDTO);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:7053/api/Discount/", stringContent);
+            var responseMessage = await client.PutAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Discount/", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -99,8 +102,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 
         public async Task<IActionResult> ChangeDiscountStatusToTrue(int id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.PutAsync($"https://localhost:7053/api/Discount/ChangeDiscountStatusToTrue/{id}", null);
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.PutAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Discount/ChangeDiscountStatusToTrue/{id}", null);
 			if (responseMessage.IsSuccessStatusCode)
 			{
 				return RedirectToAction("Index");
@@ -110,8 +113,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 
 		public async Task<IActionResult> ChangeDiscountStatusToFalse(int id)
 		{
-			var client = _httpClientFactory.CreateClient();
-			var responseMessage = await client.PutAsync($"https://localhost:7053/api/Discount/ChangeDiscountStatusToFalse/{id}", null);
+			var client = _httpClientFactory.CreateClient("Default");
+			var responseMessage = await client.PutAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Discount/ChangeDiscountStatusToFalse/{id}", null);
 			if (responseMessage.IsSuccessStatusCode)
 			{
 				return RedirectToAction("Index");

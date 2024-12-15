@@ -9,16 +9,19 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
     public class SocialMediaController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
 
-        public SocialMediaController(IHttpClientFactory httpClientFactory)
+        public SocialMediaController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
+
         }
 
         public async Task<IActionResult> Index()
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7053/api/SocialMedia/");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/SocialMedia/");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -37,10 +40,10 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSocialMedia(CreateSocialMediaDTO createSocialMediaDTO)
         {
-            var client = _httpClientFactory.CreateClient();
+            var client = _httpClientFactory.CreateClient("Default");
             var jsonData = JsonConvert.SerializeObject(createSocialMediaDTO);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7053/api/SocialMedia/", stringContent);
+            var responseMessage = await client.PostAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/SocialMedia/", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -50,8 +53,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteSocialMedia(int id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:7053/api/SocialMedia/{id}");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.DeleteAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/SocialMedia/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -62,8 +65,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateSocialMedia(int id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:7053/api/SocialMedia/{id}");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/SocialMedia/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -76,10 +79,10 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateSocialMedia(UpdateSocialMediaDTO updateSocialMediaDTO)
         {
-            var client = _httpClientFactory.CreateClient();
+            var client = _httpClientFactory.CreateClient("Default");
             var jsonData = JsonConvert.SerializeObject(updateSocialMediaDTO);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:7053/api/SocialMedia/", stringContent);
+            var responseMessage = await client.PutAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/SocialMedia/", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");

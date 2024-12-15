@@ -14,10 +14,13 @@ namespace TashanSofrasi.DataAccessLayer.Concrete
 {
     public class TashanSofrasiContext : IdentityDbContext<AppUser, AppRole, int>
     {
+       
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer($"Server=(localdb)\\MSSQLLocalDB; Database=TashanSofrasiDB; TrustServerCertificate=True");
-            
+            var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+            var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+            var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
+            optionsBuilder.UseSqlServer($"Server={dbHost}; Database={dbName}; User ID=SA; Password={dbPassword}; TrustServerCertificate=True");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

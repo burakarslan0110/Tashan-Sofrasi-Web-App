@@ -10,16 +10,19 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
     public class MenuTableController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IConfiguration _configuration;
 
-        public MenuTableController(IHttpClientFactory clientFactory)
+        public MenuTableController(IHttpClientFactory clientFactory, IConfiguration configuration)
         {
             _clientFactory = clientFactory;
+            _configuration = configuration;
+
         }
 
         public async Task<IActionResult> Index()
         {
-            var client = _clientFactory.CreateClient();
-            var responseMessage = client.GetAsync("https://localhost:7053/api/MenuTable");
+            var client = _clientFactory.CreateClient("Default");
+            var responseMessage = client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/MenuTable");
             if (responseMessage.Result.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Result.Content.ReadAsStringAsync();
@@ -39,10 +42,10 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         public async Task<IActionResult> CreateMenuTable(CreateMenuTableDTO createMenuTableDTO)
         {
             createMenuTableDTO.MenuTableStatus = true;
-            var client = _clientFactory.CreateClient();
+            var client = _clientFactory.CreateClient("Default");
             var jsonData = JsonConvert.SerializeObject(createMenuTableDTO);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7053/api/MenuTable", stringContent);
+            var responseMessage = await client.PostAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/MenuTable", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -52,8 +55,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteMenuTable(int id)
         {
-            var client = _clientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:7053/api/MenuTable/{id}");
+            var client = _clientFactory.CreateClient("Default");
+            var responseMessage = await client.DeleteAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/MenuTable/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -64,8 +67,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> MenuTableStats(int id)
         {
-            var client = _clientFactory.CreateClient();
-            var responseMenuTable = await client.GetAsync($"https://localhost:7053/api/MenuTable/{id}");
+            var client = _clientFactory.CreateClient("Default");
+            var responseMenuTable = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/MenuTable/{id}");
             UpdateMenuTableDTO updateMenuTableDTO = null;
             if (responseMenuTable.IsSuccessStatusCode)
             {
@@ -74,7 +77,7 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
             }
 
 
-            var responseOrderDetail = await client.GetAsync($"https://localhost:7053/api/OrderDetail/{id}");
+            var responseOrderDetail = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/OrderDetail/{id}");
             List<OrderDetailDTO> orderDetailDTOs = null;
             if (responseOrderDetail.IsSuccessStatusCode)
             {
@@ -98,12 +101,11 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
                 return View(menuTableStatsDTO);
             }
 
-            var client = _clientFactory.CreateClient();
-
+            var client = _clientFactory.CreateClient("Default");
             menuTableStatsDTO.updateMenuTableDTO.MenuTableStatus = true;
             var menuTableJson = JsonConvert.SerializeObject(menuTableStatsDTO.updateMenuTableDTO);
             StringContent menuTableContent = new StringContent(menuTableJson, Encoding.UTF8, "application/json");
-            var menuTableResponse = await client.PutAsync("https://localhost:7053/api/MenuTable", menuTableContent);
+            var menuTableResponse = await client.PutAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/MenuTable", menuTableContent);
 
             if (menuTableResponse.IsSuccessStatusCode)
             {

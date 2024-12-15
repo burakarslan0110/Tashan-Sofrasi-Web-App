@@ -9,16 +9,19 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
     public class TestimonialController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
 
-        public TestimonialController(IHttpClientFactory httpClientFactory)
+        public TestimonialController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
+
         }
 
         public async Task<IActionResult> Index()
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7053/api/Testimonial");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Testimonial");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -62,10 +65,10 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
                 createTestimonialDTO.TestimonialImageURL = $"/images/testimonials/{uniqueFileName}";
             }
             createTestimonialDTO.TestimonialStatus = true;
-            var client = _httpClientFactory.CreateClient();
+            var client = _httpClientFactory.CreateClient("Default");
             var jsonData = JsonConvert.SerializeObject(createTestimonialDTO);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7053/api/Testimonial", stringContent);
+            var responseMessage = await client.PostAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Testimonial", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -75,8 +78,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteTestimonial(int id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:7053/api/Testimonial/{id}");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.DeleteAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Testimonial/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -87,8 +90,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateTestimonial(int id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:7053/api/Testimonial/{id}");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Testimonial/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -126,10 +129,10 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
                 updateTestimonialDTO.TestimonialImageURL = $"/images/testimonials/{uniqueFileName}";
             }
             updateTestimonialDTO.TestimonialStatus = true;
-            var client = _httpClientFactory.CreateClient();
+            var client = _httpClientFactory.CreateClient("Default");
             var jsonData = JsonConvert.SerializeObject(updateTestimonialDTO);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:7053/api/Testimonial", stringContent);
+            var responseMessage = await client.PutAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Testimonial", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -139,8 +142,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 
         public async Task<IActionResult> ChangeTestimonialStatusToFalse(int id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.PutAsync($"https://localhost:7053/api/Testimonial/ChangeTestimonialStatusToFalse/{id}", null);
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.PutAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Testimonial/ChangeTestimonialStatusToFalse/{id}", null);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -150,8 +153,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 
         public async Task<IActionResult> ChangeTestimonialStatusToTrue(int id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.PutAsync($"https://localhost:7053/api/Testimonial/ChangeTestimonialStatusToTrue/{id}", null);
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.PutAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Testimonial/ChangeTestimonialStatusToTrue/{id}", null);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");

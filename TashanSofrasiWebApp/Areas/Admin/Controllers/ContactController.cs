@@ -8,16 +8,19 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
     public class ContactController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
 
-        public ContactController(IHttpClientFactory httpClientFactory)
+        public ContactController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
+
         }
 
         public async Task<IActionResult> Index()
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7053/api/Contact");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Contact");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -30,8 +33,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ViewContact(int id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:7053/api/Contact/{id}");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Contact/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -43,8 +46,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteContact(int id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:7053/api/Contact/{id}");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.DeleteAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Contact/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");

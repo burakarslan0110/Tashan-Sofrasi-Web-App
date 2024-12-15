@@ -10,17 +10,20 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
     public class FooterController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
 
-        public FooterController(IHttpClientFactory httpClientFactory)
+        public FooterController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
+
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7053/api/Footer/1");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Footer/1");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -34,10 +37,10 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         public async Task<IActionResult> Index(UpdateFooterDTO updateFooterDTO)
         {
             updateFooterDTO.FooterID = 1;
-            var client = _httpClientFactory.CreateClient();
+            var client = _httpClientFactory.CreateClient("Default");
             var JsonData = JsonConvert.SerializeObject(updateFooterDTO);
             StringContent stringContent = new StringContent(JsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:7053/api/Footer/", stringContent);
+            var responseMessage = await client.PutAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Footer/", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
