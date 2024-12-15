@@ -9,18 +9,21 @@ namespace TashanSofrasiWebApp.Controllers
 	public class BasketController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IConfiguration _configuration;
 
-        public BasketController(IHttpClientFactory clientFactory)
+        public BasketController(IHttpClientFactory clientFactory, IConfiguration configuration)
         {
             _clientFactory = clientFactory;
+            _configuration = configuration;
+
         }
 
         public async Task<IActionResult> Index()
         {
             var cookieValue = Request.Cookies["MenuTableID"];
             int id = Convert.ToInt32(cookieValue);
-            var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync($"https://localhost:7053/api/Basket?id={id}");
+            var client = _clientFactory.CreateClient("Default");
+            var response = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Basket?id={id}");
             if (response.IsSuccessStatusCode)
             {
                 var jsonData = await response.Content.ReadAsStringAsync();
@@ -32,8 +35,8 @@ namespace TashanSofrasiWebApp.Controllers
 
         public async Task<IActionResult> DeleteBasket(int id)
         {
-           var client = _clientFactory.CreateClient();
-            var response = await client.DeleteAsync($"https://localhost:7053/api/Basket/{id}");
+           var client = _clientFactory.CreateClient("Default");
+            var response = await client.DeleteAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Basket/{id}");
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -49,8 +52,8 @@ namespace TashanSofrasiWebApp.Controllers
                 return BadRequest("Geçerli bir menuTableId gönderilmedi.");
             }
 
-            var client = _clientFactory.CreateClient();
-            var response = await client.PostAsync($"https://localhost:7053/api/Basket/CompleteOrder/{menuTableId}", null);
+            var client = _clientFactory.CreateClient("Default");
+            var response = await client.PostAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Basket/CompleteOrder/{menuTableId}", null);
 
             if (response.IsSuccessStatusCode)
             {

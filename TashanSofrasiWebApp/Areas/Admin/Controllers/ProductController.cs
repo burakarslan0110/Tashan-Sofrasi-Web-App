@@ -12,16 +12,19 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
 
-        public ProductController(IHttpClientFactory httpClientFactory)
+        public ProductController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
+
         }
 
         public async Task<IActionResult> Index()
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7053/api/Product/ListProductWithCategory");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Product/ListProductWithCategory");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -34,8 +37,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateProduct()
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7053/api/Category");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Category");
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
             var values = JsonConvert.DeserializeObject<List<ResultCategoryDTO>>(jsonData);
 			List<SelectListItem> valuespick = values.Select(x => new SelectListItem
@@ -76,10 +79,10 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 			}
 
 			createProductDTO.ProductStatus = true;
-            var client = _httpClientFactory.CreateClient();
+            var client = _httpClientFactory.CreateClient("Default");
             var jsonData = JsonConvert.SerializeObject(createProductDTO);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7053/api/Product", stringContent);
+            var responseMessage = await client.PostAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Product", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -89,8 +92,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:7053/api/Product/{id}");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.DeleteAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Product/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -101,8 +104,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateProduct(int id)
         {
-            var client1 = _httpClientFactory.CreateClient();
-            var responseMessage1 = await client1.GetAsync("https://localhost:7053/api/Category");
+            var client1 = _httpClientFactory.CreateClient("Default");
+            var responseMessage1 = await client1.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Category");
             var jsonData1 = await responseMessage1.Content.ReadAsStringAsync();
             var values1 = JsonConvert.DeserializeObject<List<ResultCategoryDTO>>(jsonData1);
 			List<SelectListItem> valuespick = values1.Select(x => new SelectListItem
@@ -113,8 +116,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 
 			ViewBag.valuespickcategory = valuespick;
 
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:7053/api/Product/{id}");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Product/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -152,10 +155,10 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 				updateProductDTO.ProductImageURL = $"/images/products/{uniqueFileName}";
 			}
 			updateProductDTO.ProductStatus = true;
-            var client = _httpClientFactory.CreateClient();
+            var client = _httpClientFactory.CreateClient("Default");
             var jsonData = JsonConvert.SerializeObject(updateProductDTO);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responeMessage = await client.PutAsync($"https://localhost:7053/api/Product/", stringContent);
+            var responeMessage = await client.PutAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Product/", stringContent);
             if (responeMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -165,8 +168,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 
         public async Task<IActionResult> ChangeProductStatusToTrue(int id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.PutAsync($"https://localhost:7053/api/Product/ChangeProductStatusToTrue/{id}",null);
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.PutAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Product/ChangeProductStatusToTrue/{id}",null);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -177,8 +180,8 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
 
         public async Task<IActionResult> ChangeProductStatusToFalse(int id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.PutAsync($"https://localhost:7053/api/Product/ChangeProductStatusToFalse/{id}", null);
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.PutAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Product/ChangeProductStatusToFalse/{id}", null);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");

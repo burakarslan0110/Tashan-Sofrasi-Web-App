@@ -11,17 +11,20 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
     public class AboutController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
 
-        public AboutController(IHttpClientFactory httpClientFactory)
+        public AboutController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
+
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:7053/api/About/1");
+            var client = _httpClientFactory.CreateClient("Default");
+            var responseMessage = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/About/1");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -58,10 +61,10 @@ namespace TashanSofrasiWebApp.Areas.Admin.Controllers
                 updateAboutDTO.AboutImageURL = $"/images/about/{uniqueFileName}";
             }
             updateAboutDTO.AboutID = 1;
-            var client = _httpClientFactory.CreateClient();
+            var client = _httpClientFactory.CreateClient("Default");
             var jsonData = JsonConvert.SerializeObject(updateAboutDTO);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync($"https://localhost:7053/api/About/", stringContent);
+            var responseMessage = await client.PutAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/About/", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");

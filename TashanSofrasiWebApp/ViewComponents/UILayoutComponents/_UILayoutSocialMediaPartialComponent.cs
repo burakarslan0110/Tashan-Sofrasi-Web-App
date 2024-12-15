@@ -7,16 +7,19 @@ namespace TashanSofrasiWebApp.ViewComponents.UILayoutComponents
     public class _UILayoutSocialMediaPartialComponent : ViewComponent
     {
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IConfiguration _configuration;
 
-        public _UILayoutSocialMediaPartialComponent(IHttpClientFactory clientFactory)
+        public _UILayoutSocialMediaPartialComponent(IHttpClientFactory clientFactory , IConfiguration configuration)
         {
             _clientFactory = clientFactory;
+            _configuration = configuration;
+
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync("https://localhost:7053/api/SocialMedia/");
+            var client = _clientFactory.CreateClient("Default");
+            var response = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/SocialMedia/");
             if (response.IsSuccessStatusCode)
             {
                 var jsonData = await response.Content.ReadAsStringAsync();

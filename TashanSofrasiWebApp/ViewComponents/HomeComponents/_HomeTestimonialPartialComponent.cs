@@ -7,16 +7,19 @@ namespace TashanSofrasiWebApp.ViewComponents.HomeComponents
     public class _HomeTestimonialPartialComponent : ViewComponent
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
 
-        public _HomeTestimonialPartialComponent(IHttpClientFactory httpClientFactory)
+        public _HomeTestimonialPartialComponent(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
+
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-           var client = _httpClientFactory.CreateClient("");
-           var response = client.GetAsync("https://localhost:7053/api/Testimonial");
+           var client = _httpClientFactory.CreateClient("Default");
+           var response = client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Testimonial");
             if (response.Result.IsSuccessStatusCode)
             {
                 var content = await response.Result.Content.ReadAsStringAsync();

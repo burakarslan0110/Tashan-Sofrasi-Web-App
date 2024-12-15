@@ -10,10 +10,13 @@ namespace TashanSofrasiWebApp.Controllers
 	public class MenuController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IConfiguration _configuration;
 
-        public MenuController(IHttpClientFactory clientFactory)
+        public MenuController(IHttpClientFactory clientFactory, IConfiguration configuration)
         {
             _clientFactory = clientFactory;
+            _configuration = configuration;
+
         }
 
         public IActionResult Index()
@@ -30,10 +33,10 @@ namespace TashanSofrasiWebApp.Controllers
                 Count = count,
                 MenuTableID = Convert.ToInt32(Request.Cookies["MenuTableID"])
             };
-            var client = _clientFactory.CreateClient();
+            var client = _clientFactory.CreateClient("Default");
             var jsonData = JsonConvert.SerializeObject(createBasketDTO);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("https://localhost:7053/api/Basket", stringContent);
+            var response = await client.PostAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Basket", stringContent);
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");

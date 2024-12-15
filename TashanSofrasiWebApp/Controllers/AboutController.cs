@@ -11,16 +11,19 @@ namespace TashanSofrasiWebApp.Controllers
 	public class AboutController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
 
-        public AboutController(IHttpClientFactory httpClientFactory)
+        public AboutController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
+
         }
 
         public async Task<IActionResult> Index()
         {
-            var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync("https://localhost:7053/api/About");
+            var client = _httpClientFactory.CreateClient("Default");
+            var response = await client.GetAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/About");
             if(response.IsSuccessStatusCode)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
@@ -34,9 +37,9 @@ namespace TashanSofrasiWebApp.Controllers
         public async Task<IActionResult> SendMessage(CreateContactDTO createContactDTO)
         {
             createContactDTO.ContactDate = DateTime.Now.ToShortDateString();
-            var client = _httpClientFactory.CreateClient();
+            var client = _httpClientFactory.CreateClient("Default");
             var content = new StringContent(JsonConvert.SerializeObject(createContactDTO), Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("https://localhost:7053/api/Contact", content);
+            var response = await client.PostAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Contact", content);
             var responseContent = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {

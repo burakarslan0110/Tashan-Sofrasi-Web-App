@@ -11,11 +11,15 @@ namespace TashanSofrasiWebApp.Controllers
     public class HomeController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(IHttpClientFactory clientFactory)
+        public HomeController(IHttpClientFactory clientFactory, IConfiguration configuration)
         {
             _clientFactory = clientFactory;
+            _configuration = configuration;
+
         }
+
         public IActionResult Index(string id)
         {
             if (!string.IsNullOrEmpty(id))
@@ -41,10 +45,10 @@ namespace TashanSofrasiWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateBooking(CreateBookingDTO createBookingDTO)
         {
-            var client = _clientFactory.CreateClient();
+            var client = _clientFactory.CreateClient("Default");
             var jsonData = JsonConvert.SerializeObject(createBookingDTO);
             var stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7053/api/Booking", stringContent);
+            var responseMessage = await client.PostAsync($"{_configuration.GetSection("Microservices")["baseApiUrl"]}/api/Booking", stringContent);
             var apiResponseContent = await responseMessage.Content.ReadAsStringAsync();
             if (responseMessage.IsSuccessStatusCode)
             {

@@ -3,24 +3,42 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Options;
+using System.Net.Security;
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using TashanSofrasi.DataAccessLayer.Concrete;
 using TashanSofrasi.EntityLayer.Entities;
+using TashanSofrasiWebApp.HttpsWeb;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.WebApp.json", optional: false, reloadOnChange: true)
+    .AddJsonFile("appsettings.WebApp.Production.json", optional: false, reloadOnChange: true);
 
 // Add services to the container.
 builder.Services.AddDbContext<TashanSofrasiContext>();
 builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<TashanSofrasiContext>();
-builder.Services.AddHttpClient();
+var certificate = new X509Certificate2("HttpsWeb/tashansofrasi.pfx", "Passw@rd1.");
+var certificateValidator = new SingleCertificateValidator(certificate);
+builder.Services.AddHttpClient("Default").ConfigurePrimaryHttpMessageHandler(() =>
+{
+    return new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback = certificateValidator.Validate
+    };
+});
 var requireAuthorizationPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
 builder.Services.AddControllersWithViews(opt => opt.Filters.Add(new AuthorizeFilter(requireAuthorizationPolicy)));
-
 builder.Services.ConfigureApplicationCookie(opts =>
 {
     opts.LoginPath = "/Login/";
     opts.LogoutPath = "/Login/Logout";
     opts.AccessDeniedPath = "/Error/NotFound404";
 });
+
+AppContext.SetSwitch("System.Drawing.EnableUnixSupport", true);
 
 var app = builder.Build();
 
@@ -50,7 +68,7 @@ app.Use(async (context, next) =>
 });
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (!app.Environment.IsProduction())
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
